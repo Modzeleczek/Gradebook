@@ -1,0 +1,85 @@
+﻿@model Gradebook.Models.Student
+@{
+    var D = Gradebook.Utils.LocalizedStrings.Child.StudentDetails[ViewBag.LanguageId];
+    ViewBag.Title = D["Child student details"];
+}
+
+<h2>@ViewBag.Title</h2>
+
+<dl class="dl-horizontal">
+    <dt>
+        @D["Name"]
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.ApplicationUser.Name)
+    </dd>
+
+    <dt>
+        @D["Surname"]
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.ApplicationUser.Surname)
+    </dd>
+
+    <dt>
+        @D["Email"]
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.ApplicationUser.Email)
+    </dd>
+
+    <dt>
+        @D["Phone number"]
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.ApplicationUser.PhoneNumber)
+    </dd>
+</dl>
+
+<h4>@D["Parent"]</h4>
+@if (Model.ParentId != null)
+{
+    <dl class="dl-horizontal">
+        <dt>
+            @D["Name"]
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Parent.ApplicationUser.Name)
+        </dd>
+
+        <dt>
+            @D["Surname"]
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Parent.ApplicationUser.Surname)
+        </dd>
+
+        <dt>
+            @D["Email"]
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Parent.ApplicationUser.Email)
+        </dd>
+
+        <dt>
+            @D["Phone number"]
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Parent.ApplicationUser.PhoneNumber)
+        </dd>
+    </dl>
+}
+else
+{
+    @D["No parent"]
+}
+
+@Html.ActionLink(D["Back"], "Index")

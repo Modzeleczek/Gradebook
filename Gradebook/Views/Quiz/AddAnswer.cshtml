@@ -1,0 +1,44 @@
+﻿@model Gradebook.Models.ClosedQuestionOption
+@{
+    var D = Gradebook.Utils.LocalizedStrings.Quiz.AddAnswer[ViewBag.LanguageId];
+    ViewBag.Title = D["Add answer"];
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.Hidden("quizId", (int)ViewBag.QuizId)
+        @Html.Hidden("questionId", (int)ViewBag.QuestionId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Content, D["Content"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsCorrect, D["Correct?"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.IsCorrect)
+                    @Html.ValidationMessageFor(model => model.IsCorrect, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" name="button" value="Add" class="btn btn-default">@D["Add"]</button>
+            </div>
+        </div>
+    </div>
+}
+
+@Html.ActionLink(D["Back"], "Edit", new { id = ViewBag.QuizId })

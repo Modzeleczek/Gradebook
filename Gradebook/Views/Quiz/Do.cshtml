@@ -1,0 +1,98 @@
+﻿@model Gradebook.Models.Quiz
+@{
+    var D = Gradebook.Utils.LocalizedStrings.Quiz.Do[ViewBag.LanguageId];
+    ViewBag.Title = D["Quiz attempt"];
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (((string)ViewBag.Error).Length > 0)
+{
+    @ViewBag.Error
+    <br />
+    @Html.ActionLink(D["Back"], "Index")
+    return;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div>
+            @D["Time remaining"]:<span id="hoursRemaining"></span>:<span id="minutesRemaining"></span>:<span id="secondsRemaining"></span>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("Do", "Quiz", FormMethod.Post, htmlAttributes: new { @id = "quizForm" }))
+{
+    @Html.Hidden("attemptId", (int)ViewBag.AttemptId)
+    <table class="table">
+        <tr>
+            <th>
+                @D["Content"]
+            </th>
+            <th>
+                @D["Answers"]
+            </th>
+        </tr>
+        @foreach (var item in Model.ClosedQuestions)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Content)
+                </td>
+                <td>
+                    <table class="table">
+                        @foreach (var answer in item.Options)
+                        {
+                            <tr>
+                                <td>
+                                    <label>
+                                        <input type="checkbox" name="selectedAnswers" value="@answer.Id" />
+                                        @answer.Content
+                                    </label>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </td>
+            </tr>
+        }
+    </table>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" name="button" value="Submit" class="btn btn-default">@D["Submit"]</button>
+        </div>
+    </div>
+}
+
+<script>
+    function formatNumber(number) {
+        if (number < 10) return "0" + number;
+        else return "" + number;
+    }
+
+    let remainingSeconds = @ViewBag.RemainingTime;
+    function startTimer() {
+        setTexts();
+        const intervalId = setInterval(function () {
+            if (remainingSeconds > 0) {
+                --remainingSeconds;
+                setTexts();
+            } else {
+                clearInterval(intervalId);
+                document.getElementById("quizForm").submit();
+            }
+        }, 1000);
+    }
+
+    const hElement = document.getElementById("hoursRemaining");
+    const mElement = document.getElementById("minutesRemaining");
+    const sElement = document.getElementById("secondsRemaining");
+    function setTexts() {
+        hElement.innerText = formatNumber(Math.trunc(remainingSeconds / (60 * 60)));
+        mElement.innerText = formatNumber(Math.trunc((remainingSeconds % (60 * 60)) / 60));
+        sElement.innerText = formatNumber(remainingSeconds % 60);
+    }
+
+    startTimer();
+</script>

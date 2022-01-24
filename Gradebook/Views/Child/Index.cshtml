@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Gradebook.Models.Student>
+@{
+    var D = Gradebook.Utils.LocalizedStrings.Child.Index[ViewBag.LanguageId];
+    ViewBag.Title = D["Children"];
+}
+
+<h2>@ViewBag.Title</h2>
+<table class="table">
+    <tr>
+        <th>
+            @D["Name"]
+        </th>
+        <th>
+            @D["Surname"]
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationUser.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationUser.Surname)
+            </td>
+            <td>
+                @Html.ActionLink(D["Show"], "StudentDetails", new { studentId = item.Id }) |
+                @Html.ActionLink(D["Show class"], "ClassDetails", new { classId = item.ClassId }) |
+                @Html.ActionLink(D["Show grades"], "GradeList", new { studentId = item.Id }) |
+                @Html.ActionLink(D["Show absences"], "AbsenceList", new { studentId = item.Id })
+            </td>
+        </tr>
+    }
+</table>

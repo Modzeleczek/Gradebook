@@ -1,0 +1,57 @@
+﻿@using Microsoft.AspNet.Identity;
+@model IEnumerable<Gradebook.Models.Absence>
+@{
+    ViewBag.Title = "Absences";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                Date
+            </th>
+            <th>
+                Lesson number
+            </th>
+            <th>
+                Is justified?
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LessonNumber)
+                </td>
+                <td>
+                    @(item.IsJustified == true ? "yes" : "no")
+                </td>
+                <td>
+                    @if (User.IsInRole(Gradebook.Utils.Role.Teacher) && (bool)ViewBag.IsSupervisor)
+                    {
+                        @Html.ActionLink(item.IsJustified == true ? "Unjustify" : "Justify", "FlipIsJustified", new { studentId = ViewBag.StudentId, id = item.Id })
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    @:No absences
+    <br />
+}
+
+@if (User.IsInRole(Gradebook.Utils.Role.Teacher))
+{
+    @Html.ActionLink("Add absence", "Create", "Absence", new { studentId = ViewBag.StudentId }, null)
+    <br />
+    @Html.ActionLink("Back to student", "Details", "Student", new { id = ViewBag.StudentId }, null)
+}

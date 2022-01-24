@@ -1,0 +1,98 @@
+﻿@model Gradebook.Models.Class
+@{
+    var D = Gradebook.Utils.LocalizedStrings.Child.ClassDetails[ViewBag.LanguageId];
+    ViewBag.Title = D["Child class details"];
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (Model != null)
+{
+<h4>@D["Class"]</h4>
+<dl class="dl-horizontal">
+    <dt>
+        @D["Year"]
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Year)
+    </dd>
+
+    <dt>
+        @D["Unit"]
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Unit)
+    </dd>
+</dl>
+
+<h4>@D["Supervisor"]</h4>
+<dl class="dl-horizontal">
+    <dt>
+        @D["Name"]
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Supervisor.ApplicationUser.Name)
+    </dd>
+
+    <dt>
+        @D["Surname"]
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Supervisor.ApplicationUser.Surname)
+    </dd>
+
+    <dt>
+        @D["Email"]
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Supervisor.ApplicationUser.Email)
+    </dd>
+</dl>
+
+<h4>@D["Teachers"]</h4>
+<table class="table">
+    <tr>
+        <th>
+            @D["Name"]
+        </th>
+        <th>
+            @D["Surname"]
+        </th>
+        <th>
+            @D["Email"]
+        </th>
+        <th>
+            @D["Subject"]
+        </th>
+    </tr>
+
+    @foreach (var item in Model.TeacherClassSubjects)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject.Name)
+            </td>
+        </tr>
+    }
+</table>
+}
+else
+{
+    @:No class;
+}
+
+@Html.ActionLink(D["Back"], "Index")

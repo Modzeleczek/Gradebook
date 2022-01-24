@@ -1,0 +1,191 @@
+﻿@model Gradebook.Models.Class
+@{
+    var D = Gradebook.Utils.LocalizedStrings.Class.Edit[ViewBag.LanguageId];
+    ViewBag.Title = D["Edit class"];
+    var supervisors = (ICollection<SelectListItem>)ViewBag.Supervisors;
+    var students = (ICollection<SelectListItem>)ViewBag.Students;
+    var teachers = (ICollection<SelectListItem>)ViewBag.Teachers;
+    var subjects = (ICollection<SelectListItem>)ViewBag.Subjects;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@Html.ActionLink(D["Back"], "Index")
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SupervisorId, D["Supervisor"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.SupervisorId, supervisors, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SupervisorId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Year, D["Year"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Unit, D["Unit"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Unit, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Unit, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" name="button" value="Save" class="btn btn-default">@D["Save"]</button>
+            </div>
+        </div>
+    </div>
+}
+
+<h4>@D["Students"]</h4>
+<table class="table">
+    <tr>
+        <th>
+            @D["Name"]
+        </th>
+        <th>
+            @D["Surname"]
+        </th>
+        <th>
+            @D["Email"]
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.Students)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationUser.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationUser.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationUser.Email)
+            </td>
+            <td>
+                @Html.ActionLink(D["Delete"], "DeleteStudent", new { classId = Model.Id, studentId = item.Id })
+            </td>
+        </tr>
+    }
+</table>
+
+@if (students.Count > 0)
+{
+using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Students.Single().Id, D["Student"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("studentId", students, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Students.Single().Id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" name="button" value="AddStudent" class="btn btn-default">@D["Add student to class"]</button>
+            </div>
+        </div>
+    </div>
+}
+}
+
+<h4>@D["Teachers"]</h4>
+<table class="table">
+    <tr>
+        <th>
+            @D["Name"]
+        </th>
+        <th>
+            @D["Surname"]
+        </th>
+        <th>
+            @D["Email"]
+        </th>
+        <th>
+            @D["Subject name"]
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.TeacherClassSubjects)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject.Name)
+            </td>
+            <td>
+                @Html.ActionLink(D["Delete"], "DeleteTeacherSubject", new { classId = Model.Id, teacherId = item.TeacherId, subjectId = item.SubjectId })
+            </td>
+        </tr>
+    }
+</table>
+
+@if (subjects.Count > 0)
+{
+using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TeacherClassSubjects.Single().TeacherId, D["Teacher"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("teacherId", teachers, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TeacherClassSubjects.Single().TeacherId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TeacherClassSubjects.Single().SubjectId, D["Subject"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("subjectId", subjects, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TeacherClassSubjects.Single().SubjectId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" name="button" value="AddTeacher" class="btn btn-default">@D["Add teacher to class"]</button>
+            </div>
+        </div>
+    </div>
+}
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

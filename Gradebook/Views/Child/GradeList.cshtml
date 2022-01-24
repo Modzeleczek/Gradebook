@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Gradebook.Controllers.GradeController.SubjectGrades>
+@{
+    var D = Gradebook.Utils.LocalizedStrings.Child.GradeList[ViewBag.LanguageId];
+    ViewBag.Title = D["Grade list"];
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (Model.Count() > 0)
+{
+foreach (var subjectGroup in Model)
+{
+    <h4>@subjectGroup.SubjectName</h4>
+    if (subjectGroup.Grades.Count == 0)
+    {
+        @D["No grades"]
+        <br />
+        <br />
+    }
+    else
+    {
+        <table class="table">
+            <tr>
+                <th>
+                    @D["Value"]
+                </th>
+                <th>
+                    @D["Weight"]
+                </th>
+                <th>
+                    @D["Comment"]
+                </th>
+                <th>
+                    @D["Teacher name"]
+                </th>
+                <th>
+                    @D["Teacher surname"]
+                </th>
+            </tr>
+            @foreach (var item in subjectGroup.Grades)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Value)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Weight)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Surname)
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+}
+}
+else
+{
+    @D["No subjects"]
+    <br />
+}
+
+@Html.ActionLink(D["Back"], "Index")
