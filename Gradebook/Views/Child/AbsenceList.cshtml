@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<Gradebook.Models.Absence>
 @{
-    ViewBag.Title = "Absence list";
+    var D = Gradebook.Utils.LocalizedStrings.Child.AbsenceList[ViewBag.LanguageId];
+    ViewBag.Title = D["Absence list"];
 }
 
 <h2>@ViewBag.Title</h2>
@@ -10,13 +11,13 @@
     <table class="table">
         <tr>
             <th>
-                Date
+                @D["Date"]
             </th>
             <th>
-                Lesson number
+                @D["Lesson number"]
             </th>
             <th>
-                Is justified?
+                @D["Is justified?"]
             </th>
         </tr>
         @foreach (var item in Model)
@@ -29,7 +30,7 @@
                     @Html.DisplayFor(modelItem => item.LessonNumber)
                 </td>
                 <td>
-                    @(item.IsJustified == true ? "yes" : "no")
+                    @(item.IsJustified == true ? D["yes"] : D["no"])
                 </td>
             </tr>
         }
@@ -41,4 +42,4 @@ else
     <br />
 }
 
-@Html.ActionLink("Back", "Index")
+@Html.ActionLink(D["Back"], "Index")

@@ -1,5 +1,7 @@
 ﻿@model Gradebook.Models.Subject
 @{
+    var D = Gradebook.Utils.LocalizedStrings.Subject.Create[ViewBag.LanguageId];
+    ViewBag.Title = D["Subject details"];
     ViewBag.Title = "Subject details";
     var files = (ICollection<Gradebook.Models.File>)ViewBag.Files;
 }
@@ -19,7 +21,7 @@
     <dd>
         @if (Model.Syllabus != null)
         {
-            @Html.ActionLink("Download", "DownloadSyllabus", new { id = Model.Id })
+            @Html.ActionLink(D["Download"], "DownloadSyllabus", new { id = Model.Id })
         }
         else
         {
@@ -54,7 +56,7 @@
             {
                 <tr>
                     <td>
-                        @Html.ActionLink(item.Name, "DownloadFile", new { id = item.Id })
+                        @Html.ActionLink(D["Name"], "DownloadFile", new { id = item.Id })
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Description)
@@ -65,7 +67,7 @@
                     @if (User.IsInRole(Gradebook.Utils.Role.Teacher))
                     {
                         <td>
-                            @Html.ActionLink("Delete", "DeleteFile", new { id = item.Id })
+                            @Html.ActionLink(D["Delete"], "DeleteFile", new { id = item.Id })
                         </td>
                     }
                 </tr>
