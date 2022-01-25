@@ -1,11 +1,12 @@
 ﻿@model IEnumerable<Gradebook.Controllers.AccountController.RoleUsers>
 @{
-    ViewBag.Title = "Accounts";
+    var D = Gradebook.Utils.LocalizedStrings.Account.Index[ViewBag.LanguageId];
+    ViewBag.Title = D["Accounts"];
 }
 
 <h2>@ViewBag.Title</h2>
 
-@Html.ActionLink("Create New", "Create")
+@Html.ActionLink(D["Create New"], "Create")
 
 @foreach (var roleUsers in Model)
 {
@@ -20,16 +21,16 @@
     <table class="table">
         <tr>
             <th>
-                Name
+                @D["Name"]
             </th>
             <th>
-                Surname
+                @D["Surname"]
             </th>
             <th>
-                Email
+                @D["Email"]
             </th>
             <th>
-                Phone number
+                @D["Phone number"]
             </th>
             <th></th>
         </tr>
@@ -49,8 +50,8 @@
                     @Html.DisplayFor(modelItem => item.PhoneNumber)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Reset password", "AdminResetPassword", new { id = item.Id })
+                    @Html.ActionLink(D["Edit"], "Edit", new { id = item.Id }) |
+                    @Html.ActionLink(D["Reset password"], "AdminResetPassword", new { id = item.Id })
                     @*@Html.ActionLink("Delete", "Delete", new { id=item.User.Id })*@
                 </td>
             </tr>

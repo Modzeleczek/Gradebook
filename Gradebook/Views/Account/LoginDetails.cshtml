@@ -1,5 +1,6 @@
 ﻿@{
-    ViewBag.Title = "Login details";
+    var D = Gradebook.Utils.LocalizedStrings.Account.LoginDetails[ViewBag.LanguageId];
+    ViewBag.Title = D["Login details"];
 }
 
 <h2>@ViewBag.Title</h2>
@@ -23,7 +24,7 @@
     </dl>
 </div>
 
-@Html.ActionLink("Back", "Index")
+@Html.ActionLink(D["Back"], "Index")
 
 <script>
     function copyToClipboard(element) {

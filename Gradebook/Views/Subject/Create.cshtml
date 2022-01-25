@@ -1,6 +1,8 @@
 ﻿@model Gradebook.Models.Subject
 @{
-    ViewBag.Title = "Create subject";
+    var D = Gradebook.Utils.LocalizedStrings.Subject.Create[ViewBag.LanguageId];
+    ViewBag.Title = D["Create Subject"];
+
 }
 
 <h2>@ViewBag.Title</h2>
@@ -13,7 +15,7 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Name, D["Name"], htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
@@ -31,7 +33,7 @@
     </div>
 }
 
-@Html.ActionLink("Back", "Index")
+@Html.ActionLink(D["Back"], "Index")
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

@@ -1,6 +1,7 @@
 ﻿@model Gradebook.Models.GlobalAnnouncement
 @{
-    ViewBag.Title = "Edit announcement";
+    var D = Gradebook.Utils.LocalizedStrings.GlobalAnnouncement.Edit[ViewBag.LanguageId];
+    ViewBag.Title = D["Edit announcement"];
     var list = (List<SelectListItem>)ViewBag.Administrators;
 }
 
@@ -15,7 +16,7 @@
         @Html.HiddenFor(model => model.Id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Content, D["Edit"], htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
@@ -31,7 +32,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back", "Index")
+    @Html.ActionLink(D["Back"], "Index")
 </div>
 
 @section Scripts {

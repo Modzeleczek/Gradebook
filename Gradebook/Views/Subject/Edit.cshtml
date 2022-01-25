@@ -1,6 +1,7 @@
 ﻿@model Gradebook.Models.Subject
 @{
-    ViewBag.Title = "Edit subject";
+    var D = Gradebook.Utils.LocalizedStrings.Quiz.AddAnswer[ViewBag.LanguageId];
+    ViewBag.Title = D["Edit subject"];
 }
 
 <h2>@ViewBag.Title</h2>
@@ -24,9 +25,9 @@
         <h4>Syllabus</h4>
         @if (Model.Syllabus != null)
         {
-            @Html.ActionLink("Download current syllabus", "DownloadSyllabus", new { id = Model.Id })
+            @Html.ActionLink(D["Download current syllabus"], "DownloadSyllabus", new { id = Model.Id })
             <br />
-            @Html.ActionLink("Delete current syllabus", "DeleteSyllabus", new { id = Model.Id })
+            @Html.ActionLink(D["Delete current syllabus"], "DeleteSyllabus", new { id = Model.Id })
         }
         else
         {
@@ -42,7 +43,7 @@
     </div>
 }
 
-@Html.ActionLink("Back", "Index")
+@Html.ActionLink(D["Back"], "Index")
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

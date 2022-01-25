@@ -1,10 +1,11 @@
 ﻿@{
-    ViewBag.Title = "Confirm Email";
+    var D = Gradebook.Utils.LocalizedStrings.Account.ConfirmEmail[ViewBag.LanguageId];
+    ViewBag.Title = D["Confirm Email"];
 }
 
 <h2>@ViewBag.Title.</h2>
 <div>
     <p>
-        Thank you for confirming your email. Please @Html.ActionLink("Click here to Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+        Thank you for confirming your email. Please @Html.ActionLink(D["Click here to Log in"], "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
     </p>
 </div>

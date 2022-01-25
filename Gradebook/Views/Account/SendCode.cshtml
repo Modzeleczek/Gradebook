@@ -1,6 +1,7 @@
 ﻿@model Gradebook.Models.SendCodeViewModel
 @{
-    ViewBag.Title = "Send";
+    var D = Gradebook.Utils.LocalizedStrings.Account.SendCode[ViewBag.LanguageId];
+    ViewBag.Title = D["Send"];
 }
 
 <h2>@ViewBag.Title.</h2>

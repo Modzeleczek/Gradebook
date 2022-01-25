@@ -1,7 +1,8 @@
 ﻿@using Microsoft.AspNet.Identity;
 @model IEnumerable<Gradebook.Models.Absence>
 @{
-    ViewBag.Title = "Absences";
+    var D = Gradebook.Utils.LocalizedStrings.Absence.Index[ViewBag.LanguageId];
+    ViewBag.Title = D["Absences"];
 }
 
 <h2>@ViewBag.Title</h2>
@@ -31,12 +32,12 @@
                     @Html.DisplayFor(modelItem => item.LessonNumber)
                 </td>
                 <td>
-                    @(item.IsJustified == true ? "yes" : "no")
+                    @(item.IsJustified == true ? D["yes"] : D["no"])
                 </td>
                 <td>
                     @if (User.IsInRole(Gradebook.Utils.Role.Teacher) && (bool)ViewBag.IsSupervisor)
                     {
-                        @Html.ActionLink(item.IsJustified == true ? "Unjustify" : "Justify", "FlipIsJustified", new { studentId = ViewBag.StudentId, id = item.Id })
+                        @Html.ActionLink(item.IsJustified == true ? D["Unjustify"] : D["Justify"], "FlipIsJustified", new { studentId = ViewBag.StudentId, id = item.Id })
                     }
                 </td>
             </tr>
@@ -51,7 +52,7 @@ else
 
 @if (User.IsInRole(Gradebook.Utils.Role.Teacher))
 {
-    @Html.ActionLink("Add absence", "Create", "Absence", new { studentId = ViewBag.StudentId }, null)
+    @Html.ActionLink(D["Add absence"], "Create", "Absence", new { studentId = ViewBag.StudentId }, null)
     <br />
-    @Html.ActionLink("Back to student", "Details", "Student", new { id = ViewBag.StudentId }, null)
+    @Html.ActionLink(D["Back to student"], "Details", "Student", new { id = ViewBag.StudentId }, null)
 }
