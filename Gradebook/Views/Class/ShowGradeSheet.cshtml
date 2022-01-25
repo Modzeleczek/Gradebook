@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Gradebook.Controllers.ClassController.StudentSubjectsGrades>
+@{
+    ViewBag.Title = "Grade sheet";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (Model.Count() > 0)
+{
+    foreach (var ssg in Model)
+    {
+<h3>@ssg.Student.ApplicationUser.Name @ssg.Student.ApplicationUser.Surname</h3>
+        foreach (var sg in ssg.SubjectGradesList)
+        {
+            <h4>@sg.Subject.Name</h4>
+            if (sg.GradesList.Count == 0)
+            {
+                @:No grades.
+                <br />
+                <br />
+            }
+            else
+            {
+            <table class="table">
+                <tr>
+                    <th>
+                        Value
+                    </th>
+                    <th>
+                        Weight
+                    </th>
+                    <th>
+                        Comment
+                    </th>
+                    <th>
+                        Modification time
+                    </th>
+                    <th>
+                        Teacher name
+                    </th>
+                    <th>
+                        Teacher surname
+                    </th>
+                </tr>
+                @foreach (var grade in sg.GradesList)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => grade.Value)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => grade.Weight)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => grade.Comment)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => grade.ModificationTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => grade.Teacher.ApplicationUser.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => grade.Teacher.ApplicationUser.Surname)
+                        </td>
+                    </tr>
+                }
+            </table>
+            }
+        }
+    }
+}
+else
+{
+    @:No students were selected.
+    <br />
+}
+
+@Html.ActionLink("Back to class", "Details", new { id = ViewBag.ClassId })

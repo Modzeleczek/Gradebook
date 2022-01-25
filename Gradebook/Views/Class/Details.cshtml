@@ -123,10 +123,12 @@
 
 @if (User.IsInRole(Gradebook.Utils.Role.Teacher)) // użytkownik jest nauczycielem
 {
-    @Html.ActionLink(D["Back"], "Index")
     if ((bool)ViewBag.IsSupervisor)
     {
-        <br />
         @Html.ActionLink(D["Send announcement to parents"], "CreateAnnouncement", new { id = Model.Id })
+        <br />
+        @Html.ActionLink("Generate grade sheet", "GenerateGradeSheet", new { id = Model.Id })
+        <br />
     }
+    @Html.ActionLink(D["Back"], "Index")
 }
