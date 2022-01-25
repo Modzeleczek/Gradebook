@@ -1,0 +1,51 @@
+﻿@model Gradebook.Models.Class
+@{
+    ViewBag.Title = "Generate grade sheet";
+    var subjects = (ICollection<Gradebook.Models.Subject>)ViewBag.Subjects;
+    var today = DateTime.Now;
+    var todayFormatted = $"{today.Year.ToString("0000")}-{today.Month.ToString("00")}-{today.Day.ToString("00")}";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("id", (int)ViewBag.ClassId)
+
+    <input type="date" name="fromDate" value="@todayFormatted" />
+    <input type="date" name="toDate" value="@todayFormatted" />
+
+    <table class="table">
+        <tr>
+            <th>
+                Student
+            </th>
+            @foreach (var subject in subjects)
+            {
+                <th>
+                    @subject.Name
+                </th>
+            }
+        </tr>
+        @foreach (var student in Model.Students)
+        {
+            <tr>
+                <td>
+                    @student.ApplicationUser.Name @student.ApplicationUser.Surname
+                </td>
+                @foreach (var subject in subjects)
+                {
+                    <td>
+                        <input type="checkbox" name="selectedStudentSubjects" value="@student.Id|@subject.Id" />
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" name="button" value="Generate" class="btn btn-default">Generate</button>
+        </div>
+    </div>
+}

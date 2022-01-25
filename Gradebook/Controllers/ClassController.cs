@@ -213,6 +213,7 @@ namespace Gradebook.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = Role.Teacher)]
         public ActionResult CreateAnnouncement(int id, string button, Message message, HttpPostedFileBase attachedFile)
         {
             if (button == "SendByWebsite")
@@ -251,6 +252,104 @@ namespace Gradebook.Controllers
             var recipients = Db.Class.Where(e => e.Id == classId).Single().Students.Select(e => e.Parent).Distinct(new ComparerById());
             var recipientUsers = recipients.Select(e => e.ApplicationUser).ToArray();
             EmailSender.Send(teacherEmail, recipientUsers, $"Announcement from {teacher.ApplicationUser.Name} {teacher.ApplicationUser.Surname}", message.Content, attachedFile);
+        }
+
+        [Authorize(Roles = Role.Teacher)]
+        public ActionResult GenerateGradeSheet(int id) // id - classId
+        {
+            ViewBag.ClassId = id;
+            var _class = Db.Class.Where(e => e.Id == id).Single();
+            ViewBag.Subjects = _class.TeacherClassSubjects.Select(e => e.Subject).ToArray();
+            return View(_class);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = Role.Teacher)]
+        public ActionResult GenerateGradeSheet(int id, DateTime fromDate, DateTime toDate, IList<string> selectedStudentSubjects)
+        {
+            if (fromDate > toDate)
+            {
+                var temp = toDate;
+                toDate = fromDate;
+                fromDate = temp;
+            }
+            TempData["fromDate"] = fromDate;
+            TempData["toDate"] = toDate;
+            TempData["selectedStudentSubjects"] = selectedStudentSubjects;
+            return RedirectToAction("ShowGradeSheet", new { id = id });
+        }
+
+        [Authorize(Roles = Role.Teacher)]
+        public ActionResult ShowGradeSheet(int id) // id - classId
+        {
+            var fromDate = (DateTime)TempData["fromDate"];
+            var toDate = (DateTime)TempData["toDate"];
+            var selectedStudentSubjects = (IList<string>)TempData["selectedStudentSubjects"];
+            if (selectedStudentSubjects == null)
+                return RedirectToAction("Index");
+            ViewBag.ClassId = id;
+            var ssgs = StudentIdSubjectIdsToStudentSubjectGrades(selectedStudentSubjects, fromDate, toDate);
+            return View(ssgs);
+        }
+
+        public struct StudentSubjectsGrades
+        {
+            public Student Student;
+            public struct SubjectGrades
+            {
+                public Subject Subject;
+                public LinkedList<Grade> GradesList;
+                public SubjectGrades(Subject subject)
+                {
+                    Subject = subject;
+                    GradesList = new LinkedList<Grade>();
+                }
+            }
+            public LinkedList<SubjectGrades> SubjectGradesList;
+            public StudentSubjectsGrades(Student student)
+            {
+                Student = student;
+                SubjectGradesList = new LinkedList<SubjectGrades>();
+            }
+        }
+
+        private LinkedList<StudentSubjectsGrades> StudentIdSubjectIdsToStudentSubjectGrades(IList<string> selectedStudentSubjects, DateTime fromDate, DateTime toDate)
+        {
+            var dict = new Dictionary<string, LinkedList<string>>(); // ["studentId"] = { "subjectId1", "subjectId2", ... }
+            foreach (var sss in selectedStudentSubjects)
+            {
+                var splitted = sss.Split('|');
+                var studentId = splitted[0];
+                var subjectId = splitted[1];
+                if (dict.ContainsKey(studentId))
+                    dict[studentId].AddLast(subjectId);
+                else
+                {
+                    dict.Add(studentId, new LinkedList<string>());
+                    dict[studentId].AddLast(subjectId);
+                }
+            }
+            var db = ApplicationDbContext.Create();
+            var ssgs = new LinkedList<StudentSubjectsGrades>();
+            foreach (var sisi in dict)
+            {
+                var studentId = sisi.Key;
+                var student = db.Student.Where(e => e.Id == studentId).Single();
+                ssgs.AddLast(new StudentSubjectsGrades(student));
+                var addedSSG = ssgs.Last.Value;
+                foreach (var subjectId in sisi.Value)
+                {
+                    var intSubjectId = int.Parse(subjectId);
+                    var subject = db.Subject.Where(e => e.Id == intSubjectId).Single();
+                    addedSSG.SubjectGradesList.AddLast(new StudentSubjectsGrades.SubjectGrades(subject));
+                    var added = addedSSG.SubjectGradesList.Last.Value;
+                    var grades = db.Grade.Where(e => e.StudentId == studentId && e.SubjectId == intSubjectId &&
+                        e.ModificationTime >= fromDate && e.ModificationTime <= toDate).ToArray();
+                    foreach (var grade in grades)
+                        added.GradesList.AddLast(grade);
+                }
+            }
+            return ssgs;
         }
     }
 }
