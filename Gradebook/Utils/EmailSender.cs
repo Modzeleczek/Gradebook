@@ -36,6 +36,11 @@ namespace Gradebook.Utils
             return message;
         }
 
+        public static void Send(string replyTo, ApplicationUser recipient, string subject, string body, HttpPostedFileBase file, bool isBodyHtml)
+        {
+            Send(replyTo, new ApplicationUser[] { recipient }, subject, body, file, isBodyHtml);
+        }
+
         public static void Send(string replyTo, ICollection<ApplicationUser> recipients, string subject, string body, HttpPostedFileBase file, bool isBodyHtml)
         {
             var smtp = CreateSmtp();

@@ -251,6 +251,7 @@
     <Compile Include="Utils\ComparerBySubject.cs" />
     <Compile Include="Utils\EmailSender.cs" />
     <Compile Include="Utils\EmailSenderSecret.cs" />
+    <Compile Include="Utils\LanguageCookie.cs" />
     <Compile Include="Utils\PeriodicGradeSheet\GradeEmailJob.cs" />
     <Compile Include="Utils\LocalizedStrings.cs" />
     <Compile Include="Utils\PeriodicGradeSheet\JobScheduler.cs" />
@@ -387,7 +388,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Language\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

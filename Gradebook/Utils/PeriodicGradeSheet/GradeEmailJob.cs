@@ -59,15 +59,13 @@ namespace Gradebook.Utils.PeriodicGradeSheet
         Task IJob.Execute(IJobExecutionContext context)
         {
             var parents = Db.Parent.ToArray();
-            var soleRecipient = new ApplicationUser[1];
             var today = DateTime.Now;
             var date = $"{today.Day}.{today.Month}.{today.Year}";
             var subject = "Zestawienie ocen - " + date;
             foreach (var parent in parents)
             {
                 var html = GenerateGradeSheet(parent, date);
-                soleRecipient[0] = parent.ApplicationUser;
-                //EmailSender.Send("noreply@gradebook.com", soleRecipient, subject, html, null, true);
+                EmailSender.Send("noreply@gradebook.com", parent.ApplicationUser, subject, html, null, true);
             }
             return null;
         }

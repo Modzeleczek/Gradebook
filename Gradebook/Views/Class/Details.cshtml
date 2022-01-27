@@ -127,7 +127,7 @@
     {
         @Html.ActionLink(D["Send announcement to parents"], "CreateAnnouncement", new { id = Model.Id })
         <br />
-        @Html.ActionLink("Generate grade sheet", "GenerateGradeSheet", new { id = Model.Id })
+        @Html.ActionLink(D["Generate grade sheet"], "GenerateGradeSheet", new { id = Model.Id })
         <br />
     }
     @Html.ActionLink(D["Back"], "Index")

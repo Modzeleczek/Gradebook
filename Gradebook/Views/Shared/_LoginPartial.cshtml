@@ -19,8 +19,6 @@
                     @Html.ActionLink(D["Logged as"] + " " + user.Name + " " + user.Surname, "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
                 </li>
                 <li><a href="javascript:document.getElementById('logoutForm').submit()">@D["Logout"]</a></li>
-                <li>@Html.ActionLink("EN", "SelectEnglish", "Language")</li>
-                <li>@Html.ActionLink("PL", "SelectPolish", "Language")</li>
             </ul>
         }
     }
@@ -29,7 +27,5 @@ else
 {
     <ul class="nav navbar-nav navbar-right">
         <li>@Html.ActionLink(D["Log in"], "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-        <li>@Html.ActionLink("EN", "SelectEnglish", "Language")</li>
-        <li>@Html.ActionLink("PL", "SelectPolish", "Language")</li>
     </ul>
 }

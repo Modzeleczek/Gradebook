@@ -150,11 +150,13 @@ namespace Gradebook.Utils
                 d["Email"] = "Email";
                 d["Password"] = "Password";
                 d["Use login details received from administrator."] = "Use login details received from administrator.";
+                d["Forgot your password?"] = "Forgot your password?";
                 d = Login[1];
                 d["Log in"] = "Zaloguj";
                 d["Email"] = "Email";
                 d["Password"] = "Hasło";
                 d["Use login details received from administrator."] = "Użyj danych otrzymanych od administratora.";
+                d["Forgot your password?"] = "Zapomniałeś hasła?";
             }
             private static void PEditOther()
             {
@@ -212,17 +214,31 @@ namespace Gradebook.Utils
             {
                 ForgotPassword = CreateDictionary();
                 var d = ForgotPassword[0];
-                d["Forgot your password?"] = "Forgot your password?";
+                d["Forgot password"] = "Forgot password";
+                d["Enter your email."] = "Enter your email.";
+                d["Email"] = "Email";
+                d["Email link"] = "Email link";
+                d["Reset password"] = "Reset password";
+                d["Please reset your password by clicking <a href=\""] = "Please reset your password by clicking <a href=\"";
+                d["\">here</a>"] = "\">here</a>";
                 d = ForgotPassword[1];
-                d["Forgot yout password?"] = "Zapomniałeś hasła?";
+                d["Forgot password"] = "Zapomniałem hasła";
+                d["Enter your email."] = "Podaj swój adres email";
+                d["Email"] = "Email";
+                d["Email link"] = "Wyślij link emailem";
+                d["Reset password"] = "Zresetuj hasło";
+                d["Please reset your password by clicking <a href=\""] = "Zresetuj hasło klikając <a href=\"";
+                d["\">here</a>"] = "\">tutaj</a>";
             }
             private static void PForgotPasswordConfirmation()
             {
                 ForgotPasswordConfirmation = CreateDictionary();
                 var d = ForgotPasswordConfirmation[0];
                 d["Forgot Password Confirmation"] = "Forgot Password Confirmation";
+                d["Please check your email to reset your password."] = "Please check your email to reset your password.";
                 d = ForgotPasswordConfirmation[1];
                 d["Forgot Password Confirmation"] = "Potwierdzenie przypomnienia hasła";
+                d["Please check your email to reset your password."] = "Sprawdź email, aby zresetować hasło.";
             }
             private static void PIndex()
             {
@@ -281,14 +297,18 @@ namespace Gradebook.Utils
                 ResetPassword = CreateDictionary();
                 var d = ResetPassword[0];
                 d["Reset password"] = "Reset password";
-                d["Email"] = "Email";
-                d["Password"] = "Password";
-                d["Confirm Password"] = "Confirm password";
+                d["Reset your password"] = "Reset your password";
+                // d["Email"] = "Email";
+                d["New password"] = "New password";
+                d["Confirm new password"] = "Confirm new password";
+                d["Reset"] = "Reset";
                 d = ResetPassword[1];
                 d["Reset password"] = "Zresetuj hasło";
-                d["Email"] = "Email";
-                d["Password"] = "Hasło";
-                d["Confirm Password"] = "Zawtwierdź hasło";
+                d["Reset your password"] = "Zresetuj hasło";
+                // d["Email"] = "Email";
+                d["New password"] = "Nowe hasło";
+                d["Confirm new password"] = "Potwierdź nowe hasło";
+                d["Reset"] = "Zresetuj";
             }
             private static void PRegister()
             {
@@ -337,6 +357,7 @@ namespace Gradebook.Utils
                 d["yes"] = "Yes";
                 d["no"] = "No";
                 d["Back"] = "Back";
+                d["No absences"] = "No absences";
                 d = AbsenceList[1];
                 d["Absence list"] = "Lista nieobecności";
                 d["Date"] = "Data";
@@ -344,7 +365,8 @@ namespace Gradebook.Utils
                 d["Is justified?"] = "Czy usprawiedliwiona?";
                 d["yes"] = "Tak";
                 d["no"] = "Nie";
-                d["Back"] = "Back";
+                d["Back"] = "Powrót";
+                d["No absences"] = "Brak nieobecności";
             }
 
             private static void PClassDetails()
@@ -399,7 +421,7 @@ namespace Gradebook.Utils
                 d["No subjects"] = "No subjects";
                 d = GradeList[1];
                 d["Grade list"] = "Lista ocen";
-                d["No grades"] = "Brak oceny";
+                d["No grades"] = "Brak ocen";
                 d["Value"] = "Wartość";
                 d["Weight"] = "Waga";
                 d["Comment"] = "Komentarz";
@@ -539,6 +561,7 @@ namespace Gradebook.Utils
                 d["Subject"] = "Subject";
                 d["Back"] = "Back";
                 d["Send announcement to parents"] = "Send announcement to parents";
+                d["Generate grade sheet"] = "Generate grade sheet";
                 d = Details[1];
                 d["Class details"] = "Szczegóły klasy";
                 d["Year"] = "Rok";
@@ -553,6 +576,7 @@ namespace Gradebook.Utils
                 d["Subject"] = "Przedmiot";
                 d["Back"] = "Powrót";
                 d["Send announcement to parents"] = "Wyślij ogłoszenie do rodziców";
+                d["Generate grade sheet"] = "Wygeneruj zestawienie ocen";
             }
 
             private static void PEdit()
@@ -1184,6 +1208,7 @@ namespace Gradebook.Utils
                 d["Back"] = "Back";
                 d["Files"] = "Files";
                 d["Description"] = "Description";
+                d["Modification time"] = "Modification time";
                 d = Details[1];
                 d["Subject details"] = "Szczegóły przedmiotu ";
                 d["Download"] = "Pobierz";
@@ -1196,6 +1221,7 @@ namespace Gradebook.Utils
                 d["Back"] = "Powrót";
                 d["Files"] = "Pliki";
                 d["Description"] = "Opis";
+                d["Modification time"] = "Modification time";
             }
             private static void PCreate()
             {
@@ -1250,18 +1276,18 @@ namespace Gradebook.Utils
 
         public class Layout
         {
-            public static Dictionary<string, string>[] Links, Login;
+            public static Dictionary<string, string>[] _Layout, Login;
 
             static Layout()
             {
-                PLinks();
+                P_Layout();
                 PLogin();
             }
 
-            private static void PLinks()
+            private static void P_Layout()
             {
-                Links = CreateDictionary();
-                var d = Links[0];
+                _Layout = CreateDictionary();
+                var d = _Layout[0];
                 d["Announcements"] = "Announcements";
                 d["Accounts"] = "Accounts";
                 d["Subjects"] = "Subjects";
@@ -1271,8 +1297,9 @@ namespace Gradebook.Utils
                 d["Quizzes"] = "Quizzes";
                 d["Children"] = "Children";
                 d["Absences"] = "Absences";
+                d["Select language:"] = "Select language";
 
-                d = Links[1];
+                d = _Layout[1];
                 d["Announcements"] = "Ogłoszenia";
                 d["Accounts"] = "Konta";
                 d["Subjects"] = "Przedmioty";
@@ -1282,6 +1309,7 @@ namespace Gradebook.Utils
                 d["Quizzes"] = "Quizy";
                 d["Children"] = "Dzieci";
                 d["Absences"] = "Nieobecności";
+                d["Select language:"] = "Wybierz język";
             }
 
             private static void PLogin()
@@ -1330,13 +1358,13 @@ namespace Gradebook.Utils
                 ChangePassword = CreateDictionary();
                 var d = ChangePassword[0];
                 d["Change password"] = "Change password";
-                d["Old password"] = "Old password";
+                d["Current password"] = "Current password";
                 d["New password"] = "New password";
                 d["Confirm password"] = "Confirm password";
 
                 d = ChangePassword[1];
                 d["Change password"] = "Zmień hasło";
-                d["Old password"] = "Stare hasło";
+                d["Current password"] = "Aktualne hasło";
                 d["New password"] = "Nowe hasło";
                 d["Confirm password"] = "Potwierdź hasło";
             }
