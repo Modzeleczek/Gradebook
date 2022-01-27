@@ -33,6 +33,10 @@ namespace Gradebook.Utils
                 d["Lesson number"] = "Lesson number";
                 d["Back to student absences"] = "Back to student absences";
                 d["Create absence"] = "Create absence";
+                d["Date"] = "Date";
+                d["Lesson number"] = "Lesson number";
+                d["Is justified?"] = "Is justified?";
+                d["No absences"] = "No absences";
 
                 d = Create[1]; // polski
                 d["Log in"] = "Zaloguj";
@@ -42,6 +46,10 @@ namespace Gradebook.Utils
                 d["Lesson number"] = "Numer lekcji";
                 d["Back to student absences"] = "Powrót do nieobecności";
                 d["Create absence"] = "Dodaj nieobecność";
+                d["Date"] = "Data";
+                d["Lesson number"] = "Numer lekcji";
+                d["Is justified?"] = "Usprawiedliwiona?";
+                d["No absences"] = "Brak nieobecności";
             }
 
             private static void PIndex()
@@ -59,6 +67,10 @@ namespace Gradebook.Utils
                 d["Justify"] = "Justify";
                 d["Add absence"] = "Add absence";
                 d["Back to student"] = "Back to student";
+                d["Date"] = "Date";
+                d["Lesson number"] = "Lesson number";
+                d["Is justified?"] = "Is justified?";
+                d["No absences"] = "No absences";
 
                 d = Index[1]; // polski
                 d["Absences"] = "Nieobecności";
@@ -72,17 +84,21 @@ namespace Gradebook.Utils
                 d["Justify"] = "Usprawiedliw";
                 d["Add absence"] = "Dodaj nieobecność";
                 d["Back to student"] = "Powrót do ucznia";
+                d["Date"] = "Data";
+                d["Lesson number"] = "Numer lekcji";
+                d["Is justified?"] = "Usprawiedliwiona?";
+                d["No absences"] = "Brak nieobecności";
             }
         }
 
         public class Account
         {
-            public static Dictionary<string, string>[] Login, VerifyCode, SendCode, EditOthers, EditStudent, ConfirmEmail, ForgotPassword, ForgotPasswordConfirmation, Index, LoginDetails, Register, ResetPassword, ResetPasswordConfirmation;
+            public static Dictionary<string, string>[] Login, VerifyCode, SendCode, EditOther, EditStudent, ConfirmEmail, ForgotPassword, ForgotPasswordConfirmation, Index, LoginDetails, Register, ResetPassword, ResetPasswordConfirmation;
 
             static Account()
             {
                 PLogin();
-                PEditOthers();
+                PEditOther();
                 PEditStudent();
                 PConfirmEmail();
                 PForgotPassword();
@@ -136,31 +152,49 @@ namespace Gradebook.Utils
                 d["Log in"] = "Zaloguj";
                 d["Email"] = "Email";
                 d["Password"] = "Hasło";
-                d["Use login details received from administrator."] = "Użyj danych otrzymanych od administratora";
+                d["Use login details received from administrator."] = "Użyj danych otrzymanych od administratora.";
             }
-            private static void PEditOthers()
+            private static void PEditOther()
             {
-                EditOthers = CreateDictionary();
-                var d = EditOthers[0];
-                d["EditOther"] = "Edit";
+                EditOther = CreateDictionary();
+                var d = EditOther[0];
+                d["Edit other"] = "Edit";
+                d["Name"] = "Name";
+                d["Surname"] = "Surname";
+                d["Email"] = "Email";
                 d["Phone number"] = "Phone number";
                 d["Back"] = "Back";
-                d = EditOthers[1];
-                d["Edit"] = "Edtytuj";
+                d["Save"] = "Save";
+                d = EditOther[1];
+                d["Edit other"] = "Edytuj";
+                d["Name"] = "Imię";
+                d["Surname"] = "Nazwisko";
+                d["Email"] = "Email";
                 d["Phone number"] = "Numer telefonu";
                 d["Back"] = "Powrót";
+                d["Save"] = "Zapisz";
             }
             private static void PEditStudent()
             {
                 EditStudent = CreateDictionary();
                 var d = EditStudent[0];
-                d["EditStudent"] = "Edit";
+                d["Edit student"] = "Edit";
+                d["Name"] = "Name";
+                d["Surname"] = "Surname";
+                d["Email"] = "Email";
+                d["Phone number"] = "Phone number";
                 d["Parent"] = "Parent";
                 d["Back"] = "Back";
+                d["Save"] = "Save";
                 d = EditStudent[1];
-                d["EditStudent"] = "Edytuj";
+                d["Edit student"] = "Edytuj";
+                d["Name"] = "Imię";
+                d["Surname"] = "Nazwisko";
+                d["Email"] = "Email";
+                d["Phone number"] = "Numer telefonu";
                 d["Parent"] = "Rodzic";
                 d["Back"] = "Powrót";
+                d["Save"] = "Zapisz";
             }
             private static void PConfirmEmail()
             {
@@ -193,22 +227,34 @@ namespace Gradebook.Utils
                 Index = CreateDictionary();
                 var d = Index[0];
                 d["Accounts"] = "Accounts";
-                d["Create New"] = "Create New";
+                d["Create"] = "Create";
                 d["Edit"] = "Edit";
                 d["Reset Password"] = "Rest Password";
                 d["Name"] = "Name";
                 d["Surname"] = "Surname";
                 d["Email"] = "Email";
                 d["Phone number"] = "Phone number";
+                d["Reset password"] = "Reset password";
+                d["Administrator"] = "Administrator";
+                d["Parent"] = "Parent";
+                d["Student"] = "Student";
+                d["Teacher"] = "Teacher";
+                d["No accounts"] = "No accounts";
                 d = Index[1];
                 d["Accounts"] = "Konta";
-                d["Create New"] = "Stwórz nowe konto";
+                d["Create"] = "Stwórz";
                 d["Edit"] = "Edytuj";
                 d["Reset Password"] = "Zresetuj hasło";
                 d["Name"] = "Imię";
                 d["Surname"] = "Nazwisko";
                 d["Email"] = "Email";
                 d["Phone number"] = "Numer telefonu";
+                d["Reset password"] = "Zresetuj hasło";
+                d["Administrator"] = "Administrator";
+                d["Parent"] = "Rodzic";
+                d["Student"] = "Uczeń";
+                d["Teacher"] = "Nauczyciel";
+                d["No accounts"] = "Brak kont";
             }
             private static void PLoginDetails()
             {
@@ -216,9 +262,17 @@ namespace Gradebook.Utils
                 var d = LoginDetails[0];
                 d["Login details"] = "Login details";
                 d["Back"] = "Back";
+                d["Copy username"] = "Copy username";
+                d["Copy password"] = "Copy password";
+                d["User name"] = "User name";
+                d["Generated password"] = "Generated password";
                 d = LoginDetails[1];
-                d["Login details"] = "Szczegóły logownia";
+                d["Login details"] = "Dane logowania";
                 d["Back"] = "Powrót";
+                d["Copy username"] = "Kopiuj nazwę użytkownika";
+                d["Copy password"] = "Kopiuj hasło";
+                d["User name"] = "Nazwa użytkownika";
+                d["Generated password"] = "Wygenerowane hasło";
             }
             private static void PResetPassword()
             {
@@ -245,6 +299,7 @@ namespace Gradebook.Utils
                 d["Email"] = "Email";
                 d["Phone number"] = "Phone number";
                 d["RoleName"] = "Role Name";
+                d["Create"] = "Create";
                 d = Register[1];
                 d["Create account"] = "Stwórz konto";
                 d["Back"] = "Powrót";
@@ -253,6 +308,7 @@ namespace Gradebook.Utils
                 d["Email"] = "Email";
                 d["Phone number"] = "Numer telefonu";
                 d["RoleName"] = "Rodzaj konta";
+                d["Create"] = "Stwórz";
             }
         }
         public class Child
@@ -306,7 +362,7 @@ namespace Gradebook.Utils
                 d["Subject"] = "Subject";
                 d["Back"] = "Back";
                 d = ClassDetails[1];
-                d["Child class details"] = "Informajcę o dziecku";
+                d["Child class details"] = "Informacje o dziecku";
                 d["Class"] = "Klasa";
                 d["Year"] = "Rok";
                 d["Unit"] = "Oddział";
@@ -317,7 +373,7 @@ namespace Gradebook.Utils
                 d["Email"] = "Email";
                 d["Details"] = "Szczegóły";
                 d["Subject"] = "Przedmiot";
-                d["Back"] = "Wstecz";
+                d["Back"] = "Powrót";
             }
 
             private static void PGradeList()
@@ -353,7 +409,7 @@ namespace Gradebook.Utils
                 d["Delete"] = "Usuń";
                 d["Add grade"] = "Dodaj ocenę";
                 d["Back to student"] = "Wróć do ucznia";
-                d["Back"] = "Wstecz";
+                d["Back"] = "Powrót";
                 d["No subjects"] = "Brak przedmiotów";
             }
 
@@ -369,7 +425,7 @@ namespace Gradebook.Utils
                 d["Show grades"] = "Show grades";
                 d["Show absences"] = "Show absences";
                 d = Index[1];
-                d["Children"] = "Dziecki";
+                d["Children"] = "Dzieci";
                 d["Name"] = "Imię";
                 d["Surname"] = "Nazwisko";
                 d["Show"] = "Pokaż";
@@ -406,7 +462,7 @@ namespace Gradebook.Utils
                 d["Year"] = "Rok";
                 d["Unit"] = "Oddział";
                 d["No class"] = "Brak klasy ";
-                d["Back"] = "Back";
+                d["Back"] = "Powrót";
             }
         }
 
@@ -430,11 +486,17 @@ namespace Gradebook.Utils
                 d["Supervisor"] = "Supervisor";
                 d["Year"] = "Year";
                 d["Unit"] = "Unit";
+                d["Create"] = "Create";
+                d["All teachers are already supervisors."] = "All teachers are already supervisors.";
+                d["Back"] = "Back";
                 d = Create[1];
                 d["Create class"] = "Stwórz klasę";
                 d["Supervisor"] = "Wychowawca";
                 d["Year"] = "Rok";
                 d["Unit"] = "Oddział";
+                d["Create"] = "Stwórz";
+                d["All teachers are already supervisors."] = "Wszyscy nauczyciele są już wychowawcami.";
+                d["Back"] = "Powrót";
             }
 
             private static void PCreateAnnouncement()
@@ -453,7 +515,7 @@ namespace Gradebook.Utils
                 d["Content"] = "Zawartość";
                 d["Attachment"] = "Załącznik";
                 d["Send"] = "Wyślij";
-                d["Back"] = "Wstecz";
+                d["Back"] = "Powrót";
                 d["Send by website"] = "Wyślij przez stronę";
                 d["Send by email"] = "Wyślij przez email";
             }
@@ -480,14 +542,14 @@ namespace Gradebook.Utils
                 d["Year"] = "Rok";
                 d["Unit"] = "Oddział";
                 d["Supervisor"] = "Wychowawca";
-                d["Name"] = "Nazwa";
+                d["Name"] = "Imię";
                 d["Surname"] = "Nazwisko";
                 d["Students"] = "Uczniowie";
                 d["Email"] = "Email";
                 d["Teachers"] = "Nauczyciele";
                 d["Details"] = "Szczegóły";
-                d["Subject"] = "Lekcje";
-                d["Back"] = "Wstecz";
+                d["Subject"] = "Przedmiot";
+                d["Back"] = "Powrót";
                 d["Send announcement to parents"] = "Wyślij ogłoszenie do rodziców";
             }
 
@@ -547,7 +609,7 @@ namespace Gradebook.Utils
                 d["Year"] = "Year";
                 d["Unit"] = "Unit";
                 d["Details"] = "Details";
-                d["Create New"] = "Create new";
+                d["Create"] = "Create";
                 d["Edit"] = "Edit";
                 d["Delete"] = "Delete";
                 d = Index[1];
@@ -557,7 +619,7 @@ namespace Gradebook.Utils
                 d["Year"] = "Rok";
                 d["Unit"] = "Oddział";
                 d["Details"] = "Szczegóły";
-                d["Create New"] = "Stwórz nową";
+                d["Create"] = "Stwórz";
                 d["Edit"] = "Edytuj";
                 d["Delete"] = "Usuń";
             }
@@ -585,7 +647,7 @@ namespace Gradebook.Utils
                 d = Edit[1];
                 d["Edit announcement"] = "Edytuj ogłoszenie";
                 d["Edit"] = "Edytuj";
-                d["Back"] = "Wstecz";
+                d["Back"] = "Powrót";
             }
             private static void PDelete()
             {
@@ -615,7 +677,7 @@ namespace Gradebook.Utils
                 d = Create[1];
                 d["Create announcement"] = "Stwórz ogłoszenie";
                 d["Content"] = "Zawartość";
-                d["Back"] = "Wstecz";
+                d["Back"] = "Powrót";
             }
 
             private static void PDetails()
@@ -647,6 +709,8 @@ namespace Gradebook.Utils
                 d["Edit"] = "Edit";
                 d["Details"] = "Details";
                 d["Delete"] = "Delete";
+                d["No announcements"] = "No announcements";
+                d["Create new"] = "Create new";
                 d = Index[1];
                 d["Announcements"] = "Ogłoszenia";
                 d["Modification time"] = "Data modyfikacji";
@@ -654,6 +718,8 @@ namespace Gradebook.Utils
                 d["Edit"] = "Edytuj";
                 d["Details"] = "Szczegóły";
                 d["Delete"] = "Usuń";
+                d["No announcements"] = "Brak ogłoszeń";
+                d["Create new"] = "Stwórz";
             }
         }
 
@@ -749,6 +815,7 @@ namespace Gradebook.Utils
                 d["Add recipient"] = "Add recipient";
                 d["Send"] = "Send";
                 d["Back"] = "Back";
+                d["No recipients"] = "No recipients";
                 d = Create[1];
                 d["Create message"] = "Stwórz wiadomość";
                 d["Content"] = "Zawartość";
@@ -759,8 +826,9 @@ namespace Gradebook.Utils
                 d["Email"] = "Email";
                 d["Delete"] = "Usuń";
                 d["Add recipient"] = "Dodaj odbiorcę";
-                d["Send"] = "Wysłano";
-                d["Back"] = "Wstecz";
+                d["Send"] = "Wyślij";
+                d["Back"] = "Powrót";
+                d["No recipients"] = "Brak odbiorców";
             }
 
             private static void PDetails()
@@ -790,7 +858,7 @@ namespace Gradebook.Utils
                 d["Attachment"] = "Załącznik";
                 d["Sent"] = "Wysłano";
                 d["Recipients"] = "Odbiorcy";
-                d["Back"] = "Wstecz";
+                d["Back"] = "Powrót";
                 d["Name"] = "Imię";
                 d["Surname"] = "Nazwisko";
                 d["Email"] = "Email";
@@ -810,6 +878,8 @@ namespace Gradebook.Utils
                 d["Details"] = "Details";
                 d["Sent"] = "Sent";
                 d["Write new"] = "Write new message";
+                d["No received messages"] = "No received messages";
+                d["No sent messages"] = "No sent messages";
                 d = Index[1];
                 d["Messages"] = "Wiadomości";
                 d["Received"] = "Otrzymano";
@@ -820,7 +890,9 @@ namespace Gradebook.Utils
                 d["Sender email"] = "Email adresata";
                 d["Details"] = "Szczegóły";
                 d["Sent"] = "Wysłano";
-                d["Write new"] = "Napisz nową wiadmość";
+                d["Write new"] = "Napisz nową wiadomość";
+                d["No received messages"] = "Brak otrzymanych wiadomości";
+                d["No sent messages"] = "Brak wysłanych wiadomości";
             }
         }
 
@@ -882,6 +954,7 @@ namespace Gradebook.Utils
                 d["Quiz"] = "Quiz";
                 d["Name"] = "Name";
                 d["Duration [s]"] = "Duration [s]";
+                d["Back"] = "Back";
 
                 d = Create[1];
                 d["Create quiz"] = "Stwórz quiz";
@@ -889,6 +962,7 @@ namespace Gradebook.Utils
                 d["Quiz"] = "Quiz";
                 d["Name"] = "Nazwa";
                 d["Duration [s]"] = "Czas trwania [s]";
+                d["Back"] = "Powrót";
             }
 
             private static void PEdit()
@@ -1081,11 +1155,17 @@ namespace Gradebook.Utils
                 d["Download current syllabus"] = "Download current syllabus";
                 d["Delete current syllabus"] = "Delete current syllabus";
                 d["Back"] = "Back";
+                d["Name"] = "Name";
+                d["Syllabus was not uploaded."] = "Syllabus was not uploaded.";
+                d["Save"] = "Save";
                 d = Edit[1];
                 d["Edit subject"] = "Edytuj przedmiot";
                 d["Download current syllabus"] = "Poberz aktualny sylabus";
                 d["Delete current syllabus"] = "Usuń aktualny sylabus";
-                d["Back"] = "Wstecz";
+                d["Back"] = "Powrót";
+                d["Name"] = "Nazwa";
+                d["Syllabus was not uploaded."] = "Syllabus nie został przesłany.";
+                d["Save"] = "Zapisz";
             }
             private static void PDetails()
             {
@@ -1095,11 +1175,25 @@ namespace Gradebook.Utils
                 d["Download"] = "Download";
                 d["Name"] = "Name";
                 d["Delete"] = "Delete";
+                d["Syllabus"] = "Syllabus";
+                d["Syllabus was not uploaded."] = "Syllabus was not uploaded.";
+                d["No files."] = "No files.";
+                d["Add file"] = "Add file";
+                d["Back"] = "Back";
+                d["Files"] = "Files";
+                d["Description"] = "Description";
                 d = Details[1];
                 d["Subject details"] = "Szczegóły przedmiotu ";
                 d["Download"] = "Pobierz";
                 d["Name"] = "Nazwa";
                 d["Delete"] = "Usuń";
+                d["Syllabus"] = "Syllabus";
+                d["Syllabus was not uploaded."] = "Syllabus nie został przesłany.";
+                d["No files."] = "Brak plików.";
+                d["Add file"] = "Dodaj plik";
+                d["Back"] = "Powrót";
+                d["Files"] = "Pliki";
+                d["Description"] = "Opis";
             }
             private static void PCreate()
             {
@@ -1108,10 +1202,12 @@ namespace Gradebook.Utils
                 d["Create Subject"] = "Create subject";
                 d["Name"] = "Name";
                 d["Back"] = "Back";
+                d["Create"] = "Create";
                 d = Create[1];
-                d["Create Subject"] = "Stwórz przedmio";
+                d["Create Subject"] = "Stwórz przedmiot";
                 d["Name"] = "Nazwa";
-                d["Back"] = "Wstecz";
+                d["Back"] = "Powrót";
+                d["Create"] = "Stwórz";
             }
 
             private static void PAddFile()
@@ -1124,7 +1220,7 @@ namespace Gradebook.Utils
                 d = AddFile[1];
                 d["Add file"] = "Dodaj plik";
                 d["Description"] = "Opis";
-                d["Back"] = "Wstecz";
+                d["Back"] = "Powrót";
             }
             private static void PIndex()
             {
@@ -1136,15 +1232,112 @@ namespace Gradebook.Utils
                 d["Edit"] = "Edit";
                 d["Details"] = "Details";
                 d["Delete"] = "Delete";
+                d["Create"] = "Create";
+                d["Syllabus was not uploaded."] = "Syllabus was not uploaded.";
                 d = Index[1];
-                d["Subjects"] = "Lekcje";
+                d["Subjects"] = "Przedmioty";
                 d["Name"] = "Imię";
                 d["Syllabus"] = "Sylabus";
                 d["Edit"] = "Edytuj";
                 d["Details"] = "Szczegóły";
                 d["Delete"] = "Usuń";
+                d["Create"] = "Stwórz";
+                d["Syllabus was not uploaded."] = "Syllabus nie został przesłany.";
             }
         }
 
+        public class Layout
+        {
+            public static Dictionary<string, string>[] Links, Login;
+
+            static Layout()
+            {
+                PLinks();
+                PLogin();
+            }
+
+            private static void PLinks()
+            {
+                Links = CreateDictionary();
+                var d = Links[0];
+                d["Announcements"] = "Announcements";
+                d["Accounts"] = "Accounts";
+                d["Subjects"] = "Subjects";
+                d["Classes"] = "Classes";
+                d["Grades"] = "Grades";
+                d["Messages"] = "Messages";
+                d["Quizzes"] = "Quizzes";
+                d["Children"] = "Children";
+                d["Absences"] = "Absences";
+
+                d = Links[1];
+                d["Announcements"] = "Ogłoszenia";
+                d["Accounts"] = "Konta";
+                d["Subjects"] = "Przedmioty";
+                d["Classes"] = "Klasy";
+                d["Grades"] = "Oceny";
+                d["Messages"] = "Wiadomości";
+                d["Quizzes"] = "Quizy";
+                d["Children"] = "Dzieci";
+                d["Absences"] = "Nieobecności";
+            }
+
+            private static void PLogin()
+            {
+                Login = CreateDictionary();
+                var d = Login[0];
+                d["Log in"] = "Log in";
+                d["Logged as"] = "Logged as";
+                d["Logout"] = "Logout";
+
+                d = Login[1];
+                d["Log in"] = "Zaloguj";
+                d["Logged as"] = "Zalogowano jako";
+                d["Logout"] = "Wyloguj";
+            }
+        }
+
+        public class Manage
+        {
+            public static Dictionary<string, string>[] Index, ChangePassword;
+
+            static Manage()
+            {
+                PIndex();
+                PChangePassword();
+            }
+
+            private static void PIndex()
+            {
+                Index = CreateDictionary();
+                var d = Index[0];
+                d["Manage"] = "Manage";
+                d["Change"] = "Change";
+                d["Password"] = "Password";
+                d["Create"] = "Create";
+
+                d = Index[1];
+                d["Manage"] = "Zarządzanie";
+                d["Change"] = "Zmień";
+                d["Password"] = "Hasło";
+                d["Create"] = "Stwórz";
+            }
+
+            private static void PChangePassword()
+            {
+                ChangePassword = CreateDictionary();
+                var d = ChangePassword[0];
+                d["Change password"] = "Change password";
+                d["Old password"] = "Old password";
+                d["New password"] = "New password";
+                d["Confirm password"] = "Confirm password";
+
+                d = ChangePassword[1];
+                d["Change password"] = "Zmień hasło";
+                d["Old password"] = "Stare hasło";
+                d["New password"] = "Nowe hasło";
+                d["Confirm password"] = "Potwierdź hasło";
+            }
+        }
     }
 }

@@ -1,8 +1,7 @@
 ﻿@model Gradebook.Models.Subject
 @{
-    var D = Gradebook.Utils.LocalizedStrings.Subject.Create[ViewBag.LanguageId];
+    var D = Gradebook.Utils.LocalizedStrings.Subject.Details[ViewBag.LanguageId];
     ViewBag.Title = D["Subject details"];
-    ViewBag.Title = "Subject details";
     var files = (ICollection<Gradebook.Models.File>)ViewBag.Files;
 }
 
@@ -10,13 +9,13 @@
 
 <dl class="dl-horizontal">
     <dt>
-        Name
+        @D["Name"]
     </dt>
     <dd>
         @Html.DisplayFor(model => model.Name)
     </dd>
     <dt>
-        Syllabus
+        @D["Syllabus"]
     </dt>
     <dd>
         @if (Model.Syllabus != null)
@@ -25,26 +24,26 @@
         }
         else
         {
-            @:Syllabus was not uploaded.
+            @D["Syllabus was not uploaded."]
         }
     </dd>
 </dl>
 
 @if (User.IsInRole(Gradebook.Utils.Role.Teacher) || User.IsInRole(Gradebook.Utils.Role.Student))
 {
-    <h4>Files</h4>
+    <h4>@D["Files"]</h4>
     if (files.Count > 0)
     {
         <table class="table">
             <tr>
                 <th>
-                    Name
+                    @D["Name"]
                 </th>
                 <th>
-                    Description
+                    @D["Description"]
                 </th>
                 <th>
-                    Modification time
+                    @D["Modification time"]
                 </th>
                 @if (User.IsInRole(Gradebook.Utils.Role.Teacher))
                 {
@@ -76,15 +75,15 @@
     }
     else
     {
-        @:No files.
+        @D["No files."]
         <br />
     }
 }
 
 @if (User.IsInRole(Gradebook.Utils.Role.Teacher))
 {
-    @Html.ActionLink("Add file", "AddFile", new { id = Model.Id })
+    @Html.ActionLink(D["Add file"], "AddFile", new { id = Model.Id })
     <br />
 }
 
-@Html.ActionLink("Back", "Index")
+@Html.ActionLink(D["Back"], "Index")

@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNet.Identity;
-@model IEnumerable<Gradebook.Models.Absence>
+﻿@model IEnumerable<Gradebook.Models.Absence>
 @{
     var D = Gradebook.Utils.LocalizedStrings.Absence.Index[ViewBag.LanguageId];
     ViewBag.Title = D["Absences"];
@@ -12,13 +11,13 @@
     <table class="table">
         <tr>
             <th>
-                Date
+                @D["Date"]
             </th>
             <th>
-                Lesson number
+                @D["Lesson number"]
             </th>
             <th>
-                Is justified?
+                @D["Is justified?"]
             </th>
             <th></th>
         </tr>
@@ -46,7 +45,7 @@
 }
 else
 {
-    @:No absences
+    @D["No absences"]
     <br />
 }
 

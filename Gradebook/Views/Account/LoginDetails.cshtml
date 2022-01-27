@@ -8,18 +8,18 @@
 <div>
     <dl class="dl-horizontal">
         <dt>
-            User name
+            @D["User name"]
         </dt>
         <dd>
             <p id="userName">@ViewBag.UserName</p>
-            <button onclick="copyToClipboard('#userName')">copy username</button>
+            <button onclick="copyToClipboard('#userName')">@D["Copy username"]</button>
         </dd>
         <dt>
-            Generated password
+            @D["Generated password"]
         </dt>
         <dd>
             <p id="password">@ViewBag.Password</p>
-            <button onclick="copyToClipboard('#password')">copy password</button>
+            <button onclick="copyToClipboard('#password')">@D["Copy password"]</button>
         </dd>
     </dl>
 </div>

@@ -6,10 +6,11 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Gradebook.Models;
+using Gradebook.Utils;
 
 namespace Gradebook.Controllers
 {
-    [Authorize]
+    [Authorize, ViewFilter]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;

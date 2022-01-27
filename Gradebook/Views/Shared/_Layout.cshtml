@@ -20,10 +20,11 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @{
+                        var D = Gradebook.Utils.LocalizedStrings.Layout.Links[ViewBag.LanguageId];
                         var links = Gradebook.Utils.Role.GetLinks(User);
                         foreach (var l in links)
                         {
-                            @Html.ActionLink(l.Name, l.Action, l.Controller, l.RouteValues, new { @class = "navbar-brand" });
+                            @Html.ActionLink(D[l.Name], l.Action, l.Controller, l.RouteValues, new { @class = "navbar-brand" });
                         }
                     }
                 </ul>

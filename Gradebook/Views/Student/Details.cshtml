@@ -113,6 +113,9 @@ else
     @Html.ActionLink(D["Show grades"], "Index", "Grade", new { studentId = Model.Id }, null)
     <br />
     @Html.ActionLink(D["Show absences"], "Index", "Absence", new { studentId = Model.Id }, null)
+}
+@if (User.IsInRole(Gradebook.Utils.Role.Teacher) || User.IsInRole(Gradebook.Utils.Role.Administrator))
+{
     <br />
     @Html.ActionLink(D["Back to class"], "Details", "Class", new { id = Model.ClassId }, null)
 }

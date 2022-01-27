@@ -8,9 +8,7 @@
 
 @if (User.IsInRole(Gradebook.Utils.Role.Administrator))
 {
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
+    @Html.ActionLink(D["Create"], "Create")
 }
 <table class="table">
     <tr>
@@ -36,7 +34,7 @@
                 }
                 else
                 {
-                    @:Syllabus was not uploaded.
+                    @D["Syllabus was not uploaded."]
                 }
             </td>
             <td>

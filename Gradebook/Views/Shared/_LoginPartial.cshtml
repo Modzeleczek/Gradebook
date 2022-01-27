@@ -1,4 +1,7 @@
 ﻿@using Microsoft.AspNet.Identity
+@{
+    var D = Gradebook.Utils.LocalizedStrings.Layout.Login[ViewBag.LanguageId];
+}
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
@@ -13,9 +16,11 @@
             var user = users.Single();
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    @Html.ActionLink("Logged as " + user.Name + " " + user.Surname, "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    @Html.ActionLink(D["Logged as"] + " " + user.Name + " " + user.Surname, "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
                 </li>
-                <li><a href="javascript:document.getElementById('logoutForm').submit()">Logout</a></li>
+                <li><a href="javascript:document.getElementById('logoutForm').submit()">@D["Logout"]</a></li>
+                <li>@Html.ActionLink("EN", "SelectEnglish", "Language")</li>
+                <li>@Html.ActionLink("PL", "SelectPolish", "Language")</li>
             </ul>
         }
     }
@@ -23,7 +28,8 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        @*<li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>@Html.ActionLink(D["Log in"], "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>@Html.ActionLink("EN", "SelectEnglish", "Language")</li>
+        <li>@Html.ActionLink("PL", "SelectPolish", "Language")</li>
     </ul>
 }

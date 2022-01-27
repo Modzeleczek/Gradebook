@@ -28,38 +28,45 @@
     <input name="attachedFile" type="file" @*multiple*@>
 
     <h4>@D["Recipients"]</h4>
-    <table class="table">
-        <tr>
-            <th>
-                @D["Name"]
-            </th>
-            <th>
-                @D["Surname"]
-            </th>
-            <th>
-                @D["Email"]
-            </th>
-            <th></th>
-        </tr>
-        @foreach (var item in recipients)
-        {
+    if (recipients.Count > 0)
+    {
+        <table class="table">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Surname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.ActionLink(D["Delete"], "DeleteRecipient", new { userId = item.Id })
-                </td>
+                <th>
+                    @D["Name"]
+                </th>
+                <th>
+                    @D["Surname"]
+                </th>
+                <th>
+                    @D["Email"]
+                </th>
+                <th></th>
             </tr>
-        }
-    </table>
-
+            @foreach (var item in recipients)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Surname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.ActionLink(D["Delete"], "DeleteRecipient", new { userId = item.Id })
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        @D["No recipients"]
+        <br />
+    }
     @Html.ActionLink(D["Add recipient"], "AddRecipient")
 
     <div class="form-group">

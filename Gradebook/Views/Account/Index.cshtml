@@ -6,14 +6,14 @@
 
 <h2>@ViewBag.Title</h2>
 
-@Html.ActionLink(D["Create New"], "Create")
+@Html.ActionLink(D["Create"], "Create")
 
 @foreach (var roleUsers in Model)
 {
-    <h4>@roleUsers.RoleName</h4>
+    <h4>@D[roleUsers.RoleName]</h4>
     if (roleUsers.Users.Count == 0)
     {
-        @:No accounts
+        @D["No accounts"]
         <br />
     }
     else
