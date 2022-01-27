@@ -1133,7 +1133,7 @@ namespace Gradebook.Utils
                 d["Unit"] = "Oddział";
                 d["No class"] = "Brak klasy";
                 d["Show grades"] = "Pokaż oceny";
-                d["Show absences"] = "Pokważ nieobecności";
+                d["Show absences"] = "Pokaż nieobecności";
             }
         }
 

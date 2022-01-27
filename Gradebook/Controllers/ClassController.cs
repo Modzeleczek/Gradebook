@@ -251,7 +251,7 @@ namespace Gradebook.Controllers
             var teacherEmail = teacher.ApplicationUser.Email;
             var recipients = Db.Class.Where(e => e.Id == classId).Single().Students.Select(e => e.Parent).Distinct(new ComparerById());
             var recipientUsers = recipients.Select(e => e.ApplicationUser).ToArray();
-            EmailSender.Send(teacherEmail, recipientUsers, $"Announcement from {teacher.ApplicationUser.Name} {teacher.ApplicationUser.Surname}", message.Content, attachedFile);
+            EmailSender.Send(teacherEmail, recipientUsers, $"Announcement from {teacher.ApplicationUser.Name} {teacher.ApplicationUser.Surname}", message.Content, attachedFile, false);
         }
 
         [Authorize(Roles = Role.Teacher)]

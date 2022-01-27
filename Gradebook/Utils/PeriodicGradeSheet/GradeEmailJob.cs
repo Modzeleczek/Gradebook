@@ -1,30 +1,35 @@
 ﻿using Gradebook.Controllers;
 using Gradebook.Models;
+using Quartz;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Threading.Tasks;
 
-namespace Gradebook.Utils
+namespace Gradebook.Utils.PeriodicGradeSheet
 {
-    public static class GradeSheetGenerator
+    public class GradeEmailJob : IJob
     {
-        public static string GenerateHtml(string parentId)
+        ApplicationDbContext Db = ApplicationDbContext.Create();
+
+        private string GenerateGradeSheet(Parent parent, string date)
         {
-            var db = ApplicationDbContext.Create();
-            var parent = db.Parent.Where(e => e.Id == parentId).Single();
-            var students = db.Student.Where(e => e.ParentId == parentId).ToArray();
+            var students = Db.Student.Where(e => e.ParentId == parent.Id).ToArray();
             var sb = new System.Text.StringBuilder();
-            sb.Append($"Oceny dzieci rodzica {parent.ApplicationUser.Name} {parent.ApplicationUser.Surname}.<br/><br/>");
+            sb.Append($"Zestawienie ocen dzieci rodzica {parent.ApplicationUser.Name} {parent.ApplicationUser.Surname} w okresie do {date}.<br/><br/>");
             foreach (var s in students)
             {
-                var grades = db.Grade.Where(e => e.StudentId == s.Id).ToArray();
+                var grades = Db.Grade.Where(e => e.StudentId == s.Id).ToArray();
                 sb.Append($"<h2>{s.ApplicationUser.Name} {s.ApplicationUser.Surname}</h2>");
                 var subjects = s.Class.TeacherClassSubjects.Select(e => e.Subject).ToArray();
                 var subjectGrades = GradeController.GroupGradesBySubject(grades, subjects);
                 foreach (var sg in subjectGrades)
                 {
                     sb.Append($"<h4>{sg.SubjectName}</h4>");
+                    if (sg.Grades.Count == 0)
+                    {
+                        sb.Append("Brak ocen");
+                        continue;
+                    }
                     sb.Append("<table>");
                     sb.Append("<tr>");
                     sb.Append("<th>Wartość</th>");
@@ -49,6 +54,22 @@ namespace Gradebook.Utils
                 }
             }
             return sb.ToString();
+        }
+
+        Task IJob.Execute(IJobExecutionContext context)
+        {
+            var parents = Db.Parent.ToArray();
+            var soleRecipient = new ApplicationUser[1];
+            var today = DateTime.Now;
+            var date = $"{today.Day}.{today.Month}.{today.Year}";
+            var subject = "Zestawienie ocen - " + date;
+            foreach (var parent in parents)
+            {
+                var html = GenerateGradeSheet(parent, date);
+                soleRecipient[0] = parent.ApplicationUser;
+                //EmailSender.Send("noreply@gradebook.com", soleRecipient, subject, html, null, true);
+            }
+            return null;
         }
     }
 }

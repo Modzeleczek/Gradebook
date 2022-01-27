@@ -20,7 +20,7 @@ namespace Gradebook.Utils
             return smtp;
         }
 
-        private static MailMessage CreateMessage(string replyTo, ICollection<ApplicationUser> recipients, string subject, string body)
+        private static MailMessage CreateMessage(string replyTo, ICollection<ApplicationUser> recipients, string subject, string body, bool isBodyHtml)
         {
             var message = new MailMessage();
             // message.ReplyToList.Clear();
@@ -30,15 +30,16 @@ namespace Gradebook.Utils
             // message.SubjectEncoding = System.Text.Encoding.UTF8;
             message.Subject = subject;
             message.Body = body;
+            message.IsBodyHtml = true;
             foreach (var r in recipients)
                 message.To.Add(new MailAddress(r.Email, $"{r.Name} {r.Surname}"));
             return message;
         }
 
-        public static void Send(string replyTo, ICollection<ApplicationUser> recipients, string subject, string body, HttpPostedFileBase file)
+        public static void Send(string replyTo, ICollection<ApplicationUser> recipients, string subject, string body, HttpPostedFileBase file, bool isBodyHtml)
         {
             var smtp = CreateSmtp();
-            var message = CreateMessage(replyTo, recipients, subject, body);
+            var message = CreateMessage(replyTo, recipients, subject, body, isBodyHtml);
             if (file != null)
                 message.Attachments.Add(new System.Net.Mail.Attachment(file.InputStream, file.FileName, file.ContentType));
             smtp.Send(message);
