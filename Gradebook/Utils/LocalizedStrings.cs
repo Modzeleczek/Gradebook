@@ -134,10 +134,12 @@ namespace Gradebook.Utils
                 ResetPasswordConfirmation = CreateDictionary();
                 var d = ResetPasswordConfirmation[0];
                 d["Reset password confirmation"] = "Reset password confirmation";
+                d["Your password has been reset. Please "] = "Your password has been reset. Please ";
+                d["click here to log in"] = "click here to log in";
                 d = ResetPasswordConfirmation[1];
                 d["Reset password confirmation"] = "Potwierdzenie resetu hasła";
-
-
+                d["Your password has been reset. Please "] = "Twoje hasło zostało zresetowane. ";
+                d["click here to log in"] = "Kliknij tutaj, aby się zalogować.";
             }
 
             private static void PLogin()
