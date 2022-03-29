@@ -59,7 +59,7 @@
     </div>
 }
 
-@Html.ActionLink("Back to student grades", "Index", new { studentId = (string)ViewBag.StudentId })
+@Html.ActionLink(D["Back to student grades"], "Index", new { studentId = (string)ViewBag.StudentId })
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

@@ -55,7 +55,7 @@
             {
                 <tr>
                     <td>
-                        @Html.ActionLink(D["Name"], "DownloadFile", new { id = item.Id })
+                        @Html.ActionLink(item.Name, "DownloadFile", new { id = item.Id })
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Description)

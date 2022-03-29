@@ -2,6 +2,6 @@
 {
     public static partial class EmailSender
     {
-        private static string UserName = "salomonbotek@gmail.com", Password = "plokijuh2137";
+        private static string UserName = "lukasz.modzelewski1@gmail.com", Password = "huisayobarctkwaf";
     }
 }

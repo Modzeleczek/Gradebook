@@ -234,10 +234,10 @@ namespace Gradebook.Utils
             {
                 ForgotPasswordConfirmation = CreateDictionary();
                 var d = ForgotPasswordConfirmation[0];
-                d["Forgot Password Confirmation"] = "Forgot Password Confirmation";
+                d["Forgot password confirmation"] = "Forgot password confirmation";
                 d["Please check your email to reset your password."] = "Please check your email to reset your password.";
                 d = ForgotPasswordConfirmation[1];
-                d["Forgot Password Confirmation"] = "Potwierdzenie przypomnienia hasła";
+                d["Forgot password confirmation"] = "Potwierdzenie przypomnienia hasła";
                 d["Please check your email to reset your password."] = "Sprawdź email, aby zresetować hasło.";
             }
             private static void PIndex()
@@ -768,12 +768,14 @@ namespace Gradebook.Utils
                 d["Comment"] = "Comment";
                 d["Weight"] = "Weight";
                 d["Value"] = "Value";
+                d["Back to student grades"] = "Back to student grades";
                 d = Create[1];
                 d["Create a grade"] = "Dodaj ocenę";
                 d["Subject"] = "Przedmiot";
                 d["Comment"] = "Komentarz";
                 d["Weight"] = "Waga";
                 d["Value"] = "Wartość";
+                d["Back to student grades"] = "Powrót do ocen ucznia";
             }
 
             private static void PIndex()
