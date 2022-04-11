@@ -100,6 +100,38 @@ namespace Gradebook.Controllers
             return list;
         }
 
+        private LinkedList<SelectListItem> GetTeacherClassSubjects(int classId)
+        {
+            var _class = Db.Class.Where(e => e.Id == classId).Single();
+            var tcss = _class.TeacherClassSubjects.ToArray();
+            var list = new LinkedList<SelectListItem>();
+            foreach (var r in tcss)
+                list.AddLast(new SelectListItem { Text = $"{r.Subject.Name} | {r.Teacher.ApplicationUser.Name} {r.Teacher.ApplicationUser.Surname}", Value = r.Id.ToString(), Selected = false });
+            return list;
+        }
+
+        private LinkedList<SelectListItem> GetDayHours(int classId)
+        {
+            var _class = Db.Class.Where(e => e.Id == classId).Single();
+            var addedLessons = new LinkedList<Lesson>();
+            foreach (var tcs in _class.TeacherClassSubjects)
+                foreach (var l in tcs.Lessons)
+                    addedLessons.AddLast(l);
+            var dayHourUsed = new bool[Days.Array.Length, LessonHours.Array.Length];
+            foreach (var al in addedLessons)
+                dayHourUsed[al.DayId, al.HourId] = true;
+            var list = new LinkedList<SelectListItem>();
+            for (int di = 0; di < Days.Array.Length; ++di)
+                for (int hi = 0; hi < LessonHours.Array.Length; ++hi)
+                    if (dayHourUsed[di, hi] == false)
+                    {
+                        var day = Days.Array[di];
+                        var hour = LessonHours.Array[hi];
+                        list.AddLast(new SelectListItem { Text = $"{day.Name} {hour.StartH}:{hour.StartM.ToString("00")}", Value = $"{di}|{hi}", Selected = false });
+                    }
+            return list;
+        }
+
         // GET: Class/Edit/5
         [Authorize(Roles = Role.Administrator)]
         public ActionResult Edit(int id)
@@ -108,24 +140,28 @@ namespace Gradebook.Controllers
             var supervisors = GetSupervisors(classSupervisorId);
             ViewBag.Supervisors = supervisors;
             var students = GetStudents();
-            if (students.First != null)
-                students.First.Value.Selected = true;
+            if (students.First != null) students.First.Value.Selected = true;
             ViewBag.Students = students;
             var teachers = GetTeachers();
-            if (teachers.First != null)
-                teachers.First.Value.Selected = true;
+            if (teachers.First != null) teachers.First.Value.Selected = true;
             ViewBag.Teachers = teachers;
             var subjects = GetSubjects(id);
-            if (subjects.First != null)
-                subjects.First.Value.Selected = true;
+            if (subjects.First != null) subjects.First.Value.Selected = true;
             ViewBag.Subjects = subjects;
+            var teacherClassSubjects = GetTeacherClassSubjects(id);
+            if (teacherClassSubjects != null && teacherClassSubjects.Count > 0)
+                teacherClassSubjects.First.Value.Selected = true;
+            ViewBag.TeacherClassSubjects = teacherClassSubjects;
+            var dayHours = GetDayHours(id);
+            if (dayHours != null) dayHours.First.Value.Selected = true;
+            ViewBag.DayHours = dayHours;
             return View(Db.Class.Where(e => e.Id == id).Single());
         }
 
         // POST: Class/Edit/5
         [HttpPost]
         [Authorize(Roles = Role.Administrator)]
-        public ActionResult Edit(Class _class, string button, string studentId, string teacherId, int? subjectId)
+        public ActionResult Edit(Class _class, string button, string studentId, string teacherId, int? subjectId, int? teacherClassSubjectId, string dayIdHourId)
         {
             if (button == "Save")
             {
@@ -136,7 +172,6 @@ namespace Gradebook.Controllers
                 record.Year = _class.Year;
                 record.Unit = _class.Unit;
                 Db.SaveChanges();
-                return RedirectToAction("Edit", new { id = _class.Id });
             }
             else if (button == "AddStudent")
             {
@@ -151,16 +186,26 @@ namespace Gradebook.Controllers
                     record.Students.Add(student);
                 }*/
                 Db.SaveChanges();
-                return RedirectToAction("Edit", new { id = _class.Id });
             }
-            else // if (button == "AddTeacher")
+            else if (button == "AddTeacher")
             {
                 var record = Db.Class.Where(e => e.Id == _class.Id).Single();
                 var tcs = new TeacherClassSubject { ClassId = _class.Id, TeacherId = teacherId, SubjectId = subjectId ?? 0 };
                 Db.TeacherClassSubject.Add(tcs);
                 Db.SaveChanges();
-                return RedirectToAction("Edit", new { id = _class.Id });
             }
+            else if (button == "AddLesson")
+            {
+                var record = Db.TeacherClassSubject.Where(e => e.Id == teacherClassSubjectId).Single();
+                var split = dayIdHourId.Split('|');
+                if (int.TryParse(split[0], out int dayId) && int.TryParse(split[1], out int hourId))
+                {
+                    var lesson = new Lesson { TeacherClassSubjectId = teacherClassSubjectId ?? 0, DayId = dayId, HourId = hourId };
+                    Db.Lesson.Add(lesson);
+                    Db.SaveChanges();
+                }
+            }
+            return RedirectToAction("Edit", new { id = _class.Id });
         }
 
         private LinkedList<SelectListItem> GetStudents()
@@ -183,10 +228,11 @@ namespace Gradebook.Controllers
         }
 
         // GET
-        public ActionResult DeleteTeacherSubject(int classId, string teacherId, int subjectId)
+        public ActionResult DeleteTeacherSubject(int classId, int teacherClassSubjectId)
         {
+            // potencjalna alternatywa: w DeleteLesson działa zwykłe usunięcie rekordu z Db.Lesson zamiast przez właściwość nawigacji
             var record = Db.Class.Where(e => e.Id == classId).Single();
-            var tcs = record.TeacherClassSubjects.Where(e => e.TeacherId == teacherId && e.SubjectId == subjectId).Single();
+            var tcs = record.TeacherClassSubjects.Where(e => e.Id == teacherClassSubjectId).Single();
             record.TeacherClassSubjects.Remove(tcs);
             Db.SaveChanges();
             return RedirectToAction("Edit", new { id = classId });
@@ -350,6 +396,14 @@ namespace Gradebook.Controllers
                 }
             }
             return ssgs;
+        }
+
+        public ActionResult DeleteLesson(int classId, int lessonId)
+        {
+            var lesson = Db.Lesson.Where(e => e.Id == lessonId).Single();
+            Db.Lesson.Remove(lesson);
+            Db.SaveChanges();
+            return RedirectToAction("Edit", new { id = classId });
         }
     }
 }

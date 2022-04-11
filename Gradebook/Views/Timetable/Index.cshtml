@@ -1,0 +1,43 @@
+﻿@{
+    var D = Gradebook.Utils.LocalizedStrings.Timetable.Index[ViewBag.LanguageId];
+    ViewBag.Title = D["Timetable"];
+    string[,] timetable = ViewBag.Timetable;
+}
+
+<h2>@ViewBag.Title</h2>
+<table class="table">
+    <tr>
+        <th></th>
+        <th>
+            @D["monday"]
+        </th>
+        <th>
+            @D["tuesday"]
+        </th>
+        <th>
+            @D["wednesday"]
+        </th>
+        <th>
+            @D["thursday"]
+        </th>
+        <th>
+            @D["friday"]
+        </th>
+    </tr>
+    @for (int hi = 0; hi < Gradebook.Utils.LessonHours.Array.Length; ++hi)
+    {
+        <tr>
+        @{ 
+            var lessonHour = Gradebook.Utils.LessonHours.Array[hi];
+            var str = $"{lessonHour.StartH}:{lessonHour.StartM.ToString("00")}";
+        }
+        <td>@str</td>
+        @for (int di = 0; di < Gradebook.Utils.Days.Array.Length; ++di)
+        {
+            <td>
+                @timetable[di, hi]
+            </td>
+        }
+        </tr>
+    }
+</table>

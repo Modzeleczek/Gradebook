@@ -240,18 +240,24 @@
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\SubjectController.cs" />
     <Compile Include="Controllers\GradeController.cs" />
+    <Compile Include="Controllers\TimetableController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Absence.cs" />
     <Compile Include="Models\AbstractQuestion.cs" />
+    <Compile Include="Models\Day.cs" />
     <Compile Include="Models\File.cs" />
+    <Compile Include="Models\Lesson.cs" />
+    <Compile Include="Models\LessonHour.cs" />
     <Compile Include="Models\QuizSharing.cs" />
     <Compile Include="Utils\ComparerById.cs" />
     <Compile Include="Utils\ComparerBySubject.cs" />
+    <Compile Include="Utils\Days.cs" />
     <Compile Include="Utils\EmailSender.cs" />
     <Compile Include="Utils\EmailSenderSecret.cs" />
     <Compile Include="Utils\LanguageCookie.cs" />
+    <Compile Include="Utils\LessonHours.cs" />
     <Compile Include="Utils\PeriodicGradeSheet\GradeEmailJob.cs" />
     <Compile Include="Utils\LocalizedStrings.cs" />
     <Compile Include="Utils\PeriodicGradeSheet\JobScheduler.cs" />
@@ -385,6 +391,7 @@
     <Content Include="Views\Class\CreateAnnouncement.cshtml" />
     <Content Include="Views\Class\GenerateGradeSheet.cshtml" />
     <Content Include="Views\Class\ShowGradeSheet.cshtml" />
+    <Content Include="Views\Timetable\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

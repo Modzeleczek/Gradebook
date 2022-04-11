@@ -42,10 +42,11 @@ namespace Gradebook.Models
         public DbSet<GlobalAnnouncement> GlobalAnnouncement { get; set; }
         public DbSet<Grade> Grade { get; set; }
         public DbSet<Message> Message { get; set; }
+        public DbSet<Lesson> Lesson { get; set; }
         public DbSet<MessageRecipient> MessageRecipient { get; set; }
         public DbSet<ClosedQuestion> ClosedQuestion { get; set; }
-        public DbSet<OpenQuestion> OpenQuestion { get; set; }
-        public DbSet<OpenQuestionAnswer> OpenQuestionAnswer { get; set; }
+        // public DbSet<OpenQuestion> OpenQuestion { get; set; }
+        // public DbSet<OpenQuestionAnswer> OpenQuestionAnswer { get; set; }
         public DbSet<Parent> Parent { get; set; }
         public DbSet<Quiz> Quiz { get; set; }
         public DbSet<QuizAttempt> QuizAttempt { get; set; }

@@ -22,7 +22,7 @@ namespace Gradebook.Models
         [ForeignKey("AuthorId")]
         public virtual Teacher Author { get; set; }
         public virtual ICollection<QuizAttempt> QuizAttempts { get; set; }
-        public virtual ICollection<OpenQuestion> OpenQuestions { get; set; }
+        // public virtual ICollection<OpenQuestion> OpenQuestions { get; set; }
         public virtual ICollection<ClosedQuestion> ClosedQuestions { get; set; }
         public virtual ICollection<QuizSharing> QuizSharings { get; set; }
     }

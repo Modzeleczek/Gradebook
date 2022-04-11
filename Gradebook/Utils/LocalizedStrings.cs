@@ -1371,5 +1371,34 @@ namespace Gradebook.Utils
                 d["Confirm password"] = "Potwierdź hasło";
             }
         }
+
+        public class Timetable
+        {
+            public static Dictionary<string, string>[] Index;
+
+            static Timetable()
+            {
+                PIndex();
+            }
+
+            private static void PIndex()
+            {
+                Index = CreateDictionary();
+                var d = Index[0];
+                d["Timetable"] = "Timetable";
+                d["monday"] = "monday";
+                d["tuesday"] = "tuesday";
+                d["wednesday"] = "wednesday";
+                d["thursday"] = "thursday";
+                d["friday"] = "friday";
+                d = Index[1];
+                d["Timetable"] = "Plan lekcji";
+                d["monday"] = "poniedziałek";
+                d["tuesday"] = "wtorek";
+                d["wednesday"] = "środa";
+                d["thursday"] = "czwartek";
+                d["friday"] = "piątek";
+            }
+        }
     }
 }
