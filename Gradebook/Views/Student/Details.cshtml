@@ -1,6 +1,7 @@
 ﻿@model Gradebook.Models.Student
+@using Gradebook.Utils;
 @{
-    var D = Gradebook.Utils.LocalizedStrings.Student.Details[ViewBag.LanguageId];
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Student.Details[ViewBag.LanguageId];
     ViewBag.Title = D["Student details"];
 }
 

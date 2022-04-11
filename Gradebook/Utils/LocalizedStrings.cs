@@ -1,20 +1,53 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Gradebook.Utils
 {
     public class LocalizedStrings
     {
-        private static Dictionary<string, string>[] CreateDictionary()
+        public abstract class LanguageDictionary
         {
-            var ret = new Dictionary<string, string>[2]; // 0 - EN, 1 - PL
-            ret[0] = new Dictionary<string, string>();
-            ret[1] = new Dictionary<string, string>();
-            return ret;
+            public abstract string this[string key] { get; set; }
+        }
+
+        public class RealDictionary : LanguageDictionary
+        {
+            private Dictionary<string, string> Dict = new Dictionary<string, string>();
+            public override string this[string key]
+            {
+                get { return Dict[key]; }
+                set { Dict[key] = value; }
+            }
+        }
+
+        public class FakeDictionary : LanguageDictionary // fałszywy słownik, który zwraca wartość równą podanemu kluczowi
+        {
+            public override string this[string key]
+            {
+                get { return key; }
+                set { }
+            }
+        }
+
+        public class DictionaryTuple
+        {
+            private LanguageDictionary[] Dictionaries;
+            public DictionaryTuple()
+            {
+                Dictionaries = new LanguageDictionary[2]; // 0 - EN, 1 - PL
+                Dictionaries[0] = new FakeDictionary();
+                Dictionaries[1] = new RealDictionary();
+            }
+
+            public LanguageDictionary this[int languageId]
+            {
+                get { return Dictionaries[languageId]; }
+            }
         }
 
         public class Absence
         {
-            public static Dictionary<string, string>[] Create, Index;
+            public static DictionaryTuple Create, Index;
 
             static Absence()
             {
@@ -24,7 +57,7 @@ namespace Gradebook.Utils
 
             private static void PCreate()
             {
-                Create = CreateDictionary();
+                Create = new DictionaryTuple();
                 var d = Create[0];
                 d["Log in"] = "Log in";
                 d["Email"] = "Email";
@@ -54,7 +87,7 @@ namespace Gradebook.Utils
 
             private static void PIndex()
             {
-                Index = CreateDictionary();
+                Index = new DictionaryTuple();
                 var d = Index[0];
                 d["Absences"] = "Absences";
                 d["Log in"] = "Log in";
@@ -93,7 +126,7 @@ namespace Gradebook.Utils
 
         public class Account
         {
-            public static Dictionary<string, string>[] Login, VerifyCode, SendCode, EditOther, EditStudent, ConfirmEmail, ForgotPassword, ForgotPasswordConfirmation, Index, LoginDetails, Register, ResetPassword, ResetPasswordConfirmation;
+            public static DictionaryTuple Login, VerifyCode, SendCode, EditOther, EditStudent, ConfirmEmail, ForgotPassword, ForgotPasswordConfirmation, Index, LoginDetails, Register, ResetPassword, ResetPasswordConfirmation;
 
             static Account()
             {
@@ -113,7 +146,7 @@ namespace Gradebook.Utils
             }
             private static void PVerifyCode()
             {
-                VerifyCode = CreateDictionary();
+                VerifyCode = new DictionaryTuple();
                 var d = VerifyCode[0];
                 d["Verify"] = "Verify";
                 d["Code"] = "Code";
@@ -123,7 +156,7 @@ namespace Gradebook.Utils
             }
             private static void PSendCode()
             {
-                SendCode = CreateDictionary();
+                SendCode = new DictionaryTuple();
                 var d = SendCode[0];
                 d["Send"] = "Send code";
                 d = SendCode[1];
@@ -131,7 +164,7 @@ namespace Gradebook.Utils
             }
             private static void PResetPasswordConfirmation()
             {
-                ResetPasswordConfirmation = CreateDictionary();
+                ResetPasswordConfirmation = new DictionaryTuple();
                 var d = ResetPasswordConfirmation[0];
                 d["Reset password confirmation"] = "Reset password confirmation";
                 d["Your password has been reset. Please "] = "Your password has been reset. Please ";
@@ -144,7 +177,7 @@ namespace Gradebook.Utils
 
             private static void PLogin()
             {
-                Login = CreateDictionary();
+                Login = new DictionaryTuple();
                 var d = Login[0];
                 d["Log in"] = "Log in";
                 d["Email"] = "Email";
@@ -160,7 +193,7 @@ namespace Gradebook.Utils
             }
             private static void PEditOther()
             {
-                EditOther = CreateDictionary();
+                EditOther = new DictionaryTuple();
                 var d = EditOther[0];
                 d["Edit other"] = "Edit";
                 d["Name"] = "Name";
@@ -180,7 +213,7 @@ namespace Gradebook.Utils
             }
             private static void PEditStudent()
             {
-                EditStudent = CreateDictionary();
+                EditStudent = new DictionaryTuple();
                 var d = EditStudent[0];
                 d["Edit student"] = "Edit";
                 d["Name"] = "Name";
@@ -202,7 +235,7 @@ namespace Gradebook.Utils
             }
             private static void PConfirmEmail()
             {
-                ConfirmEmail = CreateDictionary();
+                ConfirmEmail = new DictionaryTuple();
                 var d = ConfirmEmail[0];
                 d["Confirm Email"] = "Confirm Email";
                 d["Click here to Log in"] = "Click here to Log in";
@@ -212,7 +245,7 @@ namespace Gradebook.Utils
             }
             private static void PForgotPassword()
             {
-                ForgotPassword = CreateDictionary();
+                ForgotPassword = new DictionaryTuple();
                 var d = ForgotPassword[0];
                 d["Forgot password"] = "Forgot password";
                 d["Enter your email."] = "Enter your email.";
@@ -232,7 +265,7 @@ namespace Gradebook.Utils
             }
             private static void PForgotPasswordConfirmation()
             {
-                ForgotPasswordConfirmation = CreateDictionary();
+                ForgotPasswordConfirmation = new DictionaryTuple();
                 var d = ForgotPasswordConfirmation[0];
                 d["Forgot password confirmation"] = "Forgot password confirmation";
                 d["Please check your email to reset your password."] = "Please check your email to reset your password.";
@@ -242,7 +275,7 @@ namespace Gradebook.Utils
             }
             private static void PIndex()
             {
-                Index = CreateDictionary();
+                Index = new DictionaryTuple();
                 var d = Index[0];
                 d["Accounts"] = "Accounts";
                 d["Create"] = "Create";
@@ -276,7 +309,7 @@ namespace Gradebook.Utils
             }
             private static void PLoginDetails()
             {
-                LoginDetails = CreateDictionary();
+                LoginDetails = new DictionaryTuple();
                 var d = LoginDetails[0];
                 d["Login details"] = "Login details";
                 d["Back"] = "Back";
@@ -294,7 +327,7 @@ namespace Gradebook.Utils
             }
             private static void PResetPassword()
             {
-                ResetPassword = CreateDictionary();
+                ResetPassword = new DictionaryTuple();
                 var d = ResetPassword[0];
                 d["Reset password"] = "Reset password";
                 d["Reset your password"] = "Reset your password";
@@ -312,7 +345,7 @@ namespace Gradebook.Utils
             }
             private static void PRegister()
             {
-                Register = CreateDictionary();
+                Register = new DictionaryTuple();
                 var d = Register[0];
                 d["Create account"] = "Create account";
                 d["Back"] = "Back";
@@ -335,7 +368,7 @@ namespace Gradebook.Utils
         }
         public class Child
         {
-            public static Dictionary<string, string>[] AbsenceList, ClassDetails, GradeList, Index, StudentDetails;
+            public static DictionaryTuple AbsenceList, ClassDetails, GradeList, Index, StudentDetails;
 
             static Child()
             {
@@ -348,7 +381,7 @@ namespace Gradebook.Utils
 
             private static void PAbsenceList()
             {
-                AbsenceList = CreateDictionary();
+                AbsenceList = new DictionaryTuple();
                 var d = AbsenceList[0];
                 d["Absence list"] = "Absence list";
                 d["Date"] = "Date";
@@ -371,7 +404,7 @@ namespace Gradebook.Utils
 
             private static void PClassDetails()
             {
-                ClassDetails = CreateDictionary();
+                ClassDetails = new DictionaryTuple();
                 var d = ClassDetails[0];
                 d["Child class details"] = "Child class details";
                 d["Class"] = "Class";
@@ -402,7 +435,7 @@ namespace Gradebook.Utils
 
             private static void PGradeList()
             {
-                GradeList = CreateDictionary();
+                GradeList = new DictionaryTuple();
                 var d = GradeList[0];
                 d["Grade list"] = "Grade list";
                 d["No grades"] = "No grades";
@@ -439,7 +472,7 @@ namespace Gradebook.Utils
 
             private static void PIndex()
             {
-                Index = CreateDictionary();
+                Index = new DictionaryTuple();
                 var d = Index[0];
                 d["Children"] = "Children";
                 d["Name"] = "Name";
@@ -460,7 +493,7 @@ namespace Gradebook.Utils
 
             private static void PStudentDetails()
             {
-                StudentDetails = CreateDictionary();
+                StudentDetails = new DictionaryTuple();
                 var d = StudentDetails[0];
                 d["Child student details"] = "Child student details";
                 d["Parent"] = "Parent";
@@ -492,7 +525,7 @@ namespace Gradebook.Utils
 
         public class Class
         {
-            public static Dictionary<string, string>[] CreateAnnouncement, Details, Edit, Index, Create;
+            public static DictionaryTuple CreateAnnouncement, Details, Edit, Index, Create, CreateAppointment;
 
             static Class()
             {
@@ -501,10 +534,12 @@ namespace Gradebook.Utils
                 PEdit();
                 PIndex();
                 PCreate();
+                PCreateAppointment();
             }
+
             private static void PCreate()
             {
-                Create = CreateDictionary();
+                Create = new DictionaryTuple();
                 var d = Create[0];
                 d["Create class"] = "Create class";
                 d["Supervisor"] = "Supervisor";
@@ -525,7 +560,7 @@ namespace Gradebook.Utils
 
             private static void PCreateAnnouncement()
             {
-                CreateAnnouncement = CreateDictionary();
+                CreateAnnouncement = new DictionaryTuple();
                 var d = CreateAnnouncement[0];
                 d["Create announcement"] = "Create announcement";
                 d["Content"] = "Content";
@@ -546,7 +581,7 @@ namespace Gradebook.Utils
 
             private static void PDetails()
             {
-                Details = CreateDictionary();
+                Details = new DictionaryTuple();
                 var d = Details[0];
                 d["Class details"] = "Class details";
                 d["Year"] = "Year";
@@ -581,7 +616,7 @@ namespace Gradebook.Utils
 
             private static void PEdit()
             {
-                Edit = CreateDictionary();
+                Edit = new DictionaryTuple();
                 var d = Edit[0];
                 d["Edit class"] = "Edit class";
                 d["Back"] = "Back";
@@ -602,6 +637,20 @@ namespace Gradebook.Utils
                 d["Subject"] = "Subject";
                 d["Add teacher to class"] = "Add teacher to class";
                 d["Back"] = "Back";
+                d["Lessons"] = "Lessons";
+                d["Day"] = "Day";
+                d["Time"] = "Time";
+                d["Duration (min)"] = "Duration (min)";
+                d["Subject"] = "Subject";
+                d["Teacher"] = "Teacher";
+                d["Add lesson to class"] = "Add lesson to class";
+                d["Teacher and subject"] = "Teacher and subject";
+                d["Day and time"] = "Day and time";
+                d["monday"] = "monday";
+                d["tuesday"] = "tuesday";
+                d["wednesday"] = "wednesday";
+                d["thursday"] = "thursday";
+                d["friday"] = "friday";
                 d = Edit[1];
                 d["Edit class"] = "Edytuj klasę";
                 d["Class"] = "Klasa";
@@ -623,11 +672,25 @@ namespace Gradebook.Utils
                 d["Subject"] = "Przedmiot";
                 d["Add teacher to class"] = "Dodaj nauczyciela do klasy";
                 d["Back"] = "Powrót";
+                d["Lessons"] = "Lekcje";
+                d["Day"] = "Dzień";
+                d["Time"] = "Godzina";
+                d["Duration (min)"] = "Czas trwania (min)";
+                d["Subject"] = "Przedmiot";
+                d["Teacher"] = "Nauczyciel";
+                d["Add lesson to class"] = "Dodaj lekcję do klasy";
+                d["Teacher and subject"] = "Nauczyciel i przedmiot";
+                d["Day and time"] = "Dzień i godzina";
+                d["monday"] = "poniedziałek";
+                d["tuesday"] = "wtorek";
+                d["wednesday"] = "środa";
+                d["thursday"] = "czwartek";
+                d["friday"] = "piątek";
             }
 
             private static void PIndex()
             {
-                Index = CreateDictionary();
+                Index = new DictionaryTuple();
                 var d = Index[0];
                 d["Classes"] = "Classes";
                 d["Supervisor name"] = "Supervisor name";
@@ -649,11 +712,19 @@ namespace Gradebook.Utils
                 d["Edit"] = "Edytuj";
                 d["Delete"] = "Usuń";
             }
+
+            private static void PCreateAppointment()
+            {
+                CreateAppointment = new DictionaryTuple();
+                var d = Index[0];
+                d["Create appointment"] = "Create appointment";
+                // var d = Index[1];
+            }
         }
 
         public class GlobalAnnouncement
         {
-            public static Dictionary<string, string>[] Details, Index, Create, Delete, Edit;
+            public static DictionaryTuple Details, Index, Create, Delete, Edit;
 
             static GlobalAnnouncement()
             {
@@ -665,7 +736,7 @@ namespace Gradebook.Utils
             }
             private static void PEdit()
             {
-                Edit = CreateDictionary();
+                Edit = new DictionaryTuple();
                 var d = Edit[0];
                 d["Edit announcement"] = "Edit announcement";
                 d["Edit"] = "Edit";
@@ -677,7 +748,7 @@ namespace Gradebook.Utils
             }
             private static void PDelete()
             {
-                Delete = CreateDictionary();
+                Delete = new DictionaryTuple();
                 var d = Delete[0];
                 d["Delete"] = "Delete";
                 d["Are you sure you want to delete this?"] = "Are you sure you want to delete this ?";
@@ -695,7 +766,7 @@ namespace Gradebook.Utils
             }
             private static void PCreate()
             {
-                Create = CreateDictionary();
+                Create = new DictionaryTuple();
                 var d = Create[0];
                 d["Create announcement"] = "Create announcement";
                 d["Content"] = "Content";
@@ -708,7 +779,7 @@ namespace Gradebook.Utils
 
             private static void PDetails()
             {
-                Details = CreateDictionary();
+                Details = new DictionaryTuple();
                 var d = Details[0];
                 d["Announcement details"] = "Announcement details";
                 d["Author name"] = "Author name";
@@ -727,7 +798,7 @@ namespace Gradebook.Utils
 
             private static void PIndex()
             {
-                Index = CreateDictionary();
+                Index = new DictionaryTuple();
                 var d = Index[0];
                 d["Announcements"] = "Announcements";
                 d["Modification time"] = "Modification time";
@@ -751,7 +822,7 @@ namespace Gradebook.Utils
 
         public class Grade
         {
-            public static Dictionary<string, string>[] Index, Create;
+            public static DictionaryTuple Index, Create;
 
             static Grade()
             {
@@ -761,7 +832,7 @@ namespace Gradebook.Utils
 
             private static void PCreate()
             {
-                Create = CreateDictionary();
+                Create = new DictionaryTuple();
                 var d = Create[0];
                 d["Create a grade"] = "Create a grade";
                 d["Subject"] = "Subject";
@@ -780,7 +851,7 @@ namespace Gradebook.Utils
 
             private static void PIndex()
             {
-                Index = CreateDictionary();
+                Index = new DictionaryTuple();
                 var d = Index[0];
                 d["Grades"] = "Grades";
                 d["No grades"] = "No grades";
@@ -819,7 +890,7 @@ namespace Gradebook.Utils
 
         public class Message
         {
-            public static Dictionary<string, string>[] Create, Details, Index;
+            public static DictionaryTuple Create, Details, Index;
 
             static Message()
             {
@@ -830,7 +901,7 @@ namespace Gradebook.Utils
 
             private static void PCreate()
             {
-                Create = CreateDictionary();
+                Create = new DictionaryTuple();
                 var d = Create[0];
                 d["Create message"] = "Create message";
                 d["Content"] = "Content";
@@ -861,7 +932,7 @@ namespace Gradebook.Utils
 
             private static void PDetails()
             {
-                Details = CreateDictionary();
+                Details = new DictionaryTuple();
                 var d = Details[0];
                 d["Message details"] = "Message details";
                 d["Received"] = "Received";
@@ -894,7 +965,7 @@ namespace Gradebook.Utils
 
             private static void PIndex()
             {
-                Index = CreateDictionary();
+                Index = new DictionaryTuple();
                 var d = Index[0];
                 d["Messages"] = "Messages";
                 d["Received"] = "Received";
@@ -926,7 +997,7 @@ namespace Gradebook.Utils
 
         public class Quiz
         {
-            public static Dictionary<string, string>[] Index, Create, Edit, AddAnswer, AddQuestion, AddQuizSharing, Do;
+            public static DictionaryTuple Index, Create, Edit, AddAnswer, AddQuestion, AddQuizSharing, Do;
 
             static Quiz()
             {
@@ -941,7 +1012,7 @@ namespace Gradebook.Utils
 
             private static void PIndex()
             {
-                Index = CreateDictionary();
+                Index = new DictionaryTuple();
                 var d = Index[0];
                 d["Quizzes"] = "Quizzes";
                 d["Create quiz"] = "Create quiz";
@@ -975,7 +1046,7 @@ namespace Gradebook.Utils
 
             private static void PCreate()
             {
-                Create = CreateDictionary();
+                Create = new DictionaryTuple();
                 var d = Create[0];
                 d["Create quiz"] = "Create quiz";
                 d["Subject"] = "Subject";
@@ -995,7 +1066,7 @@ namespace Gradebook.Utils
 
             private static void PEdit()
             {
-                Edit = CreateDictionary();
+                Edit = new DictionaryTuple();
                 var d = Edit[0];
                 d["Edit quiz"] = "Edit quiz";
                 d["Quiz"] = "Quiz";
@@ -1047,7 +1118,7 @@ namespace Gradebook.Utils
 
             private static void PAddAnswer()
             {
-                AddAnswer = CreateDictionary();
+                AddAnswer = new DictionaryTuple();
                 var d = AddAnswer[0];
                 d["Add answer"] = "Add answer";
                 d["Content"] = "Content";
@@ -1065,7 +1136,7 @@ namespace Gradebook.Utils
 
             private static void PAddQuestion()
             {
-                AddQuestion = CreateDictionary();
+                AddQuestion = new DictionaryTuple();
                 var d = AddQuestion[0];
                 d["Add question"] = "Add question";
                 d["Content"] = "Content";
@@ -1081,7 +1152,7 @@ namespace Gradebook.Utils
 
             private static void PAddQuizSharing()
             {
-                AddQuizSharing = CreateDictionary();
+                AddQuizSharing = new DictionaryTuple();
                 var d = AddQuizSharing[0];
                 d["Grant access"] = "Give access";
                 d["Class"] = "Class";
@@ -1097,7 +1168,7 @@ namespace Gradebook.Utils
 
             private static void PDo()
             {
-                Do = CreateDictionary();
+                Do = new DictionaryTuple();
                 var d = Do[0];
                 d["Quiz attempt"] = "Quiz attempt";
                 d["Back"] = "Back";
@@ -1120,7 +1191,7 @@ namespace Gradebook.Utils
 
         public class Student
         {
-            public static Dictionary<string, string>[] Details;
+            public static DictionaryTuple Details;
 
             static Student()
             {
@@ -1129,7 +1200,7 @@ namespace Gradebook.Utils
 
             private static void PDetails()
             {
-                Details = CreateDictionary();
+                Details = new DictionaryTuple();
                 var d = Details[0];
                 d["Student details"] = "Student details";
                 d["Back to class"] = "Back to class";
@@ -1165,7 +1236,7 @@ namespace Gradebook.Utils
 
         public class Subject
         {
-            public static Dictionary<string, string>[] Index, AddFile, Create, Details, Edit;
+            public static DictionaryTuple Index, AddFile, Create, Details, Edit;
 
             static Subject()
             {
@@ -1177,7 +1248,7 @@ namespace Gradebook.Utils
             }
             private static void PEdit()
             {
-                Edit = CreateDictionary();
+                Edit = new DictionaryTuple();
                 var d = Edit[0];
                 d["Edit subject"] = "Edit subject";
                 d["Download current syllabus"] = "Download current syllabus";
@@ -1197,7 +1268,7 @@ namespace Gradebook.Utils
             }
             private static void PDetails()
             {
-                Details = CreateDictionary();
+                Details = new DictionaryTuple();
                 var d = Details[0];
                 d["Subject details"] = "Subject details";
                 d["Download"] = "Download";
@@ -1227,7 +1298,7 @@ namespace Gradebook.Utils
             }
             private static void PCreate()
             {
-                Create = CreateDictionary();
+                Create = new DictionaryTuple();
                 var d = Create[0];
                 d["Create Subject"] = "Create subject";
                 d["Name"] = "Name";
@@ -1242,7 +1313,7 @@ namespace Gradebook.Utils
 
             private static void PAddFile()
             {
-                AddFile = CreateDictionary();
+                AddFile = new DictionaryTuple();
                 var d = AddFile[0];
                 d["Add file"] = "Add file";
                 d["Description"] = "Description";
@@ -1254,7 +1325,7 @@ namespace Gradebook.Utils
             }
             private static void PIndex()
             {
-                Index = CreateDictionary();
+                Index = new DictionaryTuple();
                 var d = Index[0];
                 d["Subjects"] = "Subjects";
                 d["Name"] = "Name";
@@ -1278,7 +1349,7 @@ namespace Gradebook.Utils
 
         public class Layout
         {
-            public static Dictionary<string, string>[] _Layout, Login;
+            public static DictionaryTuple _Layout, Login;
 
             static Layout()
             {
@@ -1288,7 +1359,7 @@ namespace Gradebook.Utils
 
             private static void P_Layout()
             {
-                _Layout = CreateDictionary();
+                _Layout = new DictionaryTuple();
                 var d = _Layout[0];
                 d["Announcements"] = "Announcements";
                 d["Accounts"] = "Accounts";
@@ -1300,6 +1371,7 @@ namespace Gradebook.Utils
                 d["Children"] = "Children";
                 d["Absences"] = "Absences";
                 d["Select language:"] = "Select language";
+                d["Timetable"] = "Timetable";
 
                 d = _Layout[1];
                 d["Announcements"] = "Ogłoszenia";
@@ -1312,11 +1384,12 @@ namespace Gradebook.Utils
                 d["Children"] = "Dzieci";
                 d["Absences"] = "Nieobecności";
                 d["Select language:"] = "Wybierz język";
+                d["Timetable"] = "Plan lekcji";
             }
 
             private static void PLogin()
             {
-                Login = CreateDictionary();
+                Login = new DictionaryTuple();
                 var d = Login[0];
                 d["Log in"] = "Log in";
                 d["Logged as"] = "Logged as";
@@ -1331,7 +1404,7 @@ namespace Gradebook.Utils
 
         public class Manage
         {
-            public static Dictionary<string, string>[] Index, ChangePassword;
+            public static DictionaryTuple Index, ChangePassword;
 
             static Manage()
             {
@@ -1341,7 +1414,7 @@ namespace Gradebook.Utils
 
             private static void PIndex()
             {
-                Index = CreateDictionary();
+                Index = new DictionaryTuple();
                 var d = Index[0];
                 d["Manage"] = "Manage";
                 d["Change"] = "Change";
@@ -1357,7 +1430,7 @@ namespace Gradebook.Utils
 
             private static void PChangePassword()
             {
-                ChangePassword = CreateDictionary();
+                ChangePassword = new DictionaryTuple();
                 var d = ChangePassword[0];
                 d["Change password"] = "Change password";
                 d["Current password"] = "Current password";
@@ -1374,7 +1447,7 @@ namespace Gradebook.Utils
 
         public class Timetable
         {
-            public static Dictionary<string, string>[] Index;
+            public static DictionaryTuple Index;
 
             static Timetable()
             {
@@ -1383,7 +1456,7 @@ namespace Gradebook.Utils
 
             private static void PIndex()
             {
-                Index = CreateDictionary();
+                Index = new DictionaryTuple();
                 var d = Index[0];
                 d["Timetable"] = "Timetable";
                 d["monday"] = "monday";

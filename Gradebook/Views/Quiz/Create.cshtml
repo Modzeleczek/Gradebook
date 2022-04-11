@@ -1,6 +1,7 @@
 ﻿@model Gradebook.Models.Quiz
+@using Gradebook.Utils;
 @{
-    var D = Gradebook.Utils.LocalizedStrings.Quiz.Create[ViewBag.LanguageId];
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Quiz.Create[ViewBag.LanguageId];
     ViewBag.Title = D["Create quiz"];
     var subjects = (ICollection<SelectListItem>)ViewBag.Subjects;
 }

@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<Gradebook.Controllers.AccountController.RoleUsers>
+@using Gradebook.Utils;
 @{
-    var D = Gradebook.Utils.LocalizedStrings.Account.Index[ViewBag.LanguageId];
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Account.Index[ViewBag.LanguageId];
     ViewBag.Title = D["Accounts"];
 }
 
@@ -18,44 +19,44 @@
     }
     else
     {
-    <table class="table">
-        <tr>
-            <th>
-                @D["Name"]
-            </th>
-            <th>
-                @D["Surname"]
-            </th>
-            <th>
-                @D["Email"]
-            </th>
-            <th>
-                @D["Phone number"]
-            </th>
-            <th></th>
-        </tr>
-        @foreach (var item in roleUsers.Users)
-        {
+        <table class="table">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Surname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PhoneNumber)
-                </td>
-                <td>
-                    @Html.ActionLink(D["Edit"], "Edit", new { id = item.Id }) |
-                    @Html.ActionLink(D["Reset password"], "AdminResetPassword", new { id = item.Id })
-                    @*@Html.ActionLink("Delete", "Delete", new { id=item.User.Id })*@
-                </td>
+                <th>
+                    @D["Name"]
+                </th>
+                <th>
+                    @D["Surname"]
+                </th>
+                <th>
+                    @D["Email"]
+                </th>
+                <th>
+                    @D["Phone number"]
+                </th>
+                <th></th>
             </tr>
-        }
-    </table>
+            @foreach (var item in roleUsers.Users)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Surname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.ActionLink(D["Edit"], "Edit", new { id = item.Id }) |
+                        @Html.ActionLink(D["Reset password"], "AdminResetPassword", new { id = item.Id })
+                        @*@Html.ActionLink("Delete", "Delete", new { id=item.User.Id })*@
+                    </td>
+                </tr>
+            }
+        </table>
     }
 }

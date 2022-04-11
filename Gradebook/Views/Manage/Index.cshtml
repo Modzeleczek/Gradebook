@@ -1,6 +1,7 @@
 ﻿@model Gradebook.Models.IndexViewModel
+@using Gradebook.Utils;
 @{
-    var D = Gradebook.Utils.LocalizedStrings.Manage.Index[ViewBag.LanguageId];
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Manage.Index[ViewBag.LanguageId];
     ViewBag.Title = D["Manage"];
 }
 

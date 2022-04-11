@@ -1,6 +1,7 @@
 ﻿@model Gradebook.Models.Subject
+@using Gradebook.Utils;
 @{
-    var D = Gradebook.Utils.LocalizedStrings.Subject.Details[ViewBag.LanguageId];
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Subject.Details[ViewBag.LanguageId];
     ViewBag.Title = D["Subject details"];
     var files = (ICollection<Gradebook.Models.File>)ViewBag.Files;
 }

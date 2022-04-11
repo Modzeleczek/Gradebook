@@ -1,6 +1,7 @@
 ﻿@model Gradebook.Models.GlobalAnnouncement
+@using Gradebook.Utils;
 @{
-    var D = Gradebook.Utils.LocalizedStrings.GlobalAnnouncement.Delete[ViewBag.LanguageId];
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.GlobalAnnouncement.Delete[ViewBag.LanguageId];
     ViewBag.Title = D["Delete"];
 }
 

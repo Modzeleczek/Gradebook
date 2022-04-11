@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<Gradebook.Models.Absence>
+@using Gradebook.Utils;
 @{
-    var D = Gradebook.Utils.LocalizedStrings.Absence.Index[ViewBag.LanguageId];
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Absence.Index[ViewBag.LanguageId];
     ViewBag.Title = D["Absences"];
 }
 

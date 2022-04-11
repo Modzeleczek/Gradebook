@@ -1,6 +1,7 @@
 ﻿@model Gradebook.Models.RegisterViewModel
+@using Gradebook.Utils;
 @{
-    var D = Gradebook.Utils.LocalizedStrings.Account.Register[ViewBag.LanguageId];
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Account.Register[ViewBag.LanguageId];
     ViewBag.Title = D["Create account"];
     var roles = (LinkedList<SelectListItem>)ViewBag.Roles;
 }

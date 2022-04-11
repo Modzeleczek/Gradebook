@@ -1,7 +1,8 @@
 ﻿@using Gradebook.Models
+@using Gradebook.Utils;
 @model LoginViewModel
 @{
-    var D = Gradebook.Utils.LocalizedStrings.Account.Login[ViewBag.LanguageId];
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Account.Login[ViewBag.LanguageId];
     ViewBag.Title = D["Log in"];
 }
 

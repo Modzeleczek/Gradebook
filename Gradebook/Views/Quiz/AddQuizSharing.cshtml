@@ -1,6 +1,7 @@
 ﻿@model Gradebook.Models.QuizSharing
+@using Gradebook.Utils;
 @{
-    var D = Gradebook.Utils.LocalizedStrings.Quiz.AddQuizSharing[ViewBag.LanguageId];
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Quiz.AddQuizSharing[ViewBag.LanguageId];
     ViewBag.Title = D["Grant access"];
     var classes = (ICollection<SelectListItem>)ViewBag.Classes;
 }

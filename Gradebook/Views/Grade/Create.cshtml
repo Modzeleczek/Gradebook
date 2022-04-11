@@ -1,6 +1,7 @@
 ﻿@model Gradebook.Models.Grade
+@using Gradebook.Utils;
 @{
-    var D = Gradebook.Utils.LocalizedStrings.Grade.Create[ViewBag.LanguageId];
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Grade.Create[ViewBag.LanguageId];
     ViewBag.Title = D["Create a grade"];
 
     // var values = (ICollection<SelectListItem>)ViewBag.Values;

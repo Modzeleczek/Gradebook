@@ -1,6 +1,7 @@
 ﻿@model Gradebook.Models.Quiz
+@using Gradebook.Utils;
 @{
-    var D = Gradebook.Utils.LocalizedStrings.Quiz.Do[ViewBag.LanguageId];
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Quiz.Do[ViewBag.LanguageId];
     ViewBag.Title = D["Quiz attempt"];
 }
 

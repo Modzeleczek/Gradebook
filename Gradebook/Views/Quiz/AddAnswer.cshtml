@@ -1,6 +1,7 @@
 ﻿@model Gradebook.Models.ClosedQuestionOption
+@using Gradebook.Utils;
 @{
-    var D = Gradebook.Utils.LocalizedStrings.Quiz.AddAnswer[ViewBag.LanguageId];
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Quiz.AddAnswer[ViewBag.LanguageId];
     ViewBag.Title = D["Add answer"];
 }
 

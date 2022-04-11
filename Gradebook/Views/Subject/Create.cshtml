@@ -1,6 +1,7 @@
 ﻿@model Gradebook.Models.Subject
+@using Gradebook.Utils;
 @{
-    var D = Gradebook.Utils.LocalizedStrings.Subject.Create[ViewBag.LanguageId];
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Subject.Create[ViewBag.LanguageId];
     ViewBag.Title = D["Create Subject"];
 
 }

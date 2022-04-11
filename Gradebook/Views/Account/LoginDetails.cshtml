@@ -1,5 +1,6 @@
-﻿@{
-    var D = Gradebook.Utils.LocalizedStrings.Account.LoginDetails[ViewBag.LanguageId];
+﻿@using Gradebook.Utils;
+@{
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Account.LoginDetails[ViewBag.LanguageId];
     ViewBag.Title = D["Login details"];
 }
 

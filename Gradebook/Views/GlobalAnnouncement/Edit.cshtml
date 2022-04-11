@@ -1,6 +1,7 @@
 ﻿@model Gradebook.Models.GlobalAnnouncement
+@using Gradebook.Utils;
 @{
-    var D = Gradebook.Utils.LocalizedStrings.GlobalAnnouncement.Edit[ViewBag.LanguageId];
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.GlobalAnnouncement.Edit[ViewBag.LanguageId];
     ViewBag.Title = D["Edit announcement"];
     var list = (List<SelectListItem>)ViewBag.Administrators;
 }

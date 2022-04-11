@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<Gradebook.Models.Quiz>
+@using Gradebook.Utils;
 @{
-    var D = Gradebook.Utils.LocalizedStrings.Quiz.Index[ViewBag.LanguageId];
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Quiz.Index[ViewBag.LanguageId];
     ViewBag.Title = D["Quizzes"];
 }
 

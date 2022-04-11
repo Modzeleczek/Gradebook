@@ -1,6 +1,7 @@
 ﻿@model Gradebook.Models.Absence
+@using Gradebook.Utils;
 @{
-    var D = Gradebook.Utils.LocalizedStrings.Absence.Create[ViewBag.LanguageId];
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Absence.Create[ViewBag.LanguageId];
     ViewBag.Title = D["Create absence"];
 }
 

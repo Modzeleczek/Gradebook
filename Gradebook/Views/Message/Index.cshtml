@@ -1,6 +1,7 @@
 ﻿@model Gradebook.Models.Message
+@using Gradebook.Utils;
 @{
-    var D = Gradebook.Utils.LocalizedStrings.Message.Index[ViewBag.LanguageId];
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Message.Index[ViewBag.LanguageId];
     ViewBag.Title = D["Messages"];
     var received = (ICollection<Gradebook.Models.Message>)ViewBag.Received;
     var sent = (ICollection<Gradebook.Models.Message>)ViewBag.Sent;

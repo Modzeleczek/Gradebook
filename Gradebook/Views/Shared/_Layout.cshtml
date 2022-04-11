@@ -1,5 +1,6 @@
-﻿@{ 
-    var D = Gradebook.Utils.LocalizedStrings.Layout._Layout[ViewBag.LanguageId];
+﻿@using Gradebook.Utils;
+@{ 
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Layout._Layout[ViewBag.LanguageId];
 }
 <!DOCTYPE html>
 <html>

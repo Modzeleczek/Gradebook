@@ -1,5 +1,6 @@
-﻿@{
-    var D = Gradebook.Utils.LocalizedStrings.Account.ConfirmEmail[ViewBag.LanguageId];
+﻿@using Gradebook.Utils;
+@{
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Account.ConfirmEmail[ViewBag.LanguageId];
     ViewBag.Title = D["Confirm Email"];
 }
 

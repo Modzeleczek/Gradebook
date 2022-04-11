@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<Gradebook.Models.GlobalAnnouncement>
+@using Gradebook.Utils;
 @{
-    var D = Gradebook.Utils.LocalizedStrings.GlobalAnnouncement.Index[ViewBag.LanguageId];
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.GlobalAnnouncement.Index[ViewBag.LanguageId];
     ViewBag.Title = D["Announcements"];
 }
 

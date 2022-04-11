@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNet.Identity
+@using Gradebook.Utils;
 @{
-    var D = Gradebook.Utils.LocalizedStrings.Layout.Login[ViewBag.LanguageId];
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Layout.Login[ViewBag.LanguageId];
 }
 @if (Request.IsAuthenticated)
 {
