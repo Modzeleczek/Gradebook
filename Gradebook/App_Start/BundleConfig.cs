@@ -31,6 +31,9 @@ namespace Gradebook
 
             bundles.Add(new StyleBundle("~/Content/datepicker_css").Include(
                 "~/Content/bootstrap-datepicker.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/side_menu_scripts").Include(
+                "~/Scripts/side_menu_scripts.js"));
         }
     }
 }
