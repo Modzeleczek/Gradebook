@@ -39,7 +39,7 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
+        <footer id="global_footer">
             <p>&copy; @DateTime.Now.Year - Gradebook</p>
             @D["Select language:"]
             @Html.ActionLink("EN", "SelectEnglish", "Language") |

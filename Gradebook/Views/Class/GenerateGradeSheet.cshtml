@@ -16,7 +16,8 @@
     <input type="date" name="fromDate" value="@todayFormatted" />
     <input type="date" name="toDate" value="@todayFormatted" />
 
-    <table class="table">
+    <table class="list-table">
+        <thead>
         <tr>
             <th>
                 Student
@@ -28,6 +29,8 @@
                 </th>
             }
         </tr>
+        </thead>
+        <tbody>
         @foreach (var student in Model.Students)
         {
             <tr>
@@ -42,6 +45,7 @@
                 }
             </tr>
         }
+        </tbody>
     </table>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
