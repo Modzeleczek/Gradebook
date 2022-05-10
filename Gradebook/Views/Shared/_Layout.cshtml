@@ -1,5 +1,5 @@
 ﻿@using Gradebook.Utils;
-@{ 
+@{
     LocalizedStrings.LanguageDictionary D = LocalizedStrings.Layout._Layout[ViewBag.LanguageId];
 }
 <!DOCTYPE html>
@@ -19,14 +19,14 @@
             var links = Gradebook.Utils.Role.GetLinks(User);
             foreach (var l in links)
             {
-                @Html.ActionLink(D[l.Name], l.Action, l.Controller, l.RouteValues, new { @class = "navbar-brand" });
+                @Html.ActionLink(D[l.Name], l.Action, l.Controller, l.RouteValues)
             }
         }
         @Html.Partial("_LoginPartial")
     </div>
 
-    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
-   
+    <span style="font-size:30px;cursor:pointer;padding:20px; " onclick="openNav()">&#9776;</span>
+
 
     <div class="container body-content">
         @RenderBody()
@@ -42,7 +42,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     <script>
-                // tutaj pisać skrypty do layouta
+                            // tutaj pisać skrypty do layouta
     </script>
     @RenderSection("scripts", required: false)
 </body>
