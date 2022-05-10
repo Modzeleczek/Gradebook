@@ -6,7 +6,8 @@
 }
 
 <h2>@ViewBag.Title</h2>
-<table class="table">
+<table class="list-table">
+    <thead>
     <tr>
         <th>
             @D["Name"]
@@ -16,6 +17,8 @@
         </th>
         <th></th>
     </tr>
+    </thead>
+    <tbody>
     @foreach (var item in Model)
     {
         <tr>
@@ -33,4 +36,5 @@
             </td>
         </tr>
     }
+    </tbody>
 </table>

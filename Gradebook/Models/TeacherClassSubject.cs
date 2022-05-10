@@ -19,5 +19,6 @@ namespace Gradebook.Models
         [ForeignKey("SubjectId")]
         public virtual Subject Subject { get; set; }
         public virtual ICollection<Lesson> Lessons { get; set; }
+        public virtual ICollection<Appointment> Appointments { get; set; }
     }
 }

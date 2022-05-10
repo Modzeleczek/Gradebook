@@ -1,0 +1,71 @@
+﻿@model Gradebook.Models.Appointment
+@using Gradebook.Utils;
+@{
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Class.CreateAppointment[ViewBag.LanguageId];
+    ViewBag.Title = D["Create appointment"];
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("CreateAppointment", "Class", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.Hidden("classId", (int)ViewBag.ClassId)
+        @Html.Hidden("teacherClassSubjectId", (int)ViewBag.TeacherClassSubjectId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, D["Name"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, D["Description"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, D["Date"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" name="Date" class="form-control datepicker" autocomplete="off">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" name="button" value="Create" class="btn btn-default">@D["Create"]</button>
+        </div>
+    </div>
+}
+
+@Html.ActionLink(D["Back"], "Details", new { id = (int)ViewBag.ClassId })
+
+@section scripts
+{
+@Styles.Render("~/Content/datepicker_css")
+@Scripts.Render("~/bundles/datepicker_js")
+@*$"{today.Year.ToString("0000")}-{today.Month.ToString("00")}-{today.Day.ToString("00")}";*@
+<script type="text/javascript">
+    const possibleWeekDays = [@ViewBag.PossibleWeekDays];
+    const dateToday = new Date();
+    $('.datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        beforeShowDay: function (date) {
+            if (date < dateToday) return false;
+            const weekDay = date.getDay();
+            if (possibleWeekDays[weekDay] === 1) return true;
+            else return false;
+        }
+    });
+</script>
+}

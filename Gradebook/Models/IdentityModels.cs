@@ -33,6 +33,7 @@ namespace Gradebook.Models
     {
         public DbSet<Absence> Absence { get; set; }
         public DbSet<Administrator> Administrator { get; set; }
+        public DbSet<Appointment> Appointment { get; set; }
         public DbSet<Attachment> Attachment { get; set; }
         public DbSet<File> File { get; set; }
         // public DbSet<FileType> FileType { get; set; }

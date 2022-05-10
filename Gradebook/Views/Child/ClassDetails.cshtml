@@ -56,7 +56,8 @@
 </dl>
 
 <h4>@D["Teachers"]</h4>
-<table class="table">
+<table class="list-table">
+    <thead>
     <tr>
         <th>
             @D["Name"]
@@ -71,7 +72,8 @@
             @D["Subject"]
         </th>
     </tr>
-
+    </thead>
+    <tbody>
     @foreach (var item in Model.TeacherClassSubjects)
     {
         <tr>
@@ -89,6 +91,7 @@
             </td>
         </tr>
     }
+    </tbody>
 </table>
 }
 else

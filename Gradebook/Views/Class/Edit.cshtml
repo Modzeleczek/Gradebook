@@ -1,6 +1,7 @@
 ﻿@model Gradebook.Models.Class
+@using Gradebook.Utils;
 @{
-    var D = Gradebook.Utils.LocalizedStrings.Class.Edit[ViewBag.LanguageId];
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Class.Edit[ViewBag.LanguageId];
     ViewBag.Title = D["Edit class"];
     var supervisors = (ICollection<SelectListItem>)ViewBag.Supervisors;
     var students = (ICollection<SelectListItem>)ViewBag.Students;

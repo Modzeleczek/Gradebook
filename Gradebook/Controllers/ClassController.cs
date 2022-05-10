@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -121,13 +120,14 @@ namespace Gradebook.Controllers
             foreach (var al in addedLessons)
                 dayHourUsed[al.DayId, al.HourId] = true;
             var list = new LinkedList<SelectListItem>();
+            var D = LocalizedStrings.Class.Edit[LanguageCookie.Read(Request.Cookies)];
             for (int di = 0; di < Days.Array.Length; ++di)
                 for (int hi = 0; hi < LessonHours.Array.Length; ++hi)
                     if (dayHourUsed[di, hi] == false)
                     {
                         var day = Days.Array[di];
                         var hour = LessonHours.Array[hi];
-                        list.AddLast(new SelectListItem { Text = $"{day.Name} {hour.StartH}:{hour.StartM.ToString("00")}", Value = $"{di}|{hi}", Selected = false });
+                        list.AddLast(new SelectListItem { Text = $"{D[day.Name]} {hour.StartH}:{hour.StartM.ToString("00")}", Value = $"{di}|{hi}", Selected = false });
                     }
             return list;
         }
@@ -200,9 +200,13 @@ namespace Gradebook.Controllers
                 var split = dayIdHourId.Split('|');
                 if (int.TryParse(split[0], out int dayId) && int.TryParse(split[1], out int hourId))
                 {
-                    var lesson = new Lesson { TeacherClassSubjectId = teacherClassSubjectId ?? 0, DayId = dayId, HourId = hourId };
-                    Db.Lesson.Add(lesson);
-                    Db.SaveChanges();
+                    // jeżeli dany nauczyciel ma już jakąś lekcję w danym dniu i godzinie, to nie nadpisujemy jej ani nie dodajemy nowej lekcji w tym samym czasie
+                    if (Db.Lesson.Where(e => e.TeacherClassSubject.TeacherId == record.TeacherId && e.DayId == dayId && e.HourId == hourId).Any() == false)
+                    {
+                        var lesson = new Lesson { TeacherClassSubjectId = teacherClassSubjectId ?? 0, DayId = dayId, HourId = hourId };
+                        Db.Lesson.Add(lesson);
+                        Db.SaveChanges();
+                    }
                 }
             }
             return RedirectToAction("Edit", new { id = _class.Id });
@@ -233,7 +237,14 @@ namespace Gradebook.Controllers
             // potencjalna alternatywa: w DeleteLesson działa zwykłe usunięcie rekordu z Db.Lesson zamiast przez właściwość nawigacji
             var record = Db.Class.Where(e => e.Id == classId).Single();
             var tcs = record.TeacherClassSubjects.Where(e => e.Id == teacherClassSubjectId).Single();
-            record.TeacherClassSubjects.Remove(tcs);
+            var lessons = tcs.Lessons.ToList();
+            foreach (var l in lessons)
+                Db.Lesson.Remove(l);
+            var appointments = tcs.Appointments.ToList();
+            foreach (var a in appointments)
+                Db.Appointment.Remove(a);
+            Db.SaveChanges();
+            Db.TeacherClassSubject.Remove(tcs);
             Db.SaveChanges();
             return RedirectToAction("Edit", new { id = classId });
         }
@@ -404,6 +415,40 @@ namespace Gradebook.Controllers
             Db.Lesson.Remove(lesson);
             Db.SaveChanges();
             return RedirectToAction("Edit", new { id = classId });
+        }
+
+        [Authorize(Roles = Role.Teacher)]
+        public ActionResult CreateAppointment(int? classId, int? teacherClassSubjectId)
+        {
+            do
+            {
+                if (classId == null || teacherClassSubjectId == null) break;
+                if (Db.Class.Where(e => e.Id == classId).Any() == false) break;
+                var userId = User.Identity.GetUserId();
+                var tcs = Db.TeacherClassSubject.Where(e => e.Id == teacherClassSubjectId);
+                if (tcs.Count() != 1) break;
+                var aTcs = tcs.Single();
+                if (aTcs.TeacherId != userId) break;
+                ViewBag.ClassId = classId; // do powrotu
+                ViewBag.TeacherClassSubjectId = teacherClassSubjectId;
+                var possibleWeekDays = new int[Days.Array.Length];
+                foreach (var l in aTcs.Lessons)
+                    possibleWeekDays[l.DayId] = 1;
+                ViewBag.PossibleWeekDays = string.Join(",", possibleWeekDays);
+                return View();
+            } while (false);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = Role.Teacher)]
+        public ActionResult CreateAppointment(int classId, int teacherClassSubjectId, Appointment appointment)
+        {
+            // appointment.Date jest bindowane z formatu dd/mm/yyyy
+            appointment.TeacherClassSubjectId = teacherClassSubjectId;
+            Db.Appointment.Add(appointment);
+            Db.SaveChanges();
+            return RedirectToAction("Details", new { id = classId });
         }
     }
 }

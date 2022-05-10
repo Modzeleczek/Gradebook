@@ -1,0 +1,50 @@
+﻿@model Gradebook.Models.Appointment
+@using Gradebook.Utils;
+@{
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Appointment.Details[ViewBag.LanguageId];
+    ViewBag.Title = D["Appointment details"];
+}
+
+<h2>@ViewBag.Title</h2>
+
+<dl class="dl-horizontal">
+    <dt>
+        @D["Name"]
+    </dt>
+    <dd>
+        @Model.Name
+    </dd>
+    <dt>
+        @D["Description"]
+    </dt>
+    <dd>
+        @Model.Description
+    </dd>
+    <dt>
+        @D["Date"]
+    </dt>
+    <dd>
+        @Model.Date.ToString("dd/MM/yyyy")
+    </dd>
+    <dt>
+        @D["Class"]
+    </dt>
+    <dd>
+        @($"{Model.TeacherClassSubject.Class.Unit} {Model.TeacherClassSubject.Class.Year}")
+    </dd>
+    <dt>
+        @D["Teacher"]
+    </dt>
+    <dd>
+        @{ var teacher = Model.TeacherClassSubject.Teacher.ApplicationUser; }
+        @($"{teacher.Name} {teacher.Surname}")
+    </dd>
+    <dt>
+        @D["Subject"]
+    </dt>
+    <dd>
+        @Model.TeacherClassSubject.Subject.Name
+    </dd>
+</dl>
+
+@Html.ActionLink(D["Back"], "Index", new { weekDelta = (int)ViewBag.WeekDelta })

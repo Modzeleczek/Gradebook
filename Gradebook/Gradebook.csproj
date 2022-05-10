@@ -227,6 +227,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AppointmentController.cs" />
     <Compile Include="Controllers\ChildController.cs" />
     <Compile Include="Controllers\ClassController.cs" />
     <Compile Include="Controllers\DoQuizController.cs" />
@@ -246,6 +247,7 @@
     </Compile>
     <Compile Include="Models\Absence.cs" />
     <Compile Include="Models\AbstractQuestion.cs" />
+    <Compile Include="Models\Appointment.cs" />
     <Compile Include="Models\Day.cs" />
     <Compile Include="Models\File.cs" />
     <Compile Include="Models\Lesson.cs" />
@@ -294,6 +296,7 @@
     <Compile Include="Utils\ViewFilter.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -302,6 +305,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
@@ -392,9 +396,13 @@
     <Content Include="Views\Class\GenerateGradeSheet.cshtml" />
     <Content Include="Views\Class\ShowGradeSheet.cshtml" />
     <Content Include="Views\Timetable\Index.cshtml" />
+    <Content Include="Views\Appointment\Index.cshtml" />
+    <Content Include="Views\Class\CreateAppointment.cshtml" />
+    <Content Include="Views\Appointment\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Gradebook.Utils
 {
@@ -15,7 +14,11 @@ namespace Gradebook.Utils
             private Dictionary<string, string> Dict = new Dictionary<string, string>();
             public override string this[string key]
             {
-                get { return Dict[key]; }
+                get
+                {
+                    if (Dict.ContainsKey(key)) return Dict[key];
+                    else return key;
+                }
                 set { Dict[key] = value; }
             }
         }
@@ -353,7 +356,7 @@ namespace Gradebook.Utils
                 d["Surname"] = "Surname";
                 d["Email"] = "Email";
                 d["Phone number"] = "Phone number";
-                d["RoleName"] = "Role Name";
+                d["Role name"] = "Role name";
                 d["Create"] = "Create";
                 d = Register[1];
                 d["Create account"] = "Stwórz konto";
@@ -362,10 +365,53 @@ namespace Gradebook.Utils
                 d["Surname"] = "Nazwisko";
                 d["Email"] = "Email";
                 d["Phone number"] = "Numer telefonu";
-                d["RoleName"] = "Rodzaj konta";
+                d["Role name"] = "Rodzaj konta";
                 d["Create"] = "Stwórz";
             }
         }
+
+        public class Appointment
+        {
+            public static DictionaryTuple Index, Details;
+
+            static Appointment()
+            {
+                PIndex();
+                PDetails();
+            }
+
+            private static void PIndex()
+            {
+                Index = new DictionaryTuple();
+                var d = Index[1];
+                d["Appointments"] = "Terminarz";
+                d["Previous week"] = "Poprzedni tydzień";
+                d["Next week"] = "Następny tydzień";
+                d["monday"] = "poniedziałek";
+                d["tuesday"] = "wtorek";
+                d["wednesday"] = "środa";
+                d["thursday"] = "czwartek";
+                d["friday"] = "piątek";
+                d["No appointments"] = "Brak zdarzeń";
+                d["Delete"] = "Usuń";
+            }
+
+            private static void PDetails()
+            {
+                Details = new DictionaryTuple();
+                var d = Details[1];
+                d["Appointments"] = "Terminarz";
+                d["Appointment details"] = "Szczegóły zdarzenia";
+                d["Name"] = "Nazwa";
+                d["Description"] = "Opis";
+                d["Date"] = "Data";
+                d["Class"] = "Klasa";
+                d["Teacher"] = "Nauczyciel";
+                d["Subject"] = "Przedmiot";
+                d["Back"] = "Powrót";
+            }
+        }
+
         public class Child
         {
             public static DictionaryTuple AbsenceList, ClassDetails, GradeList, Index, StudentDetails;
@@ -612,6 +658,7 @@ namespace Gradebook.Utils
                 d["Back"] = "Powrót";
                 d["Send announcement to parents"] = "Wyślij ogłoszenie do rodziców";
                 d["Generate grade sheet"] = "Wygeneruj zestawienie ocen";
+                d["Create appointment"] = "Dodaj zdarzenie";
             }
 
             private static void PEdit()
@@ -716,9 +763,12 @@ namespace Gradebook.Utils
             private static void PCreateAppointment()
             {
                 CreateAppointment = new DictionaryTuple();
-                var d = Index[0];
-                d["Create appointment"] = "Create appointment";
-                // var d = Index[1];
+                var d = CreateAppointment[1];
+                d["Create appointment"] = "Stwórz zdarzenie";
+                d["Name"] = "Nazwa";
+                d["Description"] = "Opis";
+                d["Date"] = "Data";
+                d["Create"] = "Stwórz";
             }
         }
 
@@ -1300,12 +1350,12 @@ namespace Gradebook.Utils
             {
                 Create = new DictionaryTuple();
                 var d = Create[0];
-                d["Create Subject"] = "Create subject";
+                d["Create subject"] = "Create subject";
                 d["Name"] = "Name";
                 d["Back"] = "Back";
                 d["Create"] = "Create";
                 d = Create[1];
-                d["Create Subject"] = "Stwórz przedmiot";
+                d["Create subject"] = "Stwórz przedmiot";
                 d["Name"] = "Nazwa";
                 d["Back"] = "Powrót";
                 d["Create"] = "Stwórz";
@@ -1385,6 +1435,7 @@ namespace Gradebook.Utils
                 d["Absences"] = "Nieobecności";
                 d["Select language:"] = "Wybierz język";
                 d["Timetable"] = "Plan lekcji";
+                d["Appointments"] = "Terminarz";
             }
 
             private static void PLogin()
