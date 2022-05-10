@@ -5,7 +5,7 @@
 }
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post))
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, null))
     {
         @Html.AntiForgeryToken()
 
@@ -18,7 +18,7 @@
             var user = users.Single();
             @Html.ActionLink(D["Logged as"] + " " + user.Name + " " + user.Surname, "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
 
-            <a href="javascript:document.getElementById('logoutForm').submit()">@D["Logout"]</a>
+            <a id="acc" href="javascript:document.getElementById('logoutForm').submit()">@D["Logout"]</a>
         }
     }
 }

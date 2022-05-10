@@ -19,7 +19,7 @@
             var links = Gradebook.Utils.Role.GetLinks(User);
             foreach (var l in links)
             {
-                @Html.ActionLink(D[l.Name], l.Action, l.Controller, l.RouteValues)
+                @Html.ActionLink(D[l.Name], l.Action, l.Controller, l.RouteValues, null);
             }
         }
         @Html.Partial("_LoginPartial")
@@ -29,20 +29,33 @@
 
 
     <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Gradebook</p>
-            @D["Select language:"]
-            @Html.ActionLink("EN", "SelectEnglish", "Language") |
-            @Html.ActionLink("PL", "SelectPolish", "Language")
-        </footer>
+        <div id="main">
+            @RenderBody()
+            <hr />
+
+            <footer>
+                <p>&copy; @DateTime.Now.Year - Gradebook</p>
+                @D["Select language:"]
+                @Html.ActionLink("EN", "SelectEnglish", "Language") |
+                @Html.ActionLink("PL", "SelectPolish", "Language")
+            </footer>
+        </div>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     <script>
-                            // tutaj pisać skrypty do layouta
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+            document.body.style.backgroundColor = "rgba(0,0,0,0.5)";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+            document.body.style.backgroundColor = "white";
+        }
     </script>
     @RenderSection("scripts", required: false)
 </body>

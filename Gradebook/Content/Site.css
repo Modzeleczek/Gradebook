@@ -1,10 +1,12 @@
 ﻿body {
     padding-top: 20px;
     padding-bottom: 20px;
+    transition: background-color .5s;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
+
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -58,14 +60,14 @@ textarea {
     height: 100%;
     width: 0;
     position: fixed;
-    display: block;
     z-index: 1;
     top: 0;
     left: 0;
     background-color: #009879;
     overflow-x: hidden;
-    transition: 0.5s;
     padding-top: 60px;
+    overflow-x: hidden;
+    transition: 0.5s;
 }
 
     .sidenav a {
@@ -74,17 +76,14 @@ textarea {
         font-size: 25px;
         color: white;
         -webkit-text-stroke: 1px #034d3e;
-        display: flex;
-        transition: 0.3s;
+        display: block;
+        /*transition: 0.3s;*/
     }
 
         .sidenav a:hover {
             color: black;
-            background-color: lavender;
-            border-radius: 12px;
-            margin: auto;
-            display:block;
-            text-decoration: none;
+
+
         }
 
     .sidenav .closebtn {
@@ -94,6 +93,11 @@ textarea {
         font-size: 36px;
         margin-left: 50px;
     }
+#main {
+    transition: margin-left .5s;
+    padding: 16px;
+}
+
 
 @media screen and (max-height: 450px) {
     .sidenav {
