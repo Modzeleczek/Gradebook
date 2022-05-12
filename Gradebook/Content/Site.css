@@ -6,7 +6,6 @@
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -59,7 +58,7 @@ textarea {
 .sidenav {
     height: 100%;
     width: 0;
-    position: fixed;
+    position: absolute;
     z-index: 1;
     top: 0;
     left: 0;
@@ -77,13 +76,11 @@ textarea {
         color: white;
         -webkit-text-stroke: 1px #034d3e;
         display: block;
-        /*transition: 0.3s;*/
+        transition: 0.3s;
     }
 
         .sidenav a:hover {
             color: black;
-
-
         }
 
     .sidenav .closebtn {
@@ -93,6 +90,7 @@ textarea {
         font-size: 36px;
         margin-left: 50px;
     }
+
 #main {
     transition: margin-left .5s;
     padding: 16px;
