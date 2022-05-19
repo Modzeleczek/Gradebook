@@ -1092,6 +1092,7 @@ namespace Gradebook.Utils
                 d["Details"] = "Szczegóły";
                 d["Delete"] = "Usuń";
                 d["Do"] = "Podejdź";
+                d["No quizzes"] = "Brak quizów";
             }
 
             private static void PCreate()

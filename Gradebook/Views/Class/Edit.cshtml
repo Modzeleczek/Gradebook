@@ -56,7 +56,8 @@
 }
 
 <h4>@D["Students"]</h4>
-<table class="table">
+<table class="list-table">
+    <thead>
     <tr>
         <th>
             @D["Name"]
@@ -69,6 +70,8 @@
         </th>
         <th></th>
     </tr>
+    </thead>
+    <tbody>
     @foreach (var item in Model.Students)
     {
         <tr>
@@ -86,6 +89,7 @@
             </td>
         </tr>
     }
+    </tbody>
 </table>
 
 @if (students.Count > 0)
@@ -116,7 +120,8 @@ using (Html.BeginForm())
 }
 
 <h4>@D["Teachers"]</h4>
-<table class="table">
+<table class="list-table">
+    <thead>
     <tr>
         <th>
             @D["Name"]
@@ -132,6 +137,8 @@ using (Html.BeginForm())
         </th>
         <th></th>
     </tr>
+    </thead>
+    <tbody>
     @foreach (var item in Model.TeacherClassSubjects)
     {
         <tr>
@@ -152,6 +159,7 @@ using (Html.BeginForm())
             </td>
         </tr>
     }
+    </tbody>
 </table>
 
 @if (subjects.Count > 0)
@@ -190,7 +198,8 @@ using (Html.BeginForm())
 }
 
 <h4>@D["Lessons"]</h4>
-<table class="table">
+<table class="list-table">
+    <thead>
     <tr>
         <th>
             @D["Day"]
@@ -209,6 +218,8 @@ using (Html.BeginForm())
         </th>
         <th></th>
     </tr>
+    </thead>
+    <tbody>
     @foreach (var tcs in Model.TeacherClassSubjects)
     {
         foreach (var lesson in tcs.Lessons)
@@ -240,6 +251,7 @@ using (Html.BeginForm())
         </tr>
         }
     }
+    </tbody>
 </table>
 
 @if (dayHours.Count > 0 && teacherClassSubjects.Count > 0)

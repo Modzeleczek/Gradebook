@@ -10,8 +10,12 @@
 @if (User.IsInRole(Gradebook.Utils.Role.Teacher))
 {
     @Html.ActionLink(D["Create quiz"], "Create")
+    <br />
 }
-<table class="table">
+@if (Model.Count() > 0)
+{
+<table class="list-table">
+    <thead>
     <tr>
         <th>
             @D["Subject"]
@@ -27,6 +31,8 @@
         </th>
         <th></th>
     </tr>
+    </thead>
+    <tbody>
     @foreach (var item in Model)
     {
         <tr>
@@ -55,4 +61,11 @@
             </td>
         </tr>
     }
+    </tbody>
 </table>
+}
+else
+{
+    @D["No quizzes"]
+    <br />
+}

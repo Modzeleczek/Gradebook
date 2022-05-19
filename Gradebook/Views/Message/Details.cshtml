@@ -64,7 +64,8 @@
     </dl>
 
     <h4>@D["Recipients"]</h4>
-    <table class="table">
+    <table class="list-table">
+        <thead>
         <tr>
             <th>
                 @D["Name"]
@@ -76,6 +77,8 @@
                 @D["Email"]
             </th>
         </tr>
+        </thead>
+        <tbody>
         @foreach (var item in recipients)
         {
             <tr>
@@ -90,6 +93,7 @@
                 </td>
             </tr>
         }
+        </tbody>
     </table>
 }
 else

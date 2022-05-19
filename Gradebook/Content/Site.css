@@ -24,6 +24,16 @@ textarea {
     max-width: 280px;
 }
 
+#global_footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #009879;
+    color: white;
+    text-align: center;
+}
+
 .list-table {
     border-collapse: collapse;
     margin: 25px 0;

@@ -35,7 +35,8 @@
     <h4>@D["Files"]</h4>
     if (files.Count > 0)
     {
-        <table class="table">
+        <table class="list-table">
+            <thead>
             <tr>
                 <th>
                     @D["Name"]
@@ -51,7 +52,8 @@
                     <th></th>
                 }
             </tr>
-
+            </thead>
+            <tbody>
             @foreach (var item in files)
             {
                 <tr>
@@ -72,6 +74,7 @@
                     }
                 </tr>
             }
+            </tbody>
         </table>
     }
     else
