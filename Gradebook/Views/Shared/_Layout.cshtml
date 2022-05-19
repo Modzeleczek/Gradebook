@@ -1,5 +1,5 @@
-﻿@using Gradebook.Utils;
-@{ 
+@using Gradebook.Utils;
+@{
     LocalizedStrings.LanguageDictionary D = LocalizedStrings.Layout._Layout[ViewBag.LanguageId];
 }
 <!DOCTYPE html>
@@ -10,47 +10,51 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/side_menu_scripts")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    @{
-                        var links = Gradebook.Utils.Role.GetLinks(User);
-                        foreach (var l in links)
-                        {
-                            @Html.ActionLink(D[l.Name], l.Action, l.Controller, l.RouteValues, new { @class = "navbar-brand" });
-                        }
-                    }
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        @{
+            var links = Gradebook.Utils.Role.GetLinks(User);
+            foreach (var l in links)
+            {
+                @Html.ActionLink(D[l.Name], l.Action, l.Controller, l.RouteValues, null);
+            }
+        }
+        @Html.Partial("_LoginPartial")
     </div>
 
+    <span style="font-size:30px;cursor:pointer;padding:20px; " onclick="openNav()">&#9776;</span>
+
+
     <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer id="global_footer">
-            <p>&copy; @DateTime.Now.Year - Gradebook</p>
-            @D["Select language:"]
-            @Html.ActionLink("EN", "SelectEnglish", "Language") |
-            @Html.ActionLink("PL", "SelectPolish", "Language")
-    </footer>
+        <div id="main">
+            @RenderBody()
+            <hr />
+            <footer id="global_footer">
+                <p>&copy; @DateTime.Now.Year - Gradebook</p>
+                @D["Select language:"]
+                @Html.ActionLink("EN", "SelectEnglish", "Language") |
+                @Html.ActionLink("PL", "SelectPolish", "Language")
+            </footer>
+        </div>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     <script>
-            // tutaj pisać skrypty do layouta
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+            document.body.style.backgroundColor = "rgba(0,0,0,0.5)";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+            document.body.style.backgroundColor = "white";
+        }
     </script>
     @RenderSection("scripts", required: false)
 </body>

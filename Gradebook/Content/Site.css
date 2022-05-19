@@ -1,6 +1,7 @@
 ﻿body {
-    padding-top: 50px;
+    padding-top: 20px;
     padding-bottom: 20px;
+    transition: background-color .5s;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -40,26 +41,78 @@ textarea {
     min-width: 400px;
 }
 
-.list-table thead tr {
+    .list-table thead tr {
+        background-color: #009879;
+        color: #ffffff;
+        text-align: left;
+        font-weight: bold;
+    }
+
+    .list-table th,
+    .list-table td {
+        padding: 12px 15px;
+    }
+
+    .list-table tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+
+        .list-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+        .list-table tbody tr:last-of-type {
+            border-bottom: 2px solid #009879;
+        }
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
     background-color: #009879;
-    color: #ffffff;
-    text-align: left;
-    font-weight: bold;
+    overflow-x: hidden;
+    padding-top: 60px;
+    overflow-x: hidden;
+    transition: 0.5s;
 }
 
-.list-table th,
-.list-table td {
-    padding: 12px 15px;
+    .sidenav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: white;
+        -webkit-text-stroke: 1px #034d3e;
+        display: block;
+        transition: 0.3s;
+    }
+
+        .sidenav a:hover {
+            color: black;
+        }
+
+    .sidenav .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
+
+#main {
+    transition: margin-left .5s;
+    padding: 16px;
 }
 
-.list-table tbody tr {
-    border-bottom: 1px solid #dddddd;
-}
 
-.list-table tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
-}
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
 
-.list-table tbody tr:last-of-type {
-    border-bottom: 2px solid #009879;
+        .sidenav a {
+            font-size: 18px;
+        }
 }
