@@ -26,7 +26,8 @@
 @using (Html.BeginForm("Do", "Quiz", FormMethod.Post, htmlAttributes: new { @id = "quizForm" }))
 {
     @Html.Hidden("attemptId", (int)ViewBag.AttemptId)
-    <table class="table">
+    <table class="list-table">
+        <thead>
         <tr>
             <th>
                 @D["Content"]
@@ -35,6 +36,8 @@
                 @D["Answers"]
             </th>
         </tr>
+        </thead>
+        <tbody>
         @foreach (var item in Model.ClosedQuestions)
         {
             <tr>
@@ -58,6 +61,7 @@
                 </td>
             </tr>
         }
+        </tbody>
     </table>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">

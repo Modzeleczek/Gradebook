@@ -21,7 +21,8 @@
             }
             else
             {
-            <table class="table">
+            <table class="list-table">
+                <thead>
                 <tr>
                     <th>
                         Value
@@ -42,6 +43,8 @@
                         Teacher surname
                     </th>
                 </tr>
+                </thead>
+                <tbody>
                 @foreach (var grade in sg.GradesList)
                 {
                     <tr>
@@ -65,6 +68,7 @@
                         </td>
                     </tr>
                 }
+                </tbody>
             </table>
             }
         }

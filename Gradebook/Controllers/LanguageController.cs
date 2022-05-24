@@ -1,20 +1,29 @@
 ﻿using Gradebook.Utils;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace Gradebook.Controllers
 {
     public class LanguageController : Controller
     {
-        public ActionResult SelectEnglish()
+        public ActionResult SelectEnglish(string returnPath)
         {
             LanguageCookie.Save(Response.Cookies, 0);
-            return RedirectToAction("Index", "GlobalAnnouncement");
+            return RedirectToAction(returnPath);
         }
 
-        public ActionResult SelectPolish()
+        public ActionResult SelectPolish(string returnPath)
         {
             LanguageCookie.Save(Response.Cookies, 1);
-            return RedirectToAction("Index", "GlobalAnnouncement");
+            return RedirectToAction(returnPath);
+        }
+
+        new private RedirectToRouteResult RedirectToAction(string path)
+        {
+            var link = PathSerializer.Deserialize(path);
+            var withArea = link.RouteValues;
+            withArea["area"] = link.Area;
+            return RedirectToAction(link.Action, link.Controller, withArea);
         }
     }
 }

@@ -52,7 +52,8 @@
 
 
 <h4>@D["Questions"]</h4>
-<table class="table">
+<table class="list-table">
+    <thead>
     <tr>
         <th>
             @D["Content"]
@@ -61,6 +62,8 @@
             @D["Answers"]
         </th>
     </tr>
+    </thead>
+    <tbody>
     @foreach (var item in Model.ClosedQuestions)
     {
         <tr>
@@ -93,13 +96,15 @@
             </td>
         </tr>
     }
+    </tbody>
 </table>
 
 @Html.ActionLink(D["Add question"], "AddQuestion", new { quizId = Model.Id })
 
 
 <h4>@D["Sharings"]</h4>
-<table class="table">
+<table class="list-table">
+    <thead>
     <tr>
         <th>
             @D["Year"]
@@ -112,6 +117,8 @@
         </th>
         <th></th>
     </tr>
+    </thead>
+    <tbody>
     @foreach (var item in Model.QuizSharings)
     {
         <tr>
@@ -129,7 +136,7 @@
             </td>
         </tr>
     }
+    </tbody>
 </table>
 
 @Html.ActionLink(D["Grant access"], "AddQuizSharing", new { quizId = Model.Id })
-

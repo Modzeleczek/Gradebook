@@ -1,0 +1,8 @@
+﻿@model string
+@using Gradebook.Utils;
+@{
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.GenericErrorView.GenericError[ViewBag.LanguageId];
+    ViewBag.Title = D["Error"];
+}
+
+@D[Model]

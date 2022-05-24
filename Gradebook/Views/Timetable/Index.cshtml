@@ -5,7 +5,8 @@
 }
 
 <h2>@ViewBag.Title</h2>
-<table class="table">
+<table class="list-table">
+    <thead>
     <tr>
         <th></th>
         <th>
@@ -24,6 +25,8 @@
             @D["friday"]
         </th>
     </tr>
+    </thead>
+    <tbody>
     @for (int hi = 0; hi < Gradebook.Utils.LessonHours.Array.Length; ++hi)
     {
         <tr>
@@ -40,4 +43,5 @@
         }
         </tr>
     }
+    </tbody>
 </table>

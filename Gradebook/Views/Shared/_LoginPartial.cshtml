@@ -5,7 +5,7 @@
 }
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    using (Html.BeginForm("LogOff", "Account", new { area = "" }, FormMethod.Post, new { id = "logoutForm"}))
     {
         @Html.AntiForgeryToken()
 
@@ -15,18 +15,12 @@
         if (users.Any())
         {
             var user = users.Single();
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    @Html.ActionLink(D["Logged as"] + " " + user.Name + " " + user.Surname, "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-                </li>
-                <li><a href="javascript:document.getElementById('logoutForm').submit()">@D["Logout"]</a></li>
-            </ul>
+            @Html.ActionLink(D["Logged as"] + " " + user.Name + " " + user.Surname, "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            <a href="javascript:document.getElementById('logoutForm').submit()">@D["Logout"]</a>
         }
     }
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink(D["Log in"], "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
+    <a> @Html.ActionLink(D["Log in"], "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" }) </a>
 }

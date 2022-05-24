@@ -3,7 +3,6 @@
 @{
     LocalizedStrings.LanguageDictionary D = LocalizedStrings.Subject.Details[ViewBag.LanguageId];
     ViewBag.Title = D["Subject details"];
-    var files = (ICollection<Gradebook.Models.File>)ViewBag.Files;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -21,7 +20,7 @@
     <dd>
         @if (Model.Syllabus != null)
         {
-            @Html.ActionLink(D["Download"], "DownloadSyllabus", new { id = Model.Id })
+            @Html.ActionLink(D["Download"], "DownloadSyllabus", new { id = Model.Id }, new { @class = "btn btn-info" })
         }
         else
         {
@@ -29,62 +28,4 @@
         }
     </dd>
 </dl>
-
-@if (User.IsInRole(Gradebook.Utils.Role.Teacher) || User.IsInRole(Gradebook.Utils.Role.Student))
-{
-    <h4>@D["Files"]</h4>
-    if (files.Count > 0)
-    {
-        <table class="table">
-            <tr>
-                <th>
-                    @D["Name"]
-                </th>
-                <th>
-                    @D["Description"]
-                </th>
-                <th>
-                    @D["Modification time"]
-                </th>
-                @if (User.IsInRole(Gradebook.Utils.Role.Teacher))
-                {
-                    <th></th>
-                }
-            </tr>
-
-            @foreach (var item in files)
-            {
-                <tr>
-                    <td>
-                        @Html.ActionLink(item.Name, "DownloadFile", new { id = item.Id })
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ModificationTime)
-                    </td>
-                    @if (User.IsInRole(Gradebook.Utils.Role.Teacher))
-                    {
-                        <td>
-                            @Html.ActionLink(D["Delete"], "DeleteFile", new { id = item.Id })
-                        </td>
-                    }
-                </tr>
-            }
-        </table>
-    }
-    else
-    {
-        @D["No files."]
-        <br />
-    }
-}
-
-@if (User.IsInRole(Gradebook.Utils.Role.Teacher))
-{
-    @Html.ActionLink(D["Add file"], "AddFile", new { id = Model.Id })
-    <br />
-}
-
-@Html.ActionLink(D["Back"], "Index")
+@Html.ActionLink(D["Back"], "List", null, new { @class = "btn btn-default" })

@@ -19,7 +19,8 @@ foreach (var subjectGroup in Model)
     }
     else
     {
-    <table class="table">
+    <table class="list-table">
+        <thead>
         <tr>
             <th>
                 @D["Value"]
@@ -41,6 +42,8 @@ foreach (var subjectGroup in Model)
             </th>
             <th></th>
         </tr>
+        </thead>
+        <tbody>
         @foreach (var item in subjectGroup.Grades)
         {
             <tr>
@@ -71,6 +74,7 @@ foreach (var subjectGroup in Model)
                 </td>
             </tr>
         }
+        </tbody>
     </table>
     }
 }

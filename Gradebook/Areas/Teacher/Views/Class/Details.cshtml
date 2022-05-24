@@ -1,0 +1,61 @@
+﻿@model Gradebook.Models.Class
+@using Microsoft.AspNet.Identity
+@using Gradebook.Utils;
+@{
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Class.Details[ViewBag.LanguageId];
+    ViewBag.Title = D["Class details"];
+    string userId = User.Identity.GetUserId();
+}
+@Html.Partial("~/Views/Class/Details.cshtml", Model)
+
+<h4>@D["Teachers"]</h4>
+<table class="list-table">
+    <thead>
+    <tr>
+        <th>
+            @D["Name"]
+        </th>
+        <th>
+            @D["Surname"]
+        </th>
+        <th>
+            @D["Email"]
+        </th>
+        <th>
+            @D["Subject"]
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.TeacherClassSubjects)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject.Name)
+            </td>
+            <td>
+                @if (userId == item.TeacherId)
+                {
+                    @Html.ActionLink(D["Create appointment"], "CreateAppointment", "Class", new { classId = Model.Id, teacherClassSubjectId = item.Id }, new { @class = "btn btn-primary" })
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+@if ((bool)ViewBag.IsSupervisor)
+{
+    @Html.ActionLink(D["Send announcement to parents"], "CreateAnnouncement", new { id = Model.Id }, new { @class = "btn btn-primary" })
+    @Html.ActionLink(D["Generate grade sheet"], "GenerateGradeSheet", new { id = Model.Id }, new { @class = "btn btn-primary" })
+}
+@Html.ActionLink(D["Back"], "List", null, new { @class = "btn btn-default" })

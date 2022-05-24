@@ -12,7 +12,8 @@
 <h3>@D["Received"]</h3>
 @if (received.Count > 0)
 {
-    <table class="table">
+    <table class="list-table">
+        <thead>
         <tr>
             <th>
                 @D["Time"]
@@ -31,6 +32,8 @@
             </th>
             <th></th>
         </tr>
+        </thead>
+        <tbody>
         @foreach (var item in received)
         {
             <tr>
@@ -54,6 +57,7 @@
                 </td>
             </tr>
         }
+        </tbody>
     </table>
 }
 else
@@ -64,7 +68,8 @@ else
 <h3>@D["Sent"]</h3>
 @if (sent.Count > 0)
 {
-<table class="table">
+<table class="list-table">
+    <thead>
     <tr>
         <th>
             @D["Time"]
@@ -74,6 +79,8 @@ else
         </th>
         <th></th>
     </tr>
+    </thead>
+    <tbody>
     @foreach (var item in sent)
     {
         <tr>
@@ -88,6 +95,7 @@ else
             </td>
         </tr>
     }
+    </tbody>
 </table>
 }
 else

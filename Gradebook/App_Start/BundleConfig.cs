@@ -22,18 +22,14 @@ namespace Gradebook
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/datepicker_js").Include(
-                "~/Scripts/bootstrap-datepicker.js"));
-
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
-            bundles.Add(new StyleBundle("~/Content/datepicker_css").Include(
-                "~/Content/bootstrap-datepicker.css"));
-
-            bundles.Add(new ScriptBundle("~/bundles/side_menu_scripts").Include(
-                "~/Scripts/side_menu_scripts.js"));
+            // bundli można używać do renderowania (np. za pomocą Styles.Render) w cshtml kilku plików naraz
+            bundles.Add(new StyleBundle("~/Content/selectize").Include(
+                    "~/Content/selectize.bootstrap3.css",
+                    "~/Content/global_selectize.css"));
         }
     }
 }
