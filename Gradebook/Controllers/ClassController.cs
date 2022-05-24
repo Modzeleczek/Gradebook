@@ -14,26 +14,6 @@ namespace Gradebook.Controllers
     {
         private ApplicationDbContext Db = ApplicationDbContext.Create();
 
-        // GET: Class
-        [Authorize(Roles = Role.AdministratorTeacher)]
-        public ActionResult Index()
-        {
-            return View(Db.Class.ToArray());
-        }
-
-        // GET: Class/Details/5
-        [Authorize(Roles = Role.AdministratorTeacherStudent)]
-        public ActionResult Details(int id, string studentId)
-        {
-            var _class = Db.Class.Where(e => e.Id == id).Single();
-            if (User.IsInRole(Role.Teacher))
-            {
-                var teacherId = User.Identity.GetUserId();
-                ViewBag.IsSupervisor = (_class.SupervisorId == teacherId);
-            }
-            return View(_class);
-        }
-
         private LinkedList<SelectListItem> GetTeachers()
         {
             var records = Db.Teacher.Select(r => new { r.Id, r.ApplicationUser.Name, r.ApplicationUser.Surname });

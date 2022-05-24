@@ -3,7 +3,6 @@
 @{
     LocalizedStrings.LanguageDictionary D = LocalizedStrings.Subject.Create[ViewBag.LanguageId];
     ViewBag.Title = D["Create subject"];
-
 }
 
 <h2>@ViewBag.Title</h2>
@@ -13,17 +12,16 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="alert alert-danger">@ViewBag.ValidationMessage</div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Name, D["Name"], htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
             </div>
         </div>
 
-        <h4>Syllabus</h4>
+        <h4>@D["Syllabus"]</h4>
         <input name="attachedFile" type="file">
 
         <div class="form-group">
@@ -34,7 +32,7 @@
     </div>
 }
 
-@Html.ActionLink(D["Back"], "Index")
+@Html.ActionLink(D["Back"], "List", null, new { @class = "btn btn-default" })
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

@@ -6,12 +6,6 @@ namespace Gradebook.Models
 {
     public static class FileType
     {
-        /*[Key]
-        public int Id { get; set; }
-        public string Name { get; set; }
-
-        public virtual ICollection<Attachment> Attachments { get; set; }*/
-
         public const string TXT = "text/plain";
         public const string PDF = "application/pdf";
         public const string ZIP = "application/zip";

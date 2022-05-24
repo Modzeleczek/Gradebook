@@ -9,7 +9,6 @@ namespace Gradebook.Models
         [Key]
         public int Id { get; set; }
         public string AuthorId { get; set; }
-        [Display(Name = "Creation time")]
         public DateTime ModificationTime { get; set; }
         public string Content { get; set; }
 

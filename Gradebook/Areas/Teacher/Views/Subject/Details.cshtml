@@ -1,0 +1,54 @@
+﻿@model Gradebook.Models.Subject
+@using Gradebook.Utils
+@{
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Subject.Details[ViewBag.LanguageId];
+    var files = (ICollection<Gradebook.Models.File>)ViewBag.Files;
+}
+@Html.Partial("~/Views/Subject/Details.cshtml", Model)
+
+<h4>@D["Files"]</h4>
+<table class="list-table">
+    <thead>
+    <tr>
+        <th>
+            @D["Name"]
+        </th>
+        <th>
+            @D["Description"]
+        </th>
+        <th>
+            @D["Modification time"]
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (files.Count() > 0)
+    {
+        foreach (var item in files)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Name, "DownloadFile", new { id = item.Id }, new { @class = "btn btn-info" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModificationTime)
+                </td>
+                <td>
+                    @Html.ActionLink(D["Delete"], "DeleteFile", new { id = item.Id }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="4">@D["No files"]</td>
+        </tr>
+    }
+    </tbody>
+</table>
+@Html.ActionLink(D["Add file"], "AddFile", new { id = Model.Id }, new { @class = "btn btn-default" })

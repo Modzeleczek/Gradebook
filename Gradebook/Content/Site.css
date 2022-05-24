@@ -116,3 +116,10 @@ textarea {
             font-size: 18px;
         }
 }
+
+div.alert.alert-danger {
+    display: block;
+}
+div.alert.alert-danger:empty {
+    display: none;
+}
