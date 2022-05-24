@@ -321,6 +321,7 @@
     <Content Include="Content\global_selectize.css" />
     <Content Include="Content\icons\icons8-great-britain-48.png" />
     <Content Include="Content\icons\icons8-poland-48.png" />
+    <Content Include="Content\icons\logo.png" />
     <Content Include="Content\selectize.bootstrap3.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

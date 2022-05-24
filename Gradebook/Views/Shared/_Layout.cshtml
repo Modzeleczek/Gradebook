@@ -12,16 +12,21 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
+    <div class="logo">
+        <img src="~/Content/icons/logo.png" width="400" height="100" />
+    </div>
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         @{
             var links = Gradebook.Utils.Role.GetLinks(User);
             foreach (var l in links)
             {
-            @Html.ActionLink(D[l.Name], l.Action, l.Controller, new { area = l.Area }, null);
+                @Html.ActionLink(D[l.Name], l.Action, l.Controller, new { area = l.Area }, null);
             }
         }
     </div>
+    <br />
+    <br />
     <div id="myRightSidenav" class="rightsidenav">
 
         <a> @Html.Partial("_LoginPartial")</a>
