@@ -1,8 +1,17 @@
 ﻿@model string
 @using Gradebook.Utils;
 @{
-    LocalizedStrings.LanguageDictionary D = LocalizedStrings.GenericErrorView.GenericError[ViewBag.LanguageId];
-    ViewBag.Title = D["Error"];
-}
 
-@D[Model]
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.GenericErrorView.GenericError[ViewBag.LanguageId];
+
+    ViewBag.Title = D["Error"];
+
+
+    <div data-rel="fatalerror" class="box py-3 errorbox alert alert-danger">
+        @D[Model]
+    </div>
+    <a class="btn btn-info" href="/Home">Continue</a>
+
+}
+<br />
+
