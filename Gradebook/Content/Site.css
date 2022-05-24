@@ -170,9 +170,19 @@ div.alert.alert-danger {
     }
 
 .buttons{
-    margin-block: 5px;
+    
     margin: 5px;
     padding: 5px;
     position: absolute;
     align-items: center;
+}
+.logo{
+    position: absolute;
+    margin: auto;
+    width: 50%;
+    top: 0px;
+    left: 540px;
+    z-index: 0;
+
+
 }
