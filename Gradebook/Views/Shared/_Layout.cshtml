@@ -18,10 +18,19 @@
             var links = Gradebook.Utils.Role.GetLinks(User);
             foreach (var l in links)
             {
-                @Html.ActionLink(D[l.Name], l.Action, l.Controller, new { area = l.Area }, null);
+            @Html.ActionLink(D[l.Name], l.Action, l.Controller, new { area = l.Area }, null);
             }
         }
-        @Html.Partial("_LoginPartial")
+    </div>
+    <div id="myRightSidenav" class="rightsidenav">
+
+        <a> @Html.Partial("_LoginPartial")</a>
+        @{ var currentPath = Html.Encode(ViewBag.CurrentPath); }
+
+    </div>
+    <div class=" languages">
+        <a href="/Language/SelectEnglish?returnPath=@currentPath"><img style="height: 30px" src="~/Content/icons/icons8-great-britain-48.png" alt="EN" /></a>
+        <a href="/Language/SelectPolish?returnPath=@currentPath"><img style="height: 30px" src="~/Content/icons/icons8-poland-48.png" alt="PL" /></a>
     </div>
 
     <span style="font-size:30px;cursor:pointer;padding:20px; " onclick="openNav()">&#9776;</span>
@@ -30,14 +39,7 @@
         <div id="main">
             @RenderBody()
             <hr />
-            <footer id="global_footer">
-                <p>&copy; @DateTime.Now.Year - Gradebook</p>
-                @D["Language"]
-                @{ var currentPath = Html.Encode(ViewBag.CurrentPath); }
-                <a href="/Language/SelectEnglish?returnPath=@currentPath"><img style="height: 30px" src="~/Content/icons/icons8-great-britain-48.png" alt="EN" /></a>
-                <a href="/Language/SelectPolish?returnPath=@currentPath"><img style="height: 30px" src="~/Content/icons/icons8-poland-48.png" alt="PL" /></a>
-                @* @Html.ActionLink("PL", "SelectPolish", "Language", new { area = "", returnPath = ViewBag.CurrentPath }, new { @class = "btn-sm", style = "background: url(/Content/icons/icons8-poland-48.png)" }) *@
-            </footer>
+
         </div>
     </div>
 
