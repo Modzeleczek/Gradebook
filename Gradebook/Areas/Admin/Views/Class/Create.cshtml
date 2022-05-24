@@ -1,0 +1,94 @@
+﻿@model Gradebook.Models.Class
+@using Gradebook.Utils;
+@{
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Class.Create[ViewBag.LanguageId];
+    ViewBag.Title = D["Create class"];
+    ViewBag.SupervisorId = new LinkedList<SelectListItem>();
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formId" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <div class="alert alert-danger">@ViewBag.ValidationMessage</div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SupervisorId, D["Supervisor"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("SupervisorId")
+                <a href="#" id="Refresh" class="btn btn-default">@D["Refresh"]</a>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Year, D["Year"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Year, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Unit, D["Unit"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Unit, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input onclick="document.getElementById('formId').submit()" type="submit" value="@D["Create"]" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@Html.ActionLink(D["Back"], "List", null, new { @class = "btn btn-default" })
+
+@Styles.Render("~/Content/selectize")
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/selectize.js")
+    <script type="text/javascript">
+        let $select;
+
+        $(document).ready(function () {
+            $select = $('#SupervisorId').selectize({
+                valueField: 'Id',
+                labelField: 'Email',
+                searchField: ['Surname', 'Name', 'Email'],
+                sortField: 'Surname',
+                onInitialize: function () { loadSupervisorsAJAX(); },
+                render: {
+                    option: function (it, escape) {
+                        return '<div class="selectDiv">' +
+                            '<span class="mainName">' + escape(it.Email) + '</span><br />' +
+                            '<span class="subLabel">@D["Name"]: </span>' + '<span class="subValue">' + escape(it.Name) + '</span>' +
+                            '<span class="subLabel">@D["Surname"]: </span>' + '<span class="subValue">' + escape(it.Surname) + '</span>' +
+                            '</div>';
+                    }
+                }
+            });
+
+            $('#Refresh').click(function () {
+                loadSupervisorsAJAX();
+            });
+        });
+
+        function loadSupervisorsAJAX() {
+            $.ajax({
+                url: '/Admin/Class/GetSupervisors',
+                type: 'POST',
+                success: function (data) {
+                    for (let i = 0; i < data.length; ++i)
+                        $select[0].selectize.addOption(data[i]);
+                },
+                error: function (response) { alert(response); }
+            });
+        }
+
+        document.getElementById("createButton").submit()
+    </script>
+}

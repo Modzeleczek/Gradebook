@@ -10,7 +10,6 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/side_menu_scripts")
 </head>
 <body>
     <div id="mySidenav" class="sidenav">
@@ -19,7 +18,7 @@
             var links = Gradebook.Utils.Role.GetLinks(User);
             foreach (var l in links)
             {
-                @Html.ActionLink(D[l.Name], l.Action, l.Controller, l.RouteValues, null);
+                @Html.ActionLink(D[l.Name], l.Action, l.Controller, new { area = l.Area }, null);
             }
         }
         @Html.Partial("_LoginPartial")
@@ -27,35 +26,25 @@
 
     <span style="font-size:30px;cursor:pointer;padding:20px; " onclick="openNav()">&#9776;</span>
 
-
     <div class="container body-content">
         <div id="main">
             @RenderBody()
             <hr />
             <footer id="global_footer">
                 <p>&copy; @DateTime.Now.Year - Gradebook</p>
-                @D["Select language:"]
-                @Html.ActionLink("EN", "SelectEnglish", "Language") |
-                @Html.ActionLink("PL", "SelectPolish", "Language")
+                @D["Language"]
+                @{ var currentPath = Html.Encode(ViewBag.CurrentPath); }
+                <a href="/Language/SelectEnglish?returnPath=@currentPath"><img style="height: 30px" src="~/Content/icons/icons8-great-britain-48.png" alt="EN" /></a>
+                <a href="/Language/SelectPolish?returnPath=@currentPath"><img style="height: 30px" src="~/Content/icons/icons8-poland-48.png" alt="PL" /></a>
+                @* @Html.ActionLink("PL", "SelectPolish", "Language", new { area = "", returnPath = ViewBag.CurrentPath }, new { @class = "btn-sm", style = "background: url(/Content/icons/icons8-poland-48.png)" }) *@
             </footer>
         </div>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    <script>
-        function openNav() {
-            document.getElementById("mySidenav").style.width = "250px";
-            document.getElementById("main").style.marginLeft = "250px";
-            document.body.style.backgroundColor = "rgba(0,0,0,0.5)";
-        }
-
-        function closeNav() {
-            document.getElementById("mySidenav").style.width = "0";
-            document.getElementById("main").style.marginLeft = "0";
-            document.body.style.backgroundColor = "white";
-        }
-    </script>
+    @Scripts.Render("~/Scripts/side_menu_scripts.js")
     @RenderSection("scripts", required: false)
+    @RenderSection("css", required: false)
 </body>
 </html>

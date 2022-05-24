@@ -1,0 +1,28 @@
+﻿.selectize-dropdown .active {
+    background-color: #428BCA;
+    color: #FFFFFF;
+}
+
+div.selectDiv {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.mainName {
+    font-size: 12px;
+}
+
+.subLabel {
+    font-size: 10px;
+    font-weight: bolder;
+    padding-left: 10px;
+}
+
+.subValue {
+    font-size: 10px;
+}
+
+.mainRow {
+}
+
+.selectizeFormGroup {
+}

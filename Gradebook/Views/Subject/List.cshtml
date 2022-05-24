@@ -1,16 +1,12 @@
 ﻿@model IEnumerable<Gradebook.Models.Subject>
 @using Gradebook.Utils;
 @{
-    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Subject.Index[ViewBag.LanguageId];
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Subject.List_[ViewBag.LanguageId];
     ViewBag.Title = D["Subjects"];
 }
 
 <h2>@ViewBag.Title</h2>
 
-@if (User.IsInRole(Gradebook.Utils.Role.Administrator))
-{
-    @Html.ActionLink(D["Create"], "Create")
-}
 <table class="list-table">
     <thead>
     <tr>
@@ -33,7 +29,7 @@
             <td>
                 @if (item.Syllabus != null)
                 {
-                    @Html.ActionLink("Download", "DownloadSyllabus", new { id = item.Id })
+                    @Html.ActionLink(D["Download"], "DownloadSyllabus", new { id = item.Id }, new { @class = "btn btn-info" })
                 }
                 else
                 {
@@ -41,15 +37,7 @@
                 }
             </td>
             <td>
-                @if (User.IsInRole(Gradebook.Utils.Role.Administrator))
-                {
-                    @Html.ActionLink(D["Edit"], "Edit", new { id = item.Id })@: |
-                }
-                @Html.ActionLink(D["Details"], "Details", new { id = item.Id })
-                @if (User.IsInRole(Gradebook.Utils.Role.Administrator))
-                {
-                    @:| @Html.ActionLink(D["Delete"], "Delete", new { id = item.Id })
-                }
+                @Html.ActionLink(D["Details"], "Details", new { id = item.Id }, new { @class = "btn btn-info" })
             </td>
         </tr>
     }

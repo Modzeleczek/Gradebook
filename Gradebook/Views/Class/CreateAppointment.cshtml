@@ -52,8 +52,8 @@
 
 @section scripts
 {
-@Styles.Render("~/Content/datepicker_css")
-@Scripts.Render("~/bundles/datepicker_js")
+@Styles.Render("~/Content/bootstrap-datepicker.css")
+@Scripts.Render("~/Scripts/bootstrap-datepicker.js")
 @*$"{today.Year.ToString("0000")}-{today.Month.ToString("00")}-{today.Day.ToString("00")}";*@
 <script type="text/javascript">
     const possibleWeekDays = [@ViewBag.PossibleWeekDays];

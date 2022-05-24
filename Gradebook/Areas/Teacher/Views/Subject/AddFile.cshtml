@@ -12,13 +12,13 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
+        <div class="alert alert-danger">@ViewBag.ValidationMessage</div>
         @Html.Hidden("id", (int)ViewBag.SubjectId)
 
         <div class="form-group">
             @Html.LabelFor(model => model.Description, D["Description"], htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(model => model.Description, new { @class = "form-control" })
             </div>
         </div>
 
@@ -26,10 +26,10 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <button type="submit" name="button" value="AddFile" class="btn btn-default">Add file</button>
+                <button type="submit" name="button" value="AddFile" class="btn btn-default">@D["Add"]</button>
             </div>
         </div>
     </div>
 }
 
-@Html.ActionLink(D["Back"], "Details", new { id = (int)ViewBag.SubjectId })
+@Html.ActionLink(D["Back"], "Details", new { id = (int)ViewBag.SubjectId }, new { @class = "btn btn-default" })
