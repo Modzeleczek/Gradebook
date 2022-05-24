@@ -1,4 +1,4 @@
-﻿body {
+body {
     padding-top: 20px;
     padding-bottom: 20px;
     transition: background-color .5s;
@@ -168,3 +168,21 @@ div.alert.alert-danger {
     .languages a{
     vertical-align: bottom;
     }
+
+.buttons{
+    
+    margin: 5px;
+    padding: 5px;
+    position: absolute;
+    align-items: center;
+}
+.logo{
+    position: absolute;
+    margin: auto;
+    width: 50%;
+    top: 0px;
+    left: 540px;
+    z-index: 0;
+
+
+}
