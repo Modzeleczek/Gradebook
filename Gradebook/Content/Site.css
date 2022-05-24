@@ -168,3 +168,11 @@ div.alert.alert-danger {
     .languages a{
     vertical-align: bottom;
     }
+
+.buttons{
+    margin-block: 5px;
+    margin: 5px;
+    padding: 5px;
+    position: absolute;
+    align-items: center;
+}
