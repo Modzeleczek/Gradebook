@@ -17,6 +17,7 @@
             var user = users.Single();
             @Html.ActionLink(D["Logged as"] + " " + user.Name + " " + user.Surname, "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
             <a href="javascript:document.getElementById('logoutForm').submit()">@D["Logout"]</a>
+            
         }
     }
 }
