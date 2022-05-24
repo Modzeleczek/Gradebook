@@ -351,6 +351,9 @@
     <Content Include="Areas\Admin\Views\Class\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Class\Create.cshtml" />
     <Content Include="Areas\Teacher\Views\Class\CreateAnnouncement.cshtml" />
+    <Content Include="Areas\Teacher\Views\Class\ShowGradeSheet.cshtml" />
+    <Content Include="Areas\Teacher\Views\Class\GenerateGradeSheet.cshtml" />
+    <Content Include="Areas\Teacher\Views\Class\CreateAppointment.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -431,11 +434,8 @@
     <Content Include="Views\Absence\Index.cshtml" />
     <Content Include="Views\Absence\Create.cshtml" />
     <Content Include="Views\Child\AbsenceList.cshtml" />
-    <Content Include="Views\Class\GenerateGradeSheet.cshtml" />
-    <Content Include="Views\Class\ShowGradeSheet.cshtml" />
     <Content Include="Views\Timetable\Index.cshtml" />
     <Content Include="Views\Appointment\Index.cshtml" />
-    <Content Include="Views\Class\CreateAppointment.cshtml" />
     <Content Include="Views\Appointment\Details.cshtml" />
     <Content Include="Views\Shared\GenericError.cshtml" />
   </ItemGroup>

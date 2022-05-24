@@ -36,7 +36,7 @@ namespace Gradebook.Utils
                     new NamedLink("Classes", "List", "Class", area),
                     new NamedLink("Quizzes", "List", "Quiz", area),
                     new NamedLink("Timetable", "List", "Timetable", area),
-                    new NamedLink("Appointments", "List", "Appointment", area)
+                    new NamedLink("Appointments", "Index", "Appointment", "")
                 };
             }
             if (user.IsInRole(Parent))

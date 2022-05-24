@@ -12,23 +12,20 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.Hidden("classId", (int)ViewBag.ClassId)
+        <div class="alert alert-danger">@ViewBag.ValidationMessage</div>
         @Html.Hidden("teacherClassSubjectId", (int)ViewBag.TeacherClassSubjectId)
 
         <div class="form-group">
             @Html.LabelFor(model => model.Name, D["Name"], htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Name, D["Description"], htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(model => model.Description, new { @class = "form-control" })
             </div>
         </div>
 
@@ -38,26 +35,29 @@
                 <input type="text" name="Date" class="form-control datepicker" autocomplete="off">
             </div>
         </div>
-
     </div>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
+            @if (ViewBag.ClassId != null)
+            { @Html.ActionLink(D["Back"], "Details", new { id = (int)ViewBag.ClassId }, new { @class = "btn btn-default" }) }
             <button type="submit" name="button" value="Create" class="btn btn-default">@D["Create"]</button>
         </div>
     </div>
 }
 
-@Html.ActionLink(D["Back"], "Details", new { id = (int)ViewBag.ClassId })
-
 @section scripts
 {
 @Styles.Render("~/Content/bootstrap-datepicker.css")
 @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
-@*$"{today.Year.ToString("0000")}-{today.Month.ToString("00")}-{today.Day.ToString("00")}";*@
 <script type="text/javascript">
     const possibleWeekDays = [@ViewBag.PossibleWeekDays];
     const dateToday = new Date();
+    @*@{
+        var d = Model.Date;
+        var dateString = $"{d.Month.ToString("00")}-{d.Day.ToString("00")}-{d.Year.ToString("0000")}";
+    }*@
+    const dateFromServer = new Date(@Model.Date.Year, @Model.Date.Month, @Model.Date.Day);
     $('.datepicker').datepicker({
         format: 'dd/mm/yyyy',
         beforeShowDay: function (date) {
@@ -65,7 +65,9 @@
             const weekDay = date.getDay();
             if (possibleWeekDays[weekDay] === 1) return true;
             else return false;
-        }
+        },
+        setDate: dateFromServer
     });
+    $('.datepicker').datepicker('update');
 </script>
 }

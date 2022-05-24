@@ -1,7 +1,7 @@
 ﻿@model LinkedList<Gradebook.Models.Appointment>[]
 @using Gradebook.Utils;
 @{
-    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Appointment.Index[ViewBag.LanguageId];
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Appointment.List_[ViewBag.LanguageId];
     ViewBag.Title = D["Appointments"];
     var dates = (DateTime[])ViewBag.Dates;
     var weekDelta = (int)ViewBag.WeekDelta;

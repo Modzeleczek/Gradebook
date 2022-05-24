@@ -1,6 +1,8 @@
 ﻿@model Gradebook.Models.Class
+@using Gradebook.Utils;
 @{
-    ViewBag.Title = "Generate grade sheet";
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Class.GenerateGradeSheet[ViewBag.LanguageId];
+    ViewBag.Title = D["Generate grade sheet"];
     var subjects = (ICollection<Gradebook.Models.Subject>)ViewBag.Subjects;
     var today = DateTime.Now;
     var todayFormatted = $"{today.Year.ToString("0000")}-{today.Month.ToString("00")}-{today.Day.ToString("00")}";
@@ -11,7 +13,8 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    @Html.Hidden("id", (int)ViewBag.ClassId)
+    @Html.Hidden("id", Model.Id)
+    <div class="alert alert-danger">@ViewBag.ValidationMessage</div>
 
     <input type="date" name="fromDate" value="@todayFormatted" />
     <input type="date" name="toDate" value="@todayFormatted" />
@@ -49,7 +52,7 @@
     </table>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <button type="submit" name="button" value="Generate" class="btn btn-default">Generate</button>
+            <button type="submit" name="button" value="Generate" class="btn btn-primary">@D["Generate"]</button>
         </div>
     </div>
 }
