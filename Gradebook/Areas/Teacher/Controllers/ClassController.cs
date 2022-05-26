@@ -88,39 +88,40 @@ namespace Gradebook.Areas.Teacher.Controllers
             EmailSender.Send(teacherEmail, recipientUsers, $"Announcement from {teacher.ApplicationUser.Name} {teacher.ApplicationUser.Surname}", content, attachedFile, false);
         }
 
-        public ActionResult GenerateGradeSheet(int id) // id - classId
+        public ActionResult GenerateGradeSheet(int? id) // id - classId
         {
-            ViewBag.ClassId = id;
-            var _class = Db.Class.Where(e => e.Id == id).Single();
-            ViewBag.Subjects = _class.TeacherClassSubjects.Select(e => e.Subject).ToArray();
-            return View(_class);
+            var d = LocalizedStrings.Class.GenerateGradeSheet[LanguageCookie.Read(Request.Cookies)];
+            var userId = User.Identity.GetUserId();
+            var search = Db.Class.Where(e => e.Id == id && e.SupervisorId == userId);
+            if (search.Count() != 1) return ErrorView("You are not supervisor of such class.");
+            var class_ = search.Single();
+            ViewBag.Subjects = class_.TeacherClassSubjects.Select(e => e.Subject).ToArray();
+            return View(class_);
         }
 
         [HttpPost]
-        public ActionResult GenerateGradeSheet(int id, DateTime fromDate, DateTime toDate, IList<string> selectedStudentSubjects)
+        public ActionResult GenerateGradeSheet(int? id, DateTime fromDate, DateTime toDate, IList<string> selectedStudentSubjects)
         {
+            var d = LocalizedStrings.Class.GenerateGradeSheet[LanguageCookie.Read(Request.Cookies)];
+            var userId = User.Identity.GetUserId();
+            var search = Db.Class.Where(e => e.Id == id && e.SupervisorId == userId);
+            if (search.Count() != 1) return ErrorView("You are not supervisor of such class.");
+            var class_ = search.Single();
+            if (selectedStudentSubjects == null)
+            {
+                ViewBag.ValidationMessage = d["You did not select any students and subjects."];
+                ViewBag.Subjects = class_.TeacherClassSubjects.Select(e => e.Subject).ToArray();
+                return View("GenerateGradeSheet", class_);
+            }
             if (fromDate > toDate)
             {
                 var temp = toDate;
                 toDate = fromDate;
                 fromDate = temp;
             }
-            TempData["fromDate"] = fromDate;
-            TempData["toDate"] = toDate;
-            TempData["selectedStudentSubjects"] = selectedStudentSubjects;
-            return RedirectToAction("ShowGradeSheet", new { id = id });
-        }
-
-        public ActionResult ShowGradeSheet(int id) // id - classId
-        {
-            var fromDate = (DateTime)TempData["fromDate"];
-            var toDate = (DateTime)TempData["toDate"];
-            var selectedStudentSubjects = (IList<string>)TempData["selectedStudentSubjects"];
-            if (selectedStudentSubjects == null)
-                return RedirectToAction("Index");
-            ViewBag.ClassId = id;
+            ViewBag.Class = class_;
             var ssgs = StudentIdSubjectIdsToStudentSubjectGrades(selectedStudentSubjects, fromDate, toDate);
-            return View(ssgs);
+            return View("ShowGradeSheet", ssgs);
         }
 
         public struct StudentSubjectsGrades
@@ -183,36 +184,51 @@ namespace Gradebook.Areas.Teacher.Controllers
             return ssgs;
         }
 
-        public ActionResult CreateAppointment(int? classId, int? teacherClassSubjectId)
+        public ActionResult CreateAppointment(int? teacherClassSubjectId)
         {
-            do
-            {
-                if (classId == null || teacherClassSubjectId == null) break;
-                if (Db.Class.Where(e => e.Id == classId).Any() == false) break;
-                var userId = User.Identity.GetUserId();
-                var tcs = Db.TeacherClassSubject.Where(e => e.Id == teacherClassSubjectId);
-                if (tcs.Count() != 1) break;
-                var aTcs = tcs.Single();
-                if (aTcs.TeacherId != userId) break;
-                ViewBag.ClassId = classId; // do powrotu
-                ViewBag.TeacherClassSubjectId = teacherClassSubjectId;
-                var possibleWeekDays = new int[Days.Array.Length];
-                foreach (var l in aTcs.Lessons)
-                    possibleWeekDays[l.DayId] = 1;
-                ViewBag.PossibleWeekDays = string.Join(",", possibleWeekDays);
-                return View();
-            } while (false);
-            return RedirectToAction("Index");
+            var d = LocalizedStrings.Class.CreateAppointment[LanguageCookie.Read(Request.Cookies)];
+            var userId = User.Identity.GetUserId();
+            var search = Db.TeacherClassSubject.Where(e => e.Id == teacherClassSubjectId);
+            if (search.Count() != 1) return ErrorView("You do not teach such subject in such class.");
+            var tcs = search.Single();
+            ViewBag.ClassId = tcs.ClassId; // do powrotu
+            ViewBag.TeacherClassSubjectId = teacherClassSubjectId;
+            var possibleWeekDays = new int[Days.Array.Length];
+            foreach (var l in tcs.Lessons) possibleWeekDays[l.DayId] = 1;
+            ViewBag.PossibleWeekDays = string.Join(",", possibleWeekDays);
+            return View(new Appointment { Name = "", Description = "", Date = DateTime.Today });
         }
 
         [HttpPost]
-        public ActionResult CreateAppointment(int classId, int teacherClassSubjectId, Appointment appointment)
+        public ActionResult CreateAppointment(int? teacherClassSubjectId, string name, string description, DateTime? date)
         {
-            // appointment.Date jest bindowane z formatu dd/mm/yyyy
-            appointment.TeacherClassSubjectId = teacherClassSubjectId;
-            Db.Appointment.Add(appointment);
+            var d = LocalizedStrings.Class.CreateAppointment[LanguageCookie.Read(Request.Cookies)];
+            var userId = User.Identity.GetUserId();
+            var search = Db.TeacherClassSubject.Where(e => e.Id == teacherClassSubjectId);
+            if (search.Count() != 1) return ErrorView("You do not teach such subject in such class.");
+            var tcs = search.Single();
+            do
+            {
+                if (string.IsNullOrEmpty(name)) ViewBag.ValidationMessage = d["Specify name."];
+                else if (date == null) ViewBag.ValidationMessage = d["Specify date."];
+                else break;
+                ViewBag.ClassId = tcs.ClassId;
+                ViewBag.TeacherClassSubjectId = teacherClassSubjectId;
+                var possibleWeekDays = new int[Days.Array.Length];
+                foreach (var l in tcs.Lessons) possibleWeekDays[l.DayId] = 1;
+                ViewBag.PossibleWeekDays = string.Join(",", possibleWeekDays);
+                return View(new Appointment { Name = name, Description = description, Date = (date == null ? DateTime.Today : date.Value) });
+            }
+            while (false);
+            // date jest bindowane z formatu dd/mm/yyyy
+            var a = new Appointment();
+            a.Name = name;
+            a.Description = description;
+            a.Date = date.Value;
+            a.TeacherClassSubjectId = teacherClassSubjectId.Value;
+            Db.Appointment.Add(a);
             Db.SaveChanges();
-            return RedirectToAction("Details", new { id = classId });
+            return RedirectToAction("Details", new { id = tcs.ClassId });
         }
     }
 }

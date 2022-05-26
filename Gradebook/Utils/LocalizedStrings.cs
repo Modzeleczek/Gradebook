@@ -372,18 +372,18 @@ namespace Gradebook.Utils
 
         public class Appointment
         {
-            public static DictionaryTuple Index, Details;
+            public static DictionaryTuple List_, Details;
 
             static Appointment()
             {
-                PIndex();
+                PList();
                 PDetails();
             }
 
-            private static void PIndex()
+            private static void PList()
             {
-                Index = new DictionaryTuple();
-                var d = Index[1];
+                List_ = new DictionaryTuple();
+                var d = List_[1];
                 d["Appointments"] = "Terminarz";
                 d["Previous week"] = "Poprzedni tydzień";
                 d["Next week"] = "Następny tydzień";
@@ -571,7 +571,7 @@ namespace Gradebook.Utils
 
         public class Class
         {
-            public static DictionaryTuple CreateAnnouncement, Details, Edit, List_, Create, CreateAppointment;
+            public static DictionaryTuple CreateAnnouncement, Details, Edit, List_, Create, CreateAppointment, GenerateGradeSheet;
 
             static Class()
             {
@@ -581,6 +581,7 @@ namespace Gradebook.Utils
                 PList();
                 PCreate();
                 PCreateAppointment();
+                PGenerateGradeSheet();
             }
 
             private static void PCreate()
@@ -703,6 +704,26 @@ namespace Gradebook.Utils
                 d["Description"] = "Opis";
                 d["Date"] = "Data";
                 d["Create"] = "Stwórz";
+                d["Back"] = "Powrót";
+                d["Specify name."] = "Podaj nazwę.";
+                d["Specify date."] = "Podaj datę.";
+            }
+
+            private static void PGenerateGradeSheet()
+            {
+                GenerateGradeSheet = new DictionaryTuple();
+                var d = GenerateGradeSheet[1];
+                d["Generate grade sheet"] = "Wygeneruj zestawienie ocen";
+                d["Generate"] = "Wygeneruj";
+                d["Grade sheet for class"] = "Zestawienie ocen klasy";
+                d["You did not select any students and subjects."] = "Nie wybrałeś żadnych uczniów i przedmiotów.";
+                d["No grades"] = "Brak ocen";
+                d["Weight"] = "Waga";
+                d["Comment"] = "Komentarz";
+                d["Modification time"] = "Czas modyfikacji";
+                d["Teacher"] = "Nauczyciel";
+                d["No students were selected."] = "Nie wybrano żadnych uczniów.";
+                d["Back to class"] = "Powrót do klasy";
             }
         }
 
@@ -1399,6 +1420,7 @@ namespace Gradebook.Utils
                 d["Your class does not have access to such file."] = "Twoja klasa nie ma dostępu do takiego pliku.";
                 d["Class does not exist."] = "Klasa nie istnieje.";
                 d["You are not supervisor of such class."] = "Nie jesteś wychowawcą takiej klasy.";
+                d["You do not teach such subject in such class."] = "Nie uczysz takiego przedmiotu w takiej klasie.";
             }
         }
     }

@@ -46,7 +46,7 @@
             <td>
                 @if (userId == item.TeacherId)
                 {
-                    @Html.ActionLink(D["Create appointment"], "CreateAppointment", "Class", new { classId = Model.Id, teacherClassSubjectId = item.Id }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink(D["Create appointment"], "CreateAppointment", "Class", new { teacherClassSubjectId = item.Id }, new { @class = "btn btn-primary" })
                 }
             </td>
         </tr>
@@ -54,13 +54,13 @@
     </tbody>
 </table>
 <div class="buttons">
-    @if ((bool)ViewBag.IsSupervisor)
-    {
-        @Html.ActionLink(D["Send announcement to parents"], "CreateAnnouncement", new { id = Model.Id }, new { @class = "btn btn-primary" })
+@if ((bool)ViewBag.IsSupervisor)
+{
+    @Html.ActionLink(D["Send announcement to parents"], "CreateAnnouncement", new { id = Model.Id }, new { @class = "btn btn-primary" })
     }
     @if ((bool)ViewBag.IsSupervisor)
     {
-        @Html.ActionLink(D["Generate grade sheet"], "GenerateGradeSheet", new { id = Model.Id }, new { @class = "btn btn-primary" })
-    }
-    @Html.ActionLink(D["Back"], "List", null, new { @class = "btn btn-default" })
+    @Html.ActionLink(D["Generate grade sheet"], "GenerateGradeSheet", new { id = Model.Id }, new { @class = "btn btn-primary" })
+}
+@Html.ActionLink(D["Back"], "List", null, new { @class = "btn btn-default" })
 </div>

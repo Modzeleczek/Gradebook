@@ -1,6 +1,9 @@
-﻿@model IEnumerable<Gradebook.Controllers.ClassController.StudentSubjectsGrades>
+﻿@model IEnumerable<Gradebook.Areas.Teacher.Controllers.ClassController.StudentSubjectsGrades>
+@using Gradebook.Utils;
 @{
-    ViewBag.Title = "Grade sheet";
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Class.GenerateGradeSheet[ViewBag.LanguageId];
+    var class_ = (Gradebook.Models.Class)ViewBag.Class;
+    ViewBag.Title = D["Grade sheet for class"] + $" {class_.Year} {class_.Unit}";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -13,39 +16,36 @@
         foreach (var sg in ssg.SubjectGradesList)
         {
             <h4>@sg.Subject.Name</h4>
-            if (sg.GradesList.Count == 0)
-            {
-                @:No grades.
-                <br />
-                <br />
-            }
-            else
-            {
             <table class="list-table">
                 <thead>
                 <tr>
                     <th>
-                        Value
+                        @D["Value"]
                     </th>
                     <th>
-                        Weight
+                        @D["Weight"]
                     </th>
                     <th>
-                        Comment
+                        @D["Comment"]
                     </th>
                     <th>
-                        Modification time
+                        @D["Modification time"]
                     </th>
                     <th>
-                        Teacher name
-                    </th>
-                    <th>
-                        Teacher surname
+                        @D["Teacher"]
                     </th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach (var grade in sg.GradesList)
+                @if (sg.GradesList.Count == 0)
+                {
+                    <tr>
+                        <td colspan="5">@D["No grades"]</td>
+                    </tr>
+                }
+                else
+                {
+                foreach (var grade in sg.GradesList)
                 {
                     <tr>
                         <td>
@@ -61,23 +61,21 @@
                             @Html.DisplayFor(modelItem => grade.ModificationTime)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => grade.Teacher.ApplicationUser.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => grade.Teacher.ApplicationUser.Surname)
+                            @{ var teacher = grade.Teacher.ApplicationUser.Name + grade.Teacher.ApplicationUser.Surname; }
+                            @teacher
                         </td>
                     </tr>
                 }
+                }
                 </tbody>
             </table>
-            }
         }
     }
 }
 else
 {
-    @:No students were selected.
+    @D["No students were selected."]
     <br />
 }
 
-@Html.ActionLink("Back to class", "Details", new { id = ViewBag.ClassId })
+@Html.ActionLink(D["Back to class"], "Details", new { id = class_.Id }, new { @class = "btn btn-default" })
