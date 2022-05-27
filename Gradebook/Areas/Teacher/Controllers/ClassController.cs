@@ -21,7 +21,7 @@ namespace Gradebook.Areas.Teacher.Controllers
         public ActionResult Details(int? id)
         {
             var search = Db.Class.Where(e => e.Id == id);
-            if (search.Count() != 1) return ErrorView("Class does not exist.");
+            if (search.Count() != 1) return ErrorView("Such class does not exist.");
             var _class = search.Single();
             var userId = User.Identity.GetUserId();
             ViewBag.IsSupervisor = (_class.SupervisorId == userId);

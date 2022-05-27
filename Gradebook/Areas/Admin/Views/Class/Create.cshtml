@@ -18,8 +18,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SupervisorId, D["Supervisor"], htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("SupervisorId")
-                <a href="#" id="Refresh" class="btn btn-default">@D["Refresh"]</a>
+                @Html.DropDownList("supervisorId")
             </div>
         </div>
 
@@ -52,43 +51,36 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/selectize.js")
     <script type="text/javascript">
-        let $select;
-
         $(document).ready(function () {
-            $select = $('#SupervisorId').selectize({
+            const select_ = $('#supervisorId').selectize({
                 valueField: 'Id',
                 labelField: 'Email',
                 searchField: ['Surname', 'Name', 'Email'],
                 sortField: 'Surname',
-                onInitialize: function () { loadSupervisorsAJAX(); },
+                onInitialize: function () {
+                    $.ajax({
+                        url: '/Admin/Class/GetSupervisors',
+                        type: 'POST',
+                        success: function (data) {
+                            const selectize = select_[0].selectize;
+                            for (let i = 0; i < data.length; ++i)
+                                selectize.addOption(data[i]);
+                        },
+                        error: function (response) { alert(response); }
+                    });
+                },
                 render: {
                     option: function (it, escape) {
                         return '<div class="selectDiv">' +
                             '<span class="mainName">' + escape(it.Email) + '</span><br />' +
-                            '<span class="subLabel">@D["Name"]: </span>' + '<span class="subValue">' + escape(it.Name) + '</span>' +
-                            '<span class="subLabel">@D["Surname"]: </span>' + '<span class="subValue">' + escape(it.Surname) + '</span>' +
+                            '<span class="subLabel">@D["Name"]: </span>' +
+                            '<span class="subValue">' + escape(it.Name) + '</span>' +
+                            '<span class="subLabel">@D["Surname"]: </span>' +
+                            '<span class="subValue">' + escape(it.Surname) + '</span>' +
                             '</div>';
                     }
                 }
             });
-
-            $('#Refresh').click(function () {
-                loadSupervisorsAJAX();
-            });
         });
-
-        function loadSupervisorsAJAX() {
-            $.ajax({
-                url: '/Admin/Class/GetSupervisors',
-                type: 'POST',
-                success: function (data) {
-                    for (let i = 0; i < data.length; ++i)
-                        $select[0].selectize.addOption(data[i]);
-                },
-                error: function (response) { alert(response); }
-            });
-        }
-
-        document.getElementById("createButton").submit()
     </script>
 }

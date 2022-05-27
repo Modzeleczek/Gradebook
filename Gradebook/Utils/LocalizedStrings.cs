@@ -654,6 +654,7 @@ namespace Gradebook.Utils
                 d["Name"] = "Imię";
                 d["Surname"] = "Nazwisko";
                 d["Email"] = "Email";
+                d["Remove"] = "Usuń";
                 d["Delete"] = "Usuń";
                 d["Student"] = "Uczeń";
                 d["Add student to class"] = "Dodaj ucznia do klasy";
@@ -677,6 +678,9 @@ namespace Gradebook.Utils
                 d["wednesday"] = "środa";
                 d["thursday"] = "czwartek";
                 d["friday"] = "piątek";
+                d["Room"] = "Sala";
+                d["No students"] = "Brak uczniów";
+                d["No teachers"] = "Brak nauczycieli";
             }
 
             private static void PList()
@@ -1418,9 +1422,16 @@ namespace Gradebook.Utils
                 d["You do not own such file."] = "Nie posiadasz takiego pliku.";
                 d["Your class does not have such subject."] = "Twoja klasa nie ma takiego przedmiotu.";
                 d["Your class does not have access to such file."] = "Twoja klasa nie ma dostępu do takiego pliku.";
-                d["Class does not exist."] = "Klasa nie istnieje.";
+                d["Such class does not exist."] = "Taka klasa nie istnieje.";
                 d["You are not supervisor of such class."] = "Nie jesteś wychowawcą takiej klasy.";
                 d["You do not teach such subject in such class."] = "Nie uczysz takiego przedmiotu w takiej klasie.";
+                d["Such student does not exist."] = "Taki uczeń nie istnieje.";
+                d["The teacher does not teach such subject in such class."] = "Nauczyciel nie uczy takiego przedmiotu w takiej klasie.";
+                d["Such teacher does not exist."] = "Taki nauczyciel nie istnieje.";
+                d["Such lesson does not exist."] = "Taka lekcja nie istnieje.";
+                d["Such day does not exist."] = "Taki dzień nie istnieje.";
+                d["Such room does not exist."] = "Taka sala nie istnieje.";
+                d["Continue"] = "Kontynuuj";
             }
         }
     }

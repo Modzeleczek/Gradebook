@@ -1,17 +1,11 @@
 ﻿@model string
 @using Gradebook.Utils;
 @{
-
     LocalizedStrings.LanguageDictionary D = LocalizedStrings.GenericErrorView.GenericError[ViewBag.LanguageId];
-
     ViewBag.Title = D["Error"];
-
-
-    <div data-rel="fatalerror" class="box py-3 errorbox alert alert-danger">
-        @D[Model]
-    </div>
-    <a class="btn btn-info" href="/Home">Continue</a>
-
 }
-<br />
 
+<div data-rel="fatalerror" class="box py-3 errorbox alert alert-danger">
+    @D[Model]
+</div>
+@Html.ActionLink(D["Continue"], "Index", "Home", new { area = "" }, new { @class = "btn btn-info" })

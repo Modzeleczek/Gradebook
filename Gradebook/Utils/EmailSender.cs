@@ -1,6 +1,5 @@
 ﻿using Gradebook.Models;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Web;
@@ -9,6 +8,8 @@ namespace Gradebook.Utils
 {
     public static partial class EmailSender
     {
+        private const string UserName = "lukasz.modzelewski1@gmail.comlukasz.modzelewski1@gmail.com", Password = "huisayobarctkwaf";
+
         private static SmtpClient CreateSmtp()
         {
             var smtp = new SmtpClient();

@@ -1,0 +1,537 @@
+﻿@model Gradebook.Models.Class
+@using Gradebook.Utils;
+@{
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Class.Edit[ViewBag.LanguageId];
+    ViewBag.Title = D["Edit class"];
+    ViewBag.SupervisorId = new LinkedList<SelectListItem>();
+    ViewBag.StudentId = new LinkedList<SelectListItem>();
+    ViewBag.TeacherId = new LinkedList<SelectListItem>();
+    ViewBag.SubjectId = new LinkedList<SelectListItem>();
+    ViewBag.TeacherClassSubjectId = new LinkedList<SelectListItem>();
+    ViewBag.DayId = new LinkedList<SelectListItem>();
+    ViewBag.HourId = new LinkedList<SelectListItem>();
+    ViewBag.RoomId = new LinkedList<SelectListItem>();
+}
+
+<h2>@ViewBag.Title</h2>
+
+@Html.ActionLink(D["Back"], "List", null, new { @class = "btn btn-default" })
+
+@using (Html.BeginForm("Save", null, FormMethod.Post, new { id = "detailsFormId" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="alert alert-danger">@ViewBag.ValidationMessage</div>
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SupervisorId, D["Supervisor"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("supervisorId")
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Year, D["Year"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Year, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Unit, D["Unit"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Unit, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button onclick="document.getElementById('detailsFormId').submit()"
+                        type="submit" class="btn btn-default">
+                    @D["Save"]
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+
+<h4>@D["Students"]</h4>
+<table class="list-table">
+    <thead>
+        <tr>
+            <th>
+                @D["Name"]
+            </th>
+            <th>
+                @D["Surname"]
+            </th>
+            <th>
+                @D["Email"]
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Students.Count > 0)
+        {
+        foreach (var item in Model.Students)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.Email)
+                </td>
+                <td>
+                    @Html.ActionLink(D["Remove"], "RemoveStudentFromClass", new { studentId = item.Id }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4">@D["No students"]</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@using (Html.BeginForm("AddStudentToClass", null, FormMethod.Post, new { id = "studentFormId" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Students.Single().Id, D["Student"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("studentId")
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button onclick="document.getElementById('studentFormId').submit()"
+                        type="submit" class="btn btn-default">
+                    @D["Add student to class"]
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+
+<h4>@D["Teachers"]</h4>
+<table class="list-table">
+    <thead>
+        <tr>
+            <th>
+                @D["Name"]
+            </th>
+            <th>
+                @D["Surname"]
+            </th>
+            <th>
+                @D["Email"]
+            </th>
+            <th>
+                @D["Subject name"]
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.TeacherClassSubjects.Count > 0) 
+        {
+        foreach (var item in Model.TeacherClassSubjects)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject.Name)
+                </td>
+                <td>
+                    @Html.ActionLink(D["Remove"], "RemoveTeacherSubject", new { teacherClassSubjectId = item.Id }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5">@D["No teachers"]</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@using (Html.BeginForm("AddTeacherSubjectToClass", null, null, FormMethod.Post, new { id = "teacherSubjectFormId" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TeacherClassSubjects.Single().TeacherId, D["Teacher"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("teacherId")
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TeacherClassSubjects.Single().SubjectId, D["Subject"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("subjectId")
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button onclick="document.getElementById('teacherSubjectFormId').submit()"
+                        type="submit" class="btn btn-default">
+                    @D["Add teacher to class"]
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+
+<h4>@D["Lessons"]</h4>
+<table class="list-table">
+    <thead>
+        <tr>
+            <th>
+                @D["Day"]
+            </th>
+            <th>
+                @D["Time"]
+            </th>
+            <th>
+                @D["Duration (min)"]
+            </th>
+            <th>
+                @D["Room"]
+            </th>
+            <th>
+                @D["Subject"]
+            </th>
+            <th>
+                @D["Teacher"]
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ int lessons = 0; }
+        @foreach (var tcs in Model.TeacherClassSubjects)
+        {
+            lessons += tcs.Lessons.Count;
+            foreach (var lesson in tcs.Lessons)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => D[Gradebook.Utils.Days.Array[lesson.DayId].Name])
+                    </td>
+                    <td>
+                        @{
+                            var lessonHour = Gradebook.Utils.LessonHours.Array[lesson.HourId];
+                            var lessonHourStr = $"{lessonHour.StartH}:{lessonHour.StartM.ToString("00")}";
+                        }
+                        @lessonHourStr
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Gradebook.Utils.LessonHours.Array[lesson.HourId].DurationM)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Gradebook.Utils.Rooms.Array[lesson.RoomId].Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => tcs.Subject.Name)
+                    </td>
+                    <td>
+                        @{ var teacherStr = $"{tcs.Teacher.ApplicationUser.Name} {tcs.Teacher.ApplicationUser.Surname}"; }
+                        @teacherStr
+                    </td>
+                    <td>
+                        @Html.ActionLink(D["Delete"], "DeleteLesson", new { lessonId = lesson.Id }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        }
+        @if (lessons == 0)
+        {
+            <tr>
+                <td colspan="7">@D["No lessons"]</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@using (Html.BeginForm("AddLesson", null, FormMethod.Post, new { id = "lessonFormId" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.Label(D["Teacher and subject"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("teacherClassSubjectId")
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label(D["Day"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("dayId")
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label(D["Time"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("hourId")
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label(D["Room"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("roomId")
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button onclick="document.getElementById('lessonFormId').submit()"
+                        type="submit" class="btn btn-default">
+                    @D["Add lesson to class"]
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+
+@Styles.Render("~/Content/selectize")
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/selectize.js")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            const personRenderOption = {
+                option: function (it, escape) {
+                    return '<div class="selectDiv">' +
+                        '<span class="mainName">' + escape(it.Email) + '</span><br />' +
+                        '<span class="subLabel">@D["Name"]: </span>' +
+                        '<span class="subValue">' + escape(it.Name) + '</span>' +
+                        '<span class="subLabel">@D["Surname"]: </span>' +
+                        '<span class="subValue">' + escape(it.Surname) + '</span>' +
+                        '</div>';
+                }
+            };
+            const subjectRenderOption = {
+                option: function (it, escape) {
+                    return '<div class="selectDiv">' +
+                        '<span class="mainName">' + escape(it.Name) + '</span>' +
+                        '</div>';
+                }
+            };
+            const teacherClassSubjectRenderOption = {
+                option: function (it, escape) {
+                    return '<div class="selectDiv">' +
+                        '<span class="mainName">' + escape(it.Subject) + '</span><br />' +
+                        '<span class="subLabel">@D["Teacher"]: </span>' +
+                        '<span class="subValue">' + escape(it.Teacher) + '</span>' +
+                        '</div>';
+                }
+            };
+            const dayRoomRenderOption = {
+                option: function (it, escape) {
+                    return '<div class="selectDiv">' +
+                        '<span class="mainName">' + escape(it.Name) + '</span>' +
+                        '</div>';
+                }
+            };
+            const hourRenderOption = {
+                option: function (it, escape) {
+                    return '<div class="selectDiv">' +
+                        '<span class="mainName">' + escape(it.StartHM) + '</span><br />' +
+                        '<span class="subLabel">@D["Duration (min)"]: </span>' +
+                        '<span class="subValue">' + escape(it.DurationM) + '</span>' +
+                        '</div>';
+                }
+            };
+
+            {
+                // supervisor
+                const select_ = $('#supervisorId').selectize({
+                    valueField: 'Id', labelField: 'Email', searchField: ['Surname', 'Name', 'Email'], sortField: 'Surname',
+                    onInitialize: function () {
+                        $.ajax({
+                            url: '/Admin/Class/GetSupervisors?classSupervisorId=@Model.SupervisorId',
+                            type: 'POST',
+                            success: function (data) {
+                                const selectize = select_[0].selectize;
+                                for (let i = 0; i < data.length; ++i)
+                                    selectize.addOption(data[i]);
+                                selectize.setValue('@Model.SupervisorId');
+                            },
+                            error: function (response) { alert(response); }
+                        });
+                    }, render: personRenderOption
+                });
+            }
+            {
+                // student, teacher
+                const controlIds = ['#studentId', '#teacherId'];
+                const renderOptions = [personRenderOption, personRenderOption];
+                const urls = ['/Admin/Class/GetStudents', '/Admin/Class/GetTeachers'];
+                for (let cI = 0; cI <= 1; ++cI) {
+                    const select_ = $(controlIds[cI]).selectize({
+                        valueField: 'Id', labelField: 'Email', searchField: ['Surname', 'Name', 'Email'], sortField: 'Surname',
+                        onInitialize: function () {
+                            $.ajax({
+                                url: urls[cI],
+                                type: 'POST',
+                                success: function (data) {
+                                    const selectize = select_[0].selectize;
+                                    for (let i = 0; i < data.length; ++i)
+                                        selectize.addOption(data[i]);
+                                },
+                                error: function (response) { alert(response); }
+                            });
+                        }, render: renderOptions[cI]
+                    });
+                }
+            }
+            {
+                // subject
+                const subjectSelect = $('#subjectId').selectize({
+                    valueField: 'Id', labelField: 'Name', searchField: ['Name'], sortField: 'Name',
+                    onInitialize: function () {
+                        $.ajax({
+                            url: '/Admin/Class/GetClassUnassignedSubjects?classId=@Model.Id',
+                            type: 'POST',
+                            success: function (data) {
+                                const selectize = subjectSelect[0].selectize;
+                                for (let i = 0; i < data.length; ++i)
+                                    selectize.addOption(data[i]);
+                            },
+                            error: function (response) { alert(response); }
+                        });
+                    }, render: subjectRenderOption
+                });
+            }
+            {
+                let selectedTeacherClassSubjectId, selectedDayId, selectedHourId;
+                // teacherClassSubjectId, dayId, hourId, roomId
+                const teacherClassSubjectSelect = $('#teacherClassSubjectId').selectize({
+                    valueField: 'Id', labelField: 'Subject', searchField: ['Subject', 'Teacher'], sortField: 'Subject',
+                    onInitialize: function () {
+                        $.ajax({
+                            url: '/Admin/Class/GetTeacherClassSubjects?classId=@Model.Id',
+                            type: 'POST',
+                            success: function (data) {
+                                const selectize = teacherClassSubjectSelect[0].selectize;
+                                for (let i = 0; i < data.length; ++i)
+                                    selectize.addOption(data[i]);
+                            },
+                            error: function (response) { alert(response); }
+                        });
+                    }, render: teacherClassSubjectRenderOption,
+                    onChange: function (value) {
+                        selectedTeacherClassSubjectId = value;
+                        refreshDays();
+                    }
+                });
+                const daySelect = $('#dayId').selectize({
+                    valueField: 'Id', labelField: 'Name', searchField: ['Name'],
+                    render: dayRoomRenderOption, onChange: function (value) {
+                        selectedDayId = value;
+                        refreshHours();
+                    }
+                });
+                const hourSelect = $('#hourId').selectize({
+                    valueField: 'Id', labelField: 'StartHM', searchField: ['StartHM', "DurationM"],
+                    render: hourRenderOption, onChange: function (value) {
+                        selectedHourId = value;
+                        refreshRooms();
+                    }
+                });
+                const roomSelect = $('#roomId').selectize({
+                    valueField: 'Id', labelField: 'Name', searchField: ['Name'],
+                    render: subjectRenderOption
+                });
+
+                const daySelectize = daySelect[0].selectize;
+                const hourSelectize = hourSelect[0].selectize;
+                const roomSelectize = roomSelect[0].selectize;
+
+                function refreshDays() {
+                    daySelectize.clearOptions();
+                    selectedDayId = null;
+                    hourSelectize.clearOptions();
+                    selectedHourId = null;
+                    roomSelectize.clearOptions();
+                    selectedRoomId = null;
+                    $.ajax({
+                        url: '/Admin/Class/GetFreeDaysForTeacherAndClass?teacherClassSubjectId=' + selectedTeacherClassSubjectId,
+                        type: 'POST',
+                        success: function (data) {
+                            for (let i = 0; i < data.length; ++i)
+                                daySelectize.addOption(data[i]);
+                        },
+                        error: function (response) { alert(response); }
+                    });
+                }
+
+                function refreshHours() {
+                    hourSelectize.clearOptions();
+                    selectedHourId = null;
+                    roomSelectize.clearOptions();
+                    selectedRoomId = null;
+                    $.ajax({
+                        url: '/Admin/Class/GetFreeHoursForTeacherClassAndDay?teacherClassSubjectId=' + selectedTeacherClassSubjectId + '&dayId=' + selectedDayId,
+                        type: 'POST',
+                        success: function (data) {
+                            for (let i = 0; i < data.length; ++i)
+                                hourSelectize.addOption(data[i]);
+                        },
+                        error: function (response) { alert(response); }
+                    });
+                }
+
+                function refreshRooms() {
+                    roomSelectize.clearOptions();
+                    selectedRoomId = null;
+                    $.ajax({
+                        url: '/Admin/Class/GetFreeRoomsForDayAndHour?dayId=' + selectedDayId + '&hourId=' + selectedHourId,
+                        type: 'POST',
+                        success: function (data) {
+                            for (let i = 0; i < data.length; ++i)
+                                roomSelectize.addOption(data[i]);
+                        },
+                        error: function (response) { alert(response); }
+                    });
+                }
+            }
+        });
+    </script>
+}
