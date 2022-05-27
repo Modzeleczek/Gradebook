@@ -18,18 +18,15 @@ namespace Gradebook.Areas.Admin.Controllers
         public ActionResult Details(int? id)
         {
             var search = Db.Class.Where(e => e.Id == id);
-            if (search.Count() != 1) return ErrorView("Class does not exist.");
+            if (search.Count() != 1) return ErrorView("Such class does not exist.");
             var _class = search.Single();
             return View(_class);
         }
 
-        private LinkedList<SelectListItem> GetTeachers()
+        public JsonResult GetTeachers()
         {
-            var records = Db.Teacher.Select(r => new { r.Id, r.ApplicationUser.Name, r.ApplicationUser.Surname });
-            var list = new LinkedList<SelectListItem>();
-            foreach (var r in records)
-                list.AddLast(new SelectListItem { Text = $"{r.Name} {r.Surname}", Value = r.Id.ToString(), Selected = false });
-            return list;
+            var list = Db.Teacher.Select(r => new { r.Id, r.ApplicationUser.Email, r.ApplicationUser.Name, r.ApplicationUser.Surname });
+            return Json(list);
         }
 
         public JsonResult GetSupervisors(string classSupervisorId)
@@ -67,150 +64,219 @@ namespace Gradebook.Areas.Admin.Controllers
             return RedirectToAction("List");
         }
 
-        private LinkedList<SelectListItem> GetSubjects(int classId)
+        public JsonResult GetClassUnassignedSubjects(int? classId)
         {
+            var classSearch = Db.Class.Where(e => e.Id == classId);
+            if (classSearch.Count() != 1) return Json(new LinkedList<object>());
+            var class_ = classSearch.Single();
             var allSubjects = Db.Subject.ToArray();
-            var _class = Db.Class.Where(e => e.Id == classId).Single();
-            var alreadyAddedSubjects = _class.TeacherClassSubjects.Distinct(new ComparerBySubject()).Select(e => e.Subject).ToArray();
+            var alreadyAddedSubjects = class_.TeacherClassSubjects.Select(e => e.Subject).ToList();
             var unusedSubjects = allSubjects.Except(alreadyAddedSubjects);
-            var list = new LinkedList<SelectListItem>();
-            foreach (var r in unusedSubjects)
-                list.AddLast(new SelectListItem { Text = r.Name, Value = r.Id.ToString(), Selected = false });
-            return list;
+            var list = unusedSubjects.Select(e => new { e.Id, e.Name });
+            return Json(list);
         }
 
-        private LinkedList<SelectListItem> GetTeacherClassSubjects(int classId)
+        public JsonResult GetTeacherClassSubjects(int? classId)
         {
-            var _class = Db.Class.Where(e => e.Id == classId).Single();
-            var tcss = _class.TeacherClassSubjects.ToArray();
-            var list = new LinkedList<SelectListItem>();
-            foreach (var r in tcss)
-                list.AddLast(new SelectListItem { Text = $"{r.Subject.Name} | {r.Teacher.ApplicationUser.Name} {r.Teacher.ApplicationUser.Surname}", Value = r.Id.ToString(), Selected = false });
-            return list;
+            var classSearch = Db.Class.Where(e => e.Id == classId);
+            if (classSearch.Count() != 1) return Json(new LinkedList<object>());
+            var class_ = classSearch.Single();
+            var tcss = class_.TeacherClassSubjects;
+            var list = new LinkedList<object>();
+            foreach (var tcs in tcss)
+            {
+                var teacher = tcs.Teacher.ApplicationUser;
+                var teacherStr = $"{teacher.Name} {teacher.Surname}";
+                list.AddLast(new { tcs.Id, Subject = tcs.Subject.Name, Teacher = teacherStr });
+            }
+            return Json(list);
         }
 
-        private LinkedList<SelectListItem> GetDayHours(int classId)
+        public JsonResult GetFreeDaysForTeacherAndClass(int? teacherClassSubjectId)
         {
-            var _class = Db.Class.Where(e => e.Id == classId).Single();
-            var addedLessons = new LinkedList<Lesson>();
-            foreach (var tcs in _class.TeacherClassSubjects)
-                foreach (var l in tcs.Lessons)
-                    addedLessons.AddLast(l);
-            var dayHourUsed = new bool[Days.Array.Length, LessonHours.Array.Length];
-            foreach (var al in addedLessons)
-                dayHourUsed[al.DayId, al.HourId] = true;
-            var list = new LinkedList<SelectListItem>();
-            var D = LocalizedStrings.Class.Edit[LanguageCookie.Read(Request.Cookies)];
+            var d = LocalizedStrings.Class.Edit[LanguageCookie.Read(Request.Cookies)];
+            var tcsSearch = Db.TeacherClassSubject.Where(e => e.Id == teacherClassSubjectId);
+            if (tcsSearch.Count() != 1) return Json(new LinkedList<object>());
+            var tcs = tcsSearch.Single();
+            var teacher = tcs.Teacher;
+            var teacherTcss = teacher.TeacherClassSubjects;
+            var dayHourBusy = new bool[Days.Array.Length, LessonHours.Array.Length];
+            foreach (var teacherTcs in teacherTcss)
+                foreach (var l in teacherTcs.Lessons)
+                    dayHourBusy[l.DayId, l.HourId] = true;
+            var class_ = tcs.Class;
+            var classTcss = class_.TeacherClassSubjects;
+            foreach (var classTcs in classTcss)
+                foreach (var l in classTcs.Lessons)
+                    dayHourBusy[l.DayId, l.HourId] = true;
+            var nonFullDays = new LinkedList<object>();
             for (int di = 0; di < Days.Array.Length; ++di)
                 for (int hi = 0; hi < LessonHours.Array.Length; ++hi)
-                    if (dayHourUsed[di, hi] == false)
+                    if (dayHourBusy[di, hi] == false)
                     {
-                        var day = Days.Array[di];
-                        var hour = LessonHours.Array[hi];
-                        list.AddLast(new SelectListItem { Text = $"{D[day.Name]} {hour.StartH}:{hour.StartM.ToString("00")}", Value = $"{di}|{hi}", Selected = false });
+                        nonFullDays.AddLast(new { Id = di, Name = d[Days.Array[di].Name] });
+                        break;
                     }
-            return list;
+            return Json(nonFullDays);
         }
 
-        public ActionResult Edit(int id)
+        public JsonResult GetFreeHoursForTeacherClassAndDay(int? teacherClassSubjectId, int? dayId)
         {
-            var classSupervisorId = Db.Class.Where(e => e.Id == id).Single().SupervisorId;
-            var supervisors = GetSupervisors(classSupervisorId);
-            ViewBag.Supervisors = supervisors;
-            var students = GetStudents();
-            if (students.First != null) students.First.Value.Selected = true;
-            ViewBag.Students = students;
-            var teachers = GetTeachers();
-            if (teachers.First != null) teachers.First.Value.Selected = true;
-            ViewBag.Teachers = teachers;
-            var subjects = GetSubjects(id);
-            if (subjects.First != null) subjects.First.Value.Selected = true;
-            ViewBag.Subjects = subjects;
-            var teacherClassSubjects = GetTeacherClassSubjects(id);
-            if (teacherClassSubjects != null && teacherClassSubjects.Count > 0)
-                teacherClassSubjects.First.Value.Selected = true;
-            ViewBag.TeacherClassSubjects = teacherClassSubjects;
-            var dayHours = GetDayHours(id);
-            if (dayHours != null) dayHours.First.Value.Selected = true;
-            ViewBag.DayHours = dayHours;
-            return View(Db.Class.Where(e => e.Id == id).Single());
+            if (dayId == null || dayId.Value >= Days.Array.Length) return Json(new LinkedList<object>());
+            var tcsSearch = Db.TeacherClassSubject.Where(e => e.Id == teacherClassSubjectId);
+            if (tcsSearch.Count() != 1) return Json(new LinkedList<object>());
+            var tcs = tcsSearch.Single();
+            var teacher = tcs.Teacher;
+            var teacherTcss = teacher.TeacherClassSubjects;
+            var hourBusy = new bool[LessonHours.Array.Length];
+            foreach (var teacherTcs in teacherTcss)
+                foreach (var l in teacherTcs.Lessons)
+                    if (l.DayId == dayId.Value)
+                        hourBusy[l.HourId] = true;
+            var class_ = tcs.Class;
+            var classTcss = class_.TeacherClassSubjects;
+            foreach (var classTcs in classTcss)
+                foreach (var l in classTcs.Lessons)
+                    hourBusy[l.HourId] = true;
+            var freeHours = new LinkedList<object>();
+            for (int hi = 0; hi < LessonHours.Array.Length; ++hi)
+                if (hourBusy[hi] == false)
+                {
+                    var hour = LessonHours.Array[hi];
+                    var hm = $"{hour.StartH}:{hour.StartM.ToString("00")}";
+                    freeHours.AddLast(new { Id = hi, StartHM = hm, hour.DurationM });
+                }
+            return Json(freeHours);
+        }
+
+        public JsonResult GetFreeRoomsForDayAndHour(int? dayId, int? hourId)
+        {
+            if (dayId == null || dayId.Value >= Days.Array.Length) return Json(new LinkedList<object>());
+            if (hourId == null || hourId.Value >= LessonHours.Array.Length) return Json(new LinkedList<object>());
+            var roomBusy = new bool[Rooms.Array.Length];
+            foreach (var l in Db.Lesson)
+                if (l.DayId == dayId.Value && l.HourId == hourId.Value)
+                    roomBusy[l.RoomId] = true;
+            var freeRooms = new LinkedList<object>();
+            for (int ri = 0; ri < Rooms.Array.Length; ++ri)
+                if (roomBusy[ri] == false)
+                {
+                    var room = Rooms.Array[ri];
+                    freeRooms.AddLast(new { Id = ri, room.Name });
+                }
+            return Json(freeRooms);
+        }
+
+        public ActionResult Edit(int? id)
+        {
+            var search = Db.Class.Where(e => e.Id == id);
+            if (search.Count() != 1) return ErrorView("Such class does not exist.");
+            return View(search.Single());
         }
 
         [HttpPost]
-        public ActionResult Edit(Class _class, string button, string studentId, string teacherId, int? subjectId, int? teacherClassSubjectId, string dayIdHourId)
+        public ActionResult Save(int? id, string supervisorId, string year, string unit)
         {
-            if (button == "Save")
-            {
-                if (ModelState.IsValid == false)
-                    return RedirectToAction("Edit", new { id = _class.Id });
-                var record = Db.Class.Where(e => e.Id == _class.Id).Single();
-                record.SupervisorId = _class.SupervisorId;
-                record.Year = _class.Year;
-                record.Unit = _class.Unit;
-                Db.SaveChanges();
-            }
-            else if (button == "AddStudent")
-            {
-                if (studentId == null)
-                    return RedirectToAction("Edit", new { id = _class.Id });
-                var student = Db.Student.Where(e => e.Id == studentId).Single();
-                student.ClassId = _class.Id;
-                // alternatywa
-                /*{
-                    var record = Db.Class.Where(e => e.Id == _class.Id).Single();
-                    var student = Db.Student.Where(e => e.Id == studentId).Single();
-                    record.Students.Add(student);
-                }*/
-                Db.SaveChanges();
-            }
-            else if (button == "AddTeacher")
-            {
-                var record = Db.Class.Where(e => e.Id == _class.Id).Single();
-                var tcs = new TeacherClassSubject { ClassId = _class.Id, TeacherId = teacherId, SubjectId = subjectId ?? 0 };
-                Db.TeacherClassSubject.Add(tcs);
-                Db.SaveChanges();
-            }
-            else if (button == "AddLesson")
-            {
-                var record = Db.TeacherClassSubject.Where(e => e.Id == teacherClassSubjectId).Single();
-                var split = dayIdHourId.Split('|');
-                if (int.TryParse(split[0], out int dayId) && int.TryParse(split[1], out int hourId))
-                {
-                    // jeżeli dany nauczyciel ma już jakąś lekcję w danym dniu i godzinie, to nie nadpisujemy jej ani nie dodajemy nowej lekcji w tym samym czasie
-                    if (Db.Lesson.Where(e => e.TeacherClassSubject.TeacherId == record.TeacherId && e.DayId == dayId && e.HourId == hourId).Any() == false)
-                    {
-                        var lesson = new Lesson { TeacherClassSubjectId = teacherClassSubjectId ?? 0, DayId = dayId, HourId = hourId };
-                        Db.Lesson.Add(lesson);
-                        Db.SaveChanges();
-                    }
-                }
-            }
-            return RedirectToAction("Edit", new { id = _class.Id });
+            var d = LocalizedStrings.Class.Create[LanguageCookie.Read(Request.Cookies)];
+            var classSearch = Db.Class.Where(e => e.Id == id);
+            if (classSearch.Count() != 1) return ErrorView("Such class does not exist.");
+            var c = classSearch.Single();
+            const string viewName = "Edit";
+            if (unit.Length != 1 || !((unit[0] >= 'a' && unit[0] <= 'z') || (unit[0] >= 'A' && unit[0] <= 'Z')))
+            { ViewBag.ValidationMessage = d["Unit must be a single letter."]; return View(viewName, c); }
+            c.Unit = unit.ToUpper().Substring(0, 1);
+            if (!int.TryParse(year, out int intYear) || intYear <= 0)
+            { ViewBag.ValidationMessage = d["Year must be positive integer."]; return View(viewName, c); }
+            c.Year = intYear;
+            var teacherSearch = Db.Teacher.Where(e => e.Id == supervisorId);
+            if (teacherSearch.Count() != 1) { ViewBag.ValidationMessage = d["Teacher does not exist."]; return View(viewName, c); }
+            var supervisorSearch = Db.Class.Where(e => e.SupervisorId == supervisorId);
+            if (supervisorSearch.Count() != 0) { ViewBag.ValidationMessage = d["Teacher is already supervisor."]; return View(viewName, c); }
+            c.SupervisorId = supervisorId;
+            Db.SaveChanges();
+            return RedirectToAction("Edit", new { id = c.Id });
         }
 
-        private LinkedList<SelectListItem> GetStudents()
+        [HttpPost]
+        public ActionResult AddStudentToClass(int? id, string studentId)
         {
-            var records = Db.Student.Where(e => e.ClassId == null).Select(r => new { r.Id, r.ApplicationUser.Name, r.ApplicationUser.Surname, r.ApplicationUser.Email });
-            var list = new LinkedList<SelectListItem>();
-            foreach (var r in records)
-                list.AddLast(new SelectListItem { Text = $"{r.Name} {r.Surname} | {r.Email}", Value = r.Id.ToString(), Selected = false });
-            return list;
+            var classSearch = Db.Class.Where(e => e.Id == id);
+            if (classSearch.Count() != 1) return ErrorView("Such class does not exist.");
+            var class_ = classSearch.Single();
+            var studentSearch = Db.Student.Where(e => e.Id == studentId);
+            if (studentSearch.Count() != 1) return ErrorView("Such student does not exist.");
+            var student = studentSearch.Single();
+            student.ClassId = class_.Id;
+            Db.SaveChanges();
+            return RedirectToAction("Edit", new { id = class_.Id });
         }
 
-        public ActionResult DeleteStudent(int classId, string studentId)
+        [HttpPost]
+        public ActionResult AddTeacherSubjectToClass(int? id, string teacherId, int? subjectId)
         {
-            var record = Db.Class.Where(e => e.Id == classId).Single();
-            var student = Db.Student.Where(e => e.Id == studentId).Single();
-            record.Students.Remove(student);
+            var classSearch = Db.Class.Where(e => e.Id == id);
+            if (classSearch.Count() != 1) return ErrorView("Such class does not exist.");
+            var class_ = classSearch.Single();
+            var teacherSearch = Db.Teacher.Where(e => e.Id == teacherId);
+            if (teacherSearch.Count() != 1) return ErrorView("Such teacher does not exist.");
+            var teacher = teacherSearch.Single();
+            var subjectSearch = Db.Subject.Where(e => e.Id == subjectId);
+            if (subjectSearch.Count() != 1) return ErrorView("Such subject does not exist.");
+            var subject = subjectSearch.Single();
+            var tcsSearch = class_.TeacherClassSubjects.Where(e => e.SubjectId == subject.Id);
+            if (tcsSearch.Count() != 0) return ErrorView("Such class already has this subject.");
+            var tcs = new TeacherClassSubject { ClassId = class_.Id, TeacherId = teacher.Id, SubjectId = subject.Id };
+            Db.TeacherClassSubject.Add(tcs);
+            Db.SaveChanges();
+            return RedirectToAction("Edit", new { id = class_.Id });
+        }
+
+        [HttpPost]
+        public ActionResult AddLesson(int? id, int? teacherClassSubjectId, int? dayId, int? hourId, int? roomId)
+        {
+            var d = LocalizedStrings.Class.Edit[LanguageCookie.Read(Request.Cookies)];
+            var classSearch = Db.Class.Where(e => e.Id == id);
+            if (classSearch.Count() != 1) return ErrorView("Such class does not exist.");
+            var class_ = classSearch.Single();
+            var tcsSearch = Db.TeacherClassSubject.Where(e => e.Id == teacherClassSubjectId);
+            if (tcsSearch.Count() != 1) return ErrorView("The teacher does not teach such subject in such class.");
+            var tcs = tcsSearch.Single();
+            if (dayId == null || dayId.Value >= Days.Array.Length) return ErrorView("Such day does not exist.");
+            if (hourId == null || hourId.Value >= LessonHours.Array.Length) return ErrorView("Such lesson hour does not exist.");
+            if (roomId == null || roomId.Value >= Rooms.Array.Length) return ErrorView("Such room does not exist.");
+            // jeżeli dany nauczyciel ma już jakąś lekcję w danym dniu i godzinie, to nie nadpisujemy jej ani nie dodajemy nowej lekcji w tym samym czasie
+            var lessonSearch = Db.Lesson.Where(e => e.TeacherClassSubject.TeacherId == tcs.TeacherId && e.DayId == dayId && e.HourId == hourId);
+            if (lessonSearch.Count() != 0)
+            { ViewBag.ValidationMessage = d["The teacher has another lesson at specified time."]; return View(class_); }
+            var lesson = new Lesson { TeacherClassSubjectId = tcs.Id, DayId = dayId.Value, HourId = hourId.Value, RoomId = roomId.Value};
+            Db.Lesson.Add(lesson);
+            Db.SaveChanges();
+            return RedirectToAction("Edit", new { id = class_.Id });
+        }
+
+        public JsonResult GetStudents()
+        {
+            var list = Db.Student.Where(e => e.ClassId == null).Select(r => new { r.Id, r.ApplicationUser.Email, r.ApplicationUser.Name, r.ApplicationUser.Surname });
+            return Json(list);
+        }
+
+        public ActionResult RemoveStudentFromClass(string studentId)
+        {
+            var search = Db.Student.Where(e => e.Id == studentId);
+            if (search.Count() != 1) return ErrorView("Such student does not exist.");
+            var s = search.Single();
+            var classId = s.ClassId;
+            s.ClassId = null;
             Db.SaveChanges();
             return RedirectToAction("Edit", new { id = classId });
         }
 
-        public ActionResult DeleteTeacherSubject(int classId, int teacherClassSubjectId)
+        public ActionResult RemoveTeacherSubject(int? teacherClassSubjectId)
         {
-            // potencjalna alternatywa: w DeleteLesson działa zwykłe usunięcie rekordu z Db.Lesson zamiast przez właściwość nawigacji
-            var record = Db.Class.Where(e => e.Id == classId).Single();
-            var tcs = record.TeacherClassSubjects.Where(e => e.Id == teacherClassSubjectId).Single();
+            var search = Db.TeacherClassSubject.Where(e => e.Id == teacherClassSubjectId);
+            if (search.Count() != 1) return ErrorView("The teacher does not teach such subject in such class.");
+            var tcs = search.Single();
+            var classId = tcs.ClassId;
             var lessons = tcs.Lessons.ToList();
             foreach (var l in lessons)
                 Db.Lesson.Remove(l);
@@ -223,21 +289,26 @@ namespace Gradebook.Areas.Admin.Controllers
             return RedirectToAction("Edit", new { id = classId });
         }
 
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
-            var c = Db.Class.Where(e => e.Id == id).Single();
+            var search = Db.Class.Where(e => e.Id == id);
+            if (search.Count() != 1) return ErrorView("Such class does not exist.");
+            var c = search.Single();
             foreach (var student in c.Students)
                 student.ClassId = null;
             Db.SaveChanges();
             Db.Class.Remove(c);
             Db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("List");
         }
 
-        public ActionResult DeleteLesson(int classId, int lessonId)
+        public ActionResult DeleteLesson(int? lessonId)
         {
-            var lesson = Db.Lesson.Where(e => e.Id == lessonId).Single();
-            Db.Lesson.Remove(lesson);
+            var search = Db.Lesson.Where(e => e.Id == lessonId);
+            if (search.Count() != 1) return ErrorView("Such lesson does not exist.");
+            var l = search.Single();
+            var classId = l.TeacherClassSubject.ClassId;
+            Db.Lesson.Remove(l);
             Db.SaveChanges();
             return RedirectToAction("Edit", new { id = classId });
         }

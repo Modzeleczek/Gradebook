@@ -243,7 +243,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AppointmentController.cs" />
     <Compile Include="Controllers\ChildController.cs" />
-    <Compile Include="Controllers\ClassController.cs" />
     <Compile Include="Controllers\DoQuizController.cs" />
     <Compile Include="Controllers\GlobalAnnouncementController.cs" />
     <Compile Include="Controllers\AbsenceController.cs" />
@@ -267,12 +266,12 @@
     <Compile Include="Models\Lesson.cs" />
     <Compile Include="Models\LessonHour.cs" />
     <Compile Include="Models\QuizSharing.cs" />
+    <Compile Include="Models\Room.cs" />
     <Compile Include="Utils\ComparerById.cs" />
     <Compile Include="Utils\ComparerBySubject.cs" />
     <Compile Include="Utils\ControllerBase.cs" />
     <Compile Include="Utils\Days.cs" />
     <Compile Include="Utils\EmailSender.cs" />
-    <Compile Include="Utils\EmailSenderSecret.cs" />
     <Compile Include="Utils\LanguageCookie.cs" />
     <Compile Include="Utils\LessonHours.cs" />
     <Compile Include="Utils\Link.cs" />
@@ -310,6 +309,7 @@
     <Compile Include="Models\ViewModels\StudentViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utils\Rooms.cs" />
     <Compile Include="Utils\ViewFilter.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -355,6 +355,7 @@
     <Content Include="Areas\Teacher\Views\Class\ShowGradeSheet.cshtml" />
     <Content Include="Areas\Teacher\Views\Class\GenerateGradeSheet.cshtml" />
     <Content Include="Areas\Teacher\Views\Class\CreateAppointment.cshtml" />
+    <Content Include="Areas\Admin\Views\Class\Edit.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -415,8 +416,6 @@
     <Content Include="Views\Message\Index.cshtml" />
     <Content Include="Views\Class\List.cshtml" />
     <Content Include="Views\Class\Details.cshtml" />
-    <Content Include="Views\Class\Create.cshtml" />
-    <Content Include="Views\Class\Edit.cshtml" />
     <Content Include="Views\Account\LoginDetails.cshtml" />
     <Content Include="Views\Account\EditOther.cshtml" />
     <Content Include="Views\Account\EditStudent.cshtml" />
@@ -435,8 +434,6 @@
     <Content Include="Views\Absence\Index.cshtml" />
     <Content Include="Views\Absence\Create.cshtml" />
     <Content Include="Views\Child\AbsenceList.cshtml" />
-    <Content Include="Views\Class\GenerateGradeSheet.cshtml" />
-    <Content Include="Views\Class\ShowGradeSheet.cshtml" />
     <Content Include="Views\Timetable\Index.cshtml" />
     <Content Include="Views\Appointment\Index.cshtml" />
     <Content Include="Views\Appointment\Details.cshtml" />
