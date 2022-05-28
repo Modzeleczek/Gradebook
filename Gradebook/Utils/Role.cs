@@ -30,8 +30,8 @@ namespace Gradebook.Utils
                 const string area = "Teacher";
                 return new NamedLink[]
                 {
-                    new NamedLink("Announcements", "List", "GlobalAnnouncement", area),
-                    new NamedLink("Messages", "List", "Message", area),
+                    new NamedLink("Announcements", "List", "GlobalAnnouncement", ""),
+                    new NamedLink("Messages", "List", "Message", ""),
                     new NamedLink("Subjects", "List", "Subject", area),
                     new NamedLink("Classes", "List", "Class", area),
                     new NamedLink("Quizzes", "List", "Quiz", area),
@@ -44,8 +44,8 @@ namespace Gradebook.Utils
                 const string area = "Parent";
                 return new NamedLink[]
                 {
-                    new NamedLink("Announcements", "List", "GlobalAnnouncement", area),
-                    new NamedLink("Messages", "List", "Message", area),
+                    new NamedLink("Announcements", "List", "GlobalAnnouncement", ""),
+                    new NamedLink("Messages", "List", "Message", ""),
                     new NamedLink("Children", "List", "Child", area)
                 };
             }
@@ -54,9 +54,10 @@ namespace Gradebook.Utils
                 const string area = "Student";
                 return new NamedLink[]
                 {
-                    new NamedLink("Announcements", "List", "GlobalAnnouncement", area),
-                    new NamedLink("Messages", "List", "Message", area),
+                    new NamedLink("Announcements", "List", "GlobalAnnouncement", ""),
+                    new NamedLink("Messages", "List", "Message", ""),
                     new NamedLink("Subjects", "List", "Subject", area),
+                    new NamedLink("Class", "Details", "Class", area),
                     new NamedLink("Grades", "List", "Grade", area),
                     new NamedLink("Absences", "List", "Absence", area),
                     new NamedLink("Quizzes", "List", "Quiz", area),

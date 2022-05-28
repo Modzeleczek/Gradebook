@@ -560,7 +560,7 @@ namespace Gradebook.Utils
                 d["Surname"] = "Nazwisko";
                 d["Email"] = "Email";
                 d["Phone number"] = "Numer telefonu";
-                d["No parent"] = "Brak rodziców";
+                d["No parent"] = "Brak rodzica";
                 d["Class"] = "Klasa";
                 d["Year"] = "Rok";
                 d["Unit"] = "Oddział";
@@ -873,32 +873,19 @@ namespace Gradebook.Utils
 
         public class Message
         {
-            public static DictionaryTuple Create, Details, Index;
+            public static DictionaryTuple Create, Details, List_;
 
             static Message()
             {
                 PCreate();
                 PDetails();
-                PIndex();
+                PList();
             }
 
             private static void PCreate()
             {
                 Create = new DictionaryTuple();
-                var d = Create[0];
-                d["Create message"] = "Create message";
-                d["Content"] = "Content";
-                d["Attachment"] = "Attachment";
-                d["Recipients"] = "Recipients";
-                d["Name"] = "Name";
-                d["Surname"] = "Surname";
-                d["Email"] = "Email";
-                d["Delete"] = "Delete";
-                d["Add recipient"] = "Add recipient";
-                d["Send"] = "Send";
-                d["Back"] = "Back";
-                d["No recipients"] = "No recipients";
-                d = Create[1];
+                var d = Create[1];
                 d["Create message"] = "Stwórz wiadomość";
                 d["Content"] = "Treść";
                 d["Attachment"] = "Załącznik";
@@ -911,45 +898,41 @@ namespace Gradebook.Utils
                 d["Send"] = "Wyślij";
                 d["Back"] = "Powrót";
                 d["No recipients"] = "Brak odbiorców";
+                d["Message does not have recipients."] = "Wiadomość nie ma odbiorców.";
+                d["Specify content."] = "Podaj treść.";
+                d["User"] = "Użytkownik";
+                d["Cancel"] = "Anuluj";
+                d["Add recipient"] = "Dodaj odbiorcę";
             }
 
             private static void PDetails()
             {
                 Details = new DictionaryTuple();
-                var d = Details[0];
-                d["Message details"] = "Message details";
-                d["Received"] = "Received";
-                d["Content"] = "Content";
-                d["Sender name"] = "Sender name";
-                d["Sender surname"] = "Sender surname";
-                d["Sender email"] = "Sender email";
-                d["Attachment"] = "Attachment";
-                d["Sent"] = "Sent";
-                d["Recipients"] = "Recipients";
-                d["Back"] = "Back";
-                d["Name"] = "Name";
-                d["Surname"] = "Surname";
-                d["Email"] = "Email";
-                d = Details[1];
+                var d = Details[1];
                 d["Message details"] = "Szczegóły wiadomości";
-                d["Received"] = "Otrzyamno";
+                d["Time"] = "Czas";
                 d["Content"] = "Treść";
-                d["Sender name"] = "Imię adresata";
-                d["Sender surname"] = "Nazwisko adresata";
-                d["Sender email"] = "Email adresata";
-                d["Attachment"] = "Załącznik";
+                d["Sender name"] = "Imię nadawcy";
+                d["Sender surname"] = "Nazwisko nadawcy";
+                d["Sender email"] = "Email nadawcy";
+                d["Attachments"] = "Załączniki";
                 d["Sent"] = "Wysłano";
                 d["Recipients"] = "Odbiorcy";
                 d["Back"] = "Powrót";
                 d["Name"] = "Imię";
                 d["Surname"] = "Nazwisko";
                 d["Email"] = "Email";
+                d["Attachment name"] = "Nazwa";
+                d["Type"] = "Typ";
+                d["Size (bytes)"] = "Rozmiar (bajty)";
+                d["No attachments"] = "Brak załączników";
+                d["No recipients"] = "Brak odbiorców";
             }
 
-            private static void PIndex()
+            private static void PList()
             {
-                Index = new DictionaryTuple();
-                var d = Index[1];
+                List_ = new DictionaryTuple();
+                var d = List_[1];
                 d["Messages"] = "Wiadomości";
                 d["Received"] = "Otrzymane";
                 d["Time"] = "Czas";
@@ -983,22 +966,7 @@ namespace Gradebook.Utils
             private static void PIndex()
             {
                 Index = new DictionaryTuple();
-                var d = Index[0];
-                d["Quizzes"] = "Quizzes";
-                d["Create quiz"] = "Create quiz";
-                d["Subject"] = "Subject";
-                d["Name"] = "Name";
-                d["Duration"] = "Duration [s]";
-                d["Max attempts"] = "Max attempts";
-                d["Modification time"] = "Modification time";
-                d["Open from"] = "Open from";
-                d["Open to"] = "Open to";
-                d["Edit"] = "Edit";
-                d["Details"] = "Details";
-                d["Delete"] = "Delete";
-                d["Do"] = "Do";
-
-                d = Index[1];
+                var d  = Index[1];
                 d["Quizzes"] = "Quizy";
                 d["Create quiz"] = "Stwórz quiz";
                 d["Subject"] = "Przedmiot";
@@ -1018,15 +986,7 @@ namespace Gradebook.Utils
             private static void PCreate()
             {
                 Create = new DictionaryTuple();
-                var d = Create[0];
-                d["Create quiz"] = "Create quiz";
-                d["Subject"] = "Subject";
-                d["Quiz"] = "Quiz";
-                d["Name"] = "Name";
-                d["Duration [s]"] = "Duration [s]";
-                d["Back"] = "Back";
-
-                d = Create[1];
+                var d = Create[1];
                 d["Create quiz"] = "Stwórz quiz";
                 d["Subject"] = "Przedmiot";
                 d["Quiz"] = "Quiz";
@@ -1038,31 +998,7 @@ namespace Gradebook.Utils
             private static void PEdit()
             {
                 Edit = new DictionaryTuple();
-                var d = Edit[0];
-                d["Edit quiz"] = "Edit quiz";
-                d["Quiz"] = "Quiz";
-                d["Back"] = "Back";
-                d["Subject"] = "Subject";
-                d["Name"] = "Name";
-                d["Duration [s]"] = "Duration [s]";
-                d["Save"] = "Save";
-                d["Questions"] = "Questions";
-                d["Content"] = "Content";
-                d["Answers"] = "Answers";
-                d["correct"] = "correct";
-                d["incorrect"] = "incorrect";
-                d["Delete answer"] = "Delete answer";
-                d["Add answer"] = "Add answer";
-                d["Delete question"] = "Delete question";
-                d["Add question"] = "Add question";
-                d["Sharings"] = "Sharings";
-                d["Year"] = "Year";
-                d["Unit"] = "Unit";
-                d["Grade weight"] = "Grade weight";
-                d["Delete"] = "Delete";
-                d["Grant access"] = "Give access";
-
-                d = Edit[1];
+                var d = Edit[1];
                 d["Edit quiz"] = "Edytuj quiz";
                 d["Quiz"] = "Quiz";
                 d["Back"] = "Powrót";
@@ -1090,14 +1026,7 @@ namespace Gradebook.Utils
             private static void PAddAnswer()
             {
                 AddAnswer = new DictionaryTuple();
-                var d = AddAnswer[0];
-                d["Add answer"] = "Add answer";
-                d["Content"] = "Content";
-                d["Correct?"] = "Correct?";
-                d["Add"] = "Add";
-                d["Back"] = "Back";
-
-                d = AddAnswer[1];
+                var d = AddAnswer[1];
                 d["Add answer"] = "Dodaj odpowiedź";
                 d["Content"] = "Treść";
                 d["Correct?"] = "Prawidłowa?";
@@ -1108,13 +1037,7 @@ namespace Gradebook.Utils
             private static void PAddQuestion()
             {
                 AddQuestion = new DictionaryTuple();
-                var d = AddQuestion[0];
-                d["Add question"] = "Add question";
-                d["Content"] = "Content";
-                d["Add"] = "Add";
-                d["Back"] = "Back";
-
-                d = AddQuestion[1];
+                var d = AddQuestion[1];
                 d["Add question"] = "Dodaj pytanie";
                 d["Content"] = "Treść";
                 d["Add"] = "Dodaj";
@@ -1124,13 +1047,7 @@ namespace Gradebook.Utils
             private static void PAddQuizSharing()
             {
                 AddQuizSharing = new DictionaryTuple();
-                var d = AddQuizSharing[0];
-                d["Grant access"] = "Give access";
-                d["Class"] = "Class";
-                d["Grade weight"] = "Grade weight";
-                d["Back"] = "Back";
-
-                d = AddQuizSharing[1];
+                var d = AddQuizSharing[1];
                 d["Grant access"] = "Przyznaj dostęp";
                 d["Class"] = "Klasa";
                 d["Grade weight"] = "Waga oceny";
@@ -1140,16 +1057,7 @@ namespace Gradebook.Utils
             private static void PDo()
             {
                 Do = new DictionaryTuple();
-                var d = Do[0];
-                d["Quiz attempt"] = "Quiz attempt";
-                d["Back"] = "Back";
-                d["Time remaining"] = "Time remaining";
-                d["Content"] = "Content";
-                d["Answers"] = "Answers";
-                d["Submit"] = "Submit";
-                d["Your time has expired."] = "Your time has expired.";
-
-                d = Do[1];
+                var d = Do[1];
                 d["Quiz attempt"] = "Podejście do quizu";
                 d["Back"] = "Powrót";
                 d["Time remaining"] = "Pozostały czas";
@@ -1172,29 +1080,14 @@ namespace Gradebook.Utils
             private static void PDetails()
             {
                 Details = new DictionaryTuple();
-                var d = Details[0];
-                d["Student details"] = "Student details";
-                d["Back to class"] = "Back to class";
-                d["Name"] = "Name";
-                d["Surname"] = "Surname";
-                d["Email"] = "Email";
-                d["Phone number"] = "Phone number";
-                d["No parent"] = "No parent";
-                d["Parent"] = "Parent";
-                d["Class"] = "Class";
-                d["Year"] = "Year";
-                d["Unit"] = "Unit";
-                d["No class"] = "No class";
-                d["Show grades"] = "Show grades";
-                d["Show absences"] = "Show absences";
-                d = Details[1];
+                var d = Details[1];
                 d["Student details"] = "Szczegóły ucznia";
                 d["Back to class"] = "Powrót do klasy";
                 d["Name"] = "Imię";
                 d["Surname"] = "Nazwisko";
                 d["Email"] = "Email";
                 d["Phone number"] = "Numer telefonu";
-                d["No parent"] = "Brak rodziców";
+                d["No parent"] = "Brak rodzica";
                 d["Parent"] = "Rodzic";
                 d["Class"] = "Klasa";
                 d["Year"] = "Rok";
@@ -1300,18 +1193,7 @@ namespace Gradebook.Utils
             private static void P_Layout()
             {
                 _Layout = new DictionaryTuple();
-                var d = _Layout[0];
-                d["Announcements"] = "Announcements";
-                d["Accounts"] = "Accounts";
-                d["Subjects"] = "Subjects";
-                d["Classes"] = "Classes";
-                d["Grades"] = "Grades";
-                d["Messages"] = "Messages";
-                d["Quizzes"] = "Quizzes";
-                d["Children"] = "Children";
-                d["Absences"] = "Absences";
-                d["Timetable"] = "Timetable";
-                d = _Layout[1];
+                var d = _Layout[1];
                 d["Announcements"] = "Ogłoszenia";
                 d["Accounts"] = "Konta";
                 d["Subjects"] = "Przedmioty";
@@ -1324,6 +1206,7 @@ namespace Gradebook.Utils
                 d["Language"] = "Język";
                 d["Timetable"] = "Plan lekcji";
                 d["Appointments"] = "Terminarz";
+                d["Class"] = "Klasa";
             }
 
             private static void PLogin()
@@ -1349,13 +1232,7 @@ namespace Gradebook.Utils
             private static void PIndex()
             {
                 Index = new DictionaryTuple();
-                var d = Index[0];
-                d["Manage"] = "Manage";
-                d["Change"] = "Change";
-                d["Password"] = "Password";
-                d["Create"] = "Create";
-
-                d = Index[1];
+                var d = Index[1];
                 d["Manage"] = "Zarządzanie";
                 d["Change"] = "Zmień";
                 d["Password"] = "Hasło";
@@ -1365,13 +1242,7 @@ namespace Gradebook.Utils
             private static void PChangePassword()
             {
                 ChangePassword = new DictionaryTuple();
-                var d = ChangePassword[0];
-                d["Change password"] = "Change password";
-                d["Current password"] = "Current password";
-                d["New password"] = "New password";
-                d["Confirm password"] = "Confirm password";
-
-                d = ChangePassword[1];
+                var d = ChangePassword[1];
                 d["Change password"] = "Zmień hasło";
                 d["Current password"] = "Aktualne hasło";
                 d["New password"] = "Nowe hasło";
@@ -1432,6 +1303,15 @@ namespace Gradebook.Utils
                 d["Such day does not exist."] = "Taki dzień nie istnieje.";
                 d["Such room does not exist."] = "Taka sala nie istnieje.";
                 d["Continue"] = "Kontynuuj";
+                d["You do not belong to any class."] = "Nie należysz do żadnej klasy.";
+                d["Such message does not exist."] = "Taka wiadomość nie istnieje.";
+                d["You are not sender nor recipient of such message."] = "Nie jesteś nadawcą ani odbiorcą takiej wiadomości.";
+                d["Such attachment does not exist."] = "Taki załącznik nie istnieje.";
+                d["You are not sender nor recipient of such attachment."] = "Nie jesteś nadawcą ani odbiorcą takiego załącznika.";
+                d["Such user does not exist in database."] = "Taki użytkownik nie istnieje w bazie danych.";
+                d["Such user does not exist in session."] = "Taki użytkownik nie istnieje w sesji.";
+                d["The user is already added."] = "Ten użytkownik jest już dodany.";
+                d["You are not parent of a child in such class."] = "Nie jesteś rodzicem ucznia takiej klasy.";
             }
         }
     }
