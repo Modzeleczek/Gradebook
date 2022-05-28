@@ -1,0 +1,8 @@
+﻿@model Gradebook.Models.Message
+@using Gradebook.Utils;
+@{
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Message.Details[ViewBag.LanguageId];
+    ViewBag.Title = D["Message details"];
+}
+@Html.Partial("~/Views/Message/Details.cshtml", Model)
+@Html.ActionLink(D["Back"], "List", null, null, new { @class = "btn btn-default" })

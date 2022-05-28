@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Gradebook.Models;
 using Gradebook.Utils;
 using Microsoft.AspNet.Identity;
+using ControllerBase = Gradebook.Utils.ControllerBase;
 
 namespace Gradebook.Controllers
 {
     [Authorize, ViewFilter]
-    public class MessageController : Controller
+    public class MessageController : ControllerBase
     {
-        ApplicationDbContext Db = ApplicationDbContext.Create();
-
-        // GET: Message
-        public ActionResult Index()
+        public ActionResult List()
         {
             var userId = User.Identity.GetUserId();
             var user = Db.Users.Where(e => e.Id == userId).Single();
@@ -32,31 +28,39 @@ namespace Gradebook.Controllers
             return View();
         }
 
-        // GET: Message/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
+            var search = Db.Message.Where(e => e.Id == id);
+            if (search.Count() != 1) return ErrorView("Such message does not exist.");
+            var message = search.Single();
             var userId = User.Identity.GetUserId();
-            var received = Db.MessageRecipient.Where(e => e.MessageId == id && e.RecipientId == userId);
-            var sent = Db.Message.Where(e => e.Id == id && e.SenderId == userId);
-            if (sent.Any()) // wiadomość jest wysłaną
+            if (message.SenderId == userId) // wiadomość jest wysłaną
             {
-                ViewBag.IsSent = true;
-                ViewBag.Recipients = Db.MessageRecipient.Where(e => e.MessageId == id).ToArray();
-                return View(sent.Single());
+                ViewBag.Recipients = Db.MessageRecipient.Where(e => e.MessageId == id).ToList();
+                return View("SentDetails", message);
             }
-            else if (received.Any()) // wiadomość jest odebraną
+            else
             {
-                ViewBag.IsSent = false;
-                var message = received.Single().Message;
-                return View(message);
+                var received = Db.MessageRecipient.Where(e => e.MessageId == id && e.RecipientId == userId);
+                if (received.Count() == 1)
+                {
+                    return View("ReceivedDetails", message);
+                }
             }
-            return RedirectToAction("Index"); // wiadomość nie istnieje
+            return ErrorView("You are not sender nor recipient of such message.");
         }
 
-        // GET
-        public ActionResult DownloadAttachment(int id)
+        public ActionResult DownloadAttachment(int? id)
         {
-            var attachment = Db.Attachment.Where(e => e.Id == id).Single();
+            var search = Db.Attachment.Where(e => e.Id == id);
+            if (search.Count() != 1) return ErrorView("Such attachment does not exist.");
+            var attachment = search.Single();
+            var userId = User.Identity.GetUserId();
+            if (attachment.Message.SenderId != userId)
+            {
+                var recipientSearch = Db.MessageRecipient.Where(e => e.MessageId == attachment.MessageId && e.RecipientId == userId);
+                if (recipientSearch.Count() != 1) return ErrorView("You are not sender nor recipient of such recipient.");
+            }
             var hex = attachment.Data;
             var type = attachment.FileType;
             var name = attachment.Name;
@@ -65,68 +69,60 @@ namespace Gradebook.Controllers
 
         private LinkedList<SelectListItem> GetRecipients()
         {
-            var records = Db.Users.Select(r => new { r.Id, r.Name, r.Surname, r.Email });
+            if (Session[SESSION_KEY] == null)
+                Session[SESSION_KEY] = new LinkedList<ApplicationUser>();
+            var alreadyAdded = (LinkedList<ApplicationUser>)Session[SESSION_KEY];
+            var allUsers = Db.Users.ToArray();
+            var comparer = new Utils.Comparer<ApplicationUser>((x, y) => x.Id == y.Id, obj => obj.Id.GetHashCode());
+            var unused = allUsers.Except(alreadyAdded, comparer);
+            var records = unused.Select(r => new { r.Id, r.Name, r.Surname, r.Email });
             var list = new LinkedList<SelectListItem>();
             foreach (var r in records)
                 list.AddLast(new SelectListItem { Text = $"{r.Name} {r.Surname} | {r.Email}", Value = r.Id, Selected = false });
             return list;
         }
 
-        // GET: Message/Create
         public ActionResult Create()
         {
             var recipients = (LinkedList<ApplicationUser>)Session["Recipients"];
             if (recipients == null)
                 recipients = new LinkedList<ApplicationUser>();
             ViewBag.Recipients = recipients;
-            /*var attachments = (LinkedList<Attachment>)Session["Attachments"];
-            if (attachments == null)
-                attachments = new LinkedList<Attachment>();
-            ViewBag.Attachments = attachments;*/
             return View();
         }
 
-        // POST: Message/Create
         [HttpPost]
-        public ActionResult Create(Message message, HttpPostedFileBase attachedFile)
+        public ActionResult Create(string content, HttpPostedFileBase[] attachedFiles)
         {
+            var d = LocalizedStrings.Message.Create[LanguageCookie.Read(Request.Cookies)];
+            var message = new Message { Content = content };
             var recipients = (LinkedList<ApplicationUser>)Session[SESSION_KEY];
-            if (recipients == null)
-                return RedirectToAction("Index");
-            if (recipients.Count > 0)
+            if (recipients == null || recipients.Count == 0)
+            { Session[SESSION_KEY] = null; ViewBag.ValidationMessage = d["Message does not have recipients."]; return View(message); }
+            if (string.IsNullOrEmpty(content))
+            { ViewBag.ValidationMessage = d["Specify content."]; ViewBag.Recipients = recipients; return View(message); }
+            message.SenderId = User.Identity.GetUserId();
+            message.SendTime = DateTime.Now;
+            Db.Message.Add(message);
+            Db.SaveChanges();
+            foreach (var r in recipients)
             {
-                message.SenderId = User.Identity.GetUserId();
-                message.SendTime = DateTime.Now;
-                // message.Content jest bindowane z formularza
-                Db.Message.Add(message);
-                Db.SaveChanges();
-                foreach (var r in recipients)
-                {
-                    var messageRecipient = new MessageRecipient { MessageId = message.Id, RecipientId = r.Id };
-                    Db.MessageRecipient.Add(messageRecipient);
-                }
-                if (attachedFile != null) // użytkownik wybrał plik
-                    SaveAttachment(message.Id, attachedFile);
-                Db.SaveChanges();
+                var messageRecipient = new MessageRecipient { MessageId = message.Id, RecipientId = r.Id };
+                Db.MessageRecipient.Add(messageRecipient);
             }
-            Session[SESSION_KEY] = null;
-            return RedirectToAction("Index");
-        }
-
-        private void SaveAttachment(int messageId, HttpPostedFileBase file)
-        {
-            /*var fileTypeIds = Db.FileType.Where(e => e.Name == file.ContentType).Select(e => e.Id);
-            if (fileTypeIds.Any())
+            if (attachedFiles != null && attachedFiles.Length != 0) // użytkownik wybrał plik(i)
             {
-                var fileTypeId = fileTypeIds.Single();
-                var attachment = new Attachment { MessageId = messageId, Name = file.FileName, FileTypeId = fileTypeId, Data = FileType.StreamToHexString(file.InputStream) };
-                Db.Attachment.Add(attachment);
-            }*/
-            var attachment = new Attachment { MessageId = messageId, Name = file.FileName, FileType = file.ContentType, Data = FileType.StreamToHexString(file.InputStream) };
-            Db.Attachment.Add(attachment);
+                foreach (var f in attachedFiles)
+                {
+                    var attachment = new Attachment { MessageId = message.Id, Name = f.FileName, FileType = f.ContentType, Data = FileType.StreamToHexString(f.InputStream) };
+                    Db.Attachment.Add(attachment);
+                }
+            }
+            Db.SaveChanges();
+            Session[SESSION_KEY] = null;
+            return RedirectToAction("List");
         }
 
-        // GET
         public ActionResult AddRecipient()
         {
             var recipients = GetRecipients();
@@ -144,7 +140,11 @@ namespace Gradebook.Controllers
             if (Session[SESSION_KEY] == null)
                 Session[SESSION_KEY] = new LinkedList<ApplicationUser>();
             var recipients = (LinkedList<ApplicationUser>)Session[SESSION_KEY];
-            var user = Db.Users.Where(e => e.Id == userId).Single();
+            var searchInDatabase = Db.Users.Where(e => e.Id == userId);
+            if (searchInDatabase.Count() != 1) return ErrorView("Such user does not exist in database.");
+            var searchInSession = recipients.Where(e => e.Id == userId);
+            if (searchInSession.Count() != 0) return ErrorView("The user is already added.");
+            var user = searchInDatabase.Single();
             recipients.AddLast(user);
             return RedirectToAction("Create");
         }
@@ -154,8 +154,9 @@ namespace Gradebook.Controllers
             if (Session[SESSION_KEY] == null)
                 return RedirectToAction("Create");
             var recipients = (LinkedList<ApplicationUser>)Session[SESSION_KEY];
-            var item = recipients.Where(e => e.Id == userId).Single();
-            recipients.Remove(item);
+            var searchInSession = recipients.Where(e => e.Id == userId);
+            if (searchInSession.Count() != 1) return ErrorView("Such user does not exist in session.");
+            recipients.Remove(searchInSession.Single());
             return RedirectToAction("Create");
         }
 
@@ -176,7 +177,7 @@ namespace Gradebook.Controllers
         }*/
 
         // GET
-        public ActionResult AddAttachment()
+        /*public ActionResult AddAttachment()
         {
             return View();
         }
@@ -186,6 +187,6 @@ namespace Gradebook.Controllers
         public ActionResult AddAttachment(Attachment attachment)
         {
             return View();
-        }
+        }*/
     }
 }

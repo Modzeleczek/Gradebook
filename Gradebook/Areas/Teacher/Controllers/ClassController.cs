@@ -53,6 +53,9 @@ namespace Gradebook.Areas.Teacher.Controllers
             return RedirectToAction("Details", new { id = id });
         }
 
+        private static Utils.Comparer<Models.Parent> ParentComparer = new Utils.Comparer<Models.Parent>(
+            (x, y) => x.Id == y.Id, obj => obj.Id.GetHashCode());
+
         private void SendByWebsite(int classId, string content, HttpPostedFileBase attachedFile)
         {
             var message = new Message { Content = content };
@@ -61,7 +64,7 @@ namespace Gradebook.Areas.Teacher.Controllers
             Db.Message.Add(message);
             Db.SaveChanges();
             var class_ = Db.Class.Where(e => e.Id == classId).Single();
-            var recipients = class_.Students.Where(e => e.ParentId != null).Select(e => e.Parent).Distinct(new ComparerById());
+            var recipients = class_.Students.Where(e => e.ParentId != null).Select(e => e.Parent).Distinct(ParentComparer);
             var recipientIds = recipients.Select(e => e.Id).ToList();
             foreach (var rid in recipientIds)
             {
@@ -82,7 +85,7 @@ namespace Gradebook.Areas.Teacher.Controllers
             var teacher = Db.Teacher.Where(e => e.Id == teacherId).Single();
             var teacherEmail = teacher.ApplicationUser.Email;
             var class_ = Db.Class.Where(e => e.Id == classId).Single();
-            var recipients = class_.Students.Where(e => e.ParentId != null).Select(e => e.Parent).Distinct(new ComparerById());
+            var recipients = class_.Students.Where(e => e.ParentId != null).Select(e => e.Parent).Distinct(ParentComparer);
             if (recipients.Count() == 0) return;
             var recipientUsers = recipients.Select(e => e.ApplicationUser).ToArray();
             EmailSender.Send(teacherEmail, recipientUsers, $"Announcement from {teacher.ApplicationUser.Name} {teacher.ApplicationUser.Surname}", content, attachedFile, false);

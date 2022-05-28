@@ -1,5 +1,7 @@
-﻿@{
-    ViewBag.Title = "Add recipient";
+﻿@using Gradebook.Utils;
+@{
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Message.Create[ViewBag.LanguageId];
+    ViewBag.Title = D["Add recipient"];
     var recipients = (ICollection<SelectListItem>)ViewBag.Recipients;
 }
 
@@ -8,10 +10,10 @@
 @using (Html.BeginForm("AddRecipient", "Message", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="alert alert-danger">@ViewBag.ValidationMessage</div>
 
     <div class="form-group">
-        @Html.Label("User", new { @class = "col-md-2 control-label" })
+        @Html.Label(D["User"], new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.DropDownList("userId", recipients, new { @class = "form-control" })
         </div>
@@ -23,11 +25,4 @@
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Cancel", "Create")
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+@Html.ActionLink(D["Cancel"], "Create", null, new { @class = "btn btn-danger" })

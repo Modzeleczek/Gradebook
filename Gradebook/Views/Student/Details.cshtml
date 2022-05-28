@@ -11,31 +11,24 @@
     <dt>
         @D["Name"]
     </dt>
-
     <dd>
         @Html.DisplayFor(model => model.ApplicationUser.Name)
     </dd>
-
     <dt>
         @D["Surname"]
     </dt>
-
     <dd>
         @Html.DisplayFor(model => model.ApplicationUser.Surname)
     </dd>
-
     <dt>
         @D["Email"]
     </dt>
-
     <dd>
         @Html.DisplayFor(model => model.ApplicationUser.Email)
     </dd>
-
     <dt>
         @D["Phone number"]
     </dt>
-
     <dd>
         @Html.DisplayFor(model => model.ApplicationUser.PhoneNumber)
     </dd>
@@ -48,31 +41,24 @@
         <dt>
             @D["Name"]
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Parent.ApplicationUser.Name)
         </dd>
-
         <dt>
             @D["Surname"]
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Parent.ApplicationUser.Surname)
         </dd>
-
         <dt>
             @D["Email"]
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Parent.ApplicationUser.Email)
         </dd>
-
         <dt>
             @D["Phone number"]
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Parent.ApplicationUser.PhoneNumber)
         </dd>
@@ -90,15 +76,12 @@ else
         <dt>
             @D["Year"]
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Class.Year)
         </dd>
-
         <dt>
             @D["Unit"]
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Class.Unit)
         </dd>
@@ -107,16 +90,4 @@ else
 else
 {
     @D["No class"]<br />
-}
-
-@if (User.IsInRole(Gradebook.Utils.Role.Teacher))
-{
-    @Html.ActionLink(D["Show grades"], "Index", "Grade", new { studentId = Model.Id }, null)
-    <br />
-    @Html.ActionLink(D["Show absences"], "Index", "Absence", new { studentId = Model.Id }, null)
-}
-@if (User.IsInRole(Gradebook.Utils.Role.Teacher) || User.IsInRole(Gradebook.Utils.Role.Administrator))
-{
-    <br />
-    @Html.ActionLink(D["Back to class"], "Details", "Class", new { id = Model.ClassId }, null)
 }

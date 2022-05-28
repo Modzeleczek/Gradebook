@@ -7,150 +7,79 @@
 
 <h2>@ViewBag.Title</h2>
 
-@if ((bool)ViewBag.IsSent)
-{
-    var recipients = (ICollection<Gradebook.Models.MessageRecipient>)ViewBag.Recipients;
-    <dl class="dl-horizontal">
-        <dt>
-            @D["Sent"]
-        </dt>
+<dl class="dl-horizontal">
+    <dt>
+        @D["Time"]
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.SendTime)
+    </dd>
+    <dt>
+        @D["Content"]
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Content)
+    </dd>
+    <dt>
+        @D["Sender name"]
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Sender.Name)
+    </dd>
+    <dt>
+        @D["Sender surname"]
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Sender.Surname)
+    </dd>
+    <dt>
+        @D["Sender email"]
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Sender.Email)
+    </dd>
+</dl>
 
-        <dd>
-            @Html.DisplayFor(model => model.SendTime)
-        </dd>
 
-        <dt>
-            @D["Content"]
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Content)
-        </dd>
-
-        <dt>
-            @D["Sender name"]
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Sender.Name)
-        </dd>
-
-        <dt>
-            @D["Sender surname"]
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Sender.Surname)
-        </dd>
-
-        <dt>
-            @D["Sender email"]
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Sender.Email)
-        </dd>
-
-        @if (Model.Attachments.Any())
-        {
-        <dt>
-            @D["Attachment"]
-        </dt>
-
-        <dd>
-            @Html.ActionLink(Model.Attachments.Single().Name, "DownloadAttachment", new { id = Model.Attachments.Single().Id })
-        </dd>
-        }
-    </dl>
-
-    <h4>@D["Recipients"]</h4>
-    <table class="list-table">
-        <thead>
+<h4>@D["Attachments"]</h4>
+<table class="list-table">
+    <thead>
+    <tr>
+        <th>
+            @D["Attachment name"]
+        </th>
+        <th>
+            @D["Type"]
+        </th>
+        <th>
+            @D["Size (bytes)"]
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (Model.Attachments.Count > 0)
+    {
+    foreach (var item in Model.Attachments)
+    {
         <tr>
-            <th>
-                @D["Name"]
-            </th>
-            <th>
-                @D["Surname"]
-            </th>
-            <th>
-                @D["Email"]
-            </th>
+            <td>
+                @Html.ActionLink(item.Name, "DownloadAttachment", new { id = item.Id })
+            </td>
+            <td>
+                @item.FileType
+            </td>
+            <td>
+                @{ var size = item.Data.Length / 2; }
+                @size
+            </td>
         </tr>
-        </thead>
-        <tbody>
-        @foreach (var item in recipients)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Recipient.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Recipient.Surname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Recipient.Email)
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
-}
-else
-{   
-    <dl class="dl-horizontal">
-        <dt>
-            @D["Received"]
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SendTime)
-        </dd>
-
-        <dt>
-            @D["Content"]
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Content)
-        </dd>
-
-        <dt>
-            @D["Sender name"]
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Sender.Name)
-        </dd>
-
-        <dt>
-            @D["Sender surname"]
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Sender.Surname)
-        </dd>
-
-        <dt>
-            @D["Sender email"]
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Sender.Email)
-        </dd>
-
-        @if (Model.Attachments.Any())
-        {
-        <dt>
-            @D["Attachment"]
-        </dt>
-
-        <dd>
-            @Html.ActionLink(Model.Attachments.Single().Name, "DownloadAttachment", new { id = Model.Attachments.Single().Id })
-        </dd>
-        }
-    </dl>
-}
-
-@Html.ActionLink(D["Back"], "Index")
-
+    }
+    }
+    else
+    {
+        <tr>
+            <td colspan="3">@D["No attachments"]</td>
+        </tr>
+    }
+    </tbody>
+</table>

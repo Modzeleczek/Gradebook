@@ -393,7 +393,7 @@
                                     selectize.addOption(data[i]);
                                 selectize.setValue('@Model.SupervisorId');
                             },
-                            error: function (response) { alert(response); }
+                            error: function (response) { console.log(response); }
                         });
                     }, render: personRenderOption
                 });
@@ -415,7 +415,7 @@
                                     for (let i = 0; i < data.length; ++i)
                                         selectize.addOption(data[i]);
                                 },
-                                error: function (response) { alert(response); }
+                                error: function (response) { console.log(response); }
                             });
                         }, render: renderOptions[cI]
                     });
@@ -434,7 +434,7 @@
                                 for (let i = 0; i < data.length; ++i)
                                     selectize.addOption(data[i]);
                             },
-                            error: function (response) { alert(response); }
+                            error: function (response) { console.log(response); }
                         });
                     }, render: subjectRenderOption
                 });
@@ -453,7 +453,7 @@
                                 for (let i = 0; i < data.length; ++i)
                                     selectize.addOption(data[i]);
                             },
-                            error: function (response) { alert(response); }
+                            error: function (response) { console.log(response); }
                         });
                     }, render: teacherClassSubjectRenderOption,
                     onChange: function (value) {
@@ -498,7 +498,7 @@
                             for (let i = 0; i < data.length; ++i)
                                 daySelectize.addOption(data[i]);
                         },
-                        error: function (response) { alert(response); }
+                        error: function (response) { console.log(response); }
                     });
                 }
 
@@ -514,7 +514,7 @@
                             for (let i = 0; i < data.length; ++i)
                                 hourSelectize.addOption(data[i]);
                         },
-                        error: function (response) { alert(response); }
+                        error: function (response) { console.log(response); }
                     });
                 }
 
@@ -528,7 +528,7 @@
                             for (let i = 0; i < data.length; ++i)
                                 roomSelectize.addOption(data[i]);
                         },
-                        error: function (response) { alert(response); }
+                        error: function (response) { console.log(response); }
                     });
                 }
             }

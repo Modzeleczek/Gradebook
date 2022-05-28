@@ -1,0 +1,51 @@
+﻿@model Gradebook.Models.Message
+@using Gradebook.Utils;
+@{
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Message.Details[ViewBag.LanguageId];
+    ViewBag.Title = D["Message details"];
+    var recipients = (ICollection<Gradebook.Models.MessageRecipient>)ViewBag.Recipients;
+}
+@Html.Partial("~/Views/Message/Details.cshtml", Model)
+
+<h4>@D["Recipients"]</h4>
+<table class="list-table">
+    <thead>
+    <tr>
+        <th>
+            @D["Name"]
+        </th>
+        <th>
+            @D["Surname"]
+        </th>
+        <th>
+            @D["Email"]
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (recipients.Count > 0)
+    {
+    foreach (var item in recipients)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Recipient.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Recipient.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Recipient.Email)
+            </td>
+        </tr>
+    }
+    }
+    else
+    {
+        <tr>
+            <td colspan="3">@D["No recipients"]</td>
+        </tr>
+    }
+    </tbody>
+</table>
+@Html.ActionLink(D["Back"], "List", null, null, new { @class = "btn btn-default" })

@@ -229,14 +229,18 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\ClassController.cs" />
     <Compile Include="Areas\Admin\Controllers\GlobalAnnouncementController.cs" />
+    <Compile Include="Areas\Admin\Controllers\StudentController.cs" />
     <Compile Include="Areas\Admin\Controllers\SubjectController.cs" />
+    <Compile Include="Areas\Parent\Controllers\ClassController.cs" />
+    <Compile Include="Areas\Parent\ParentAreaRegistration.cs" />
     <Compile Include="Areas\Student\Controllers\ClassController.cs" />
+    <Compile Include="Areas\Student\Controllers\StudentController.cs" />
     <Compile Include="Areas\Student\Controllers\SubjectController.cs" />
     <Compile Include="Areas\Student\StudentAreaRegistration.cs" />
     <Compile Include="Areas\Teacher\Controllers\AppointmentController.cs" />
     <Compile Include="Areas\Teacher\Controllers\ClassController.cs" />
-    <Compile Include="Areas\Teacher\Controllers\GlobalAnnouncementController.cs" />
     <Compile Include="Areas\Teacher\Controllers\QuizController.cs" />
+    <Compile Include="Areas\Teacher\Controllers\StudentController.cs" />
     <Compile Include="Areas\Teacher\Controllers\SubjectController.cs" />
     <Compile Include="Areas\Teacher\Controllers\TimetableController.cs" />
     <Compile Include="Areas\Teacher\TeacherAreaRegistration.cs" />
@@ -251,7 +255,6 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\QuizController.cs" />
-    <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\SubjectController.cs" />
     <Compile Include="Controllers\GradeController.cs" />
     <Compile Include="Controllers\TimetableController.cs" />
@@ -267,7 +270,7 @@
     <Compile Include="Models\LessonHour.cs" />
     <Compile Include="Models\QuizSharing.cs" />
     <Compile Include="Models\Room.cs" />
-    <Compile Include="Utils\ComparerById.cs" />
+    <Compile Include="Utils\Comparer.cs" />
     <Compile Include="Utils\ComparerBySubject.cs" />
     <Compile Include="Utils\ControllerBase.cs" />
     <Compile Include="Utils\Days.cs" />
@@ -340,8 +343,6 @@
     <Content Include="Areas\Admin\Views\Subject\Edit.cshtml" />
     <Content Include="Areas\Teacher\Views\web.config" />
     <Content Include="Areas\Teacher\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Teacher\Views\GlobalAnnouncement\Details.cshtml" />
-    <Content Include="Areas\Teacher\Views\GlobalAnnouncement\List.cshtml" />
     <Content Include="Areas\Teacher\Views\Subject\Details.cshtml" />
     <Content Include="Areas\Teacher\Views\Subject\AddFile.cshtml" />
     <Content Include="Areas\Student\Views\web.config" />
@@ -356,6 +357,12 @@
     <Content Include="Areas\Teacher\Views\Class\GenerateGradeSheet.cshtml" />
     <Content Include="Areas\Teacher\Views\Class\CreateAppointment.cshtml" />
     <Content Include="Areas\Admin\Views\Class\Edit.cshtml" />
+    <Content Include="Areas\Parent\Views\web.config" />
+    <Content Include="Areas\Parent\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Parent\Views\Class\Details.cshtml" />
+    <Content Include="Areas\Student\Views\Class\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Student\Details.cshtml" />
+    <Content Include="Areas\Teacher\Views\Student\Details.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -413,13 +420,12 @@
     <Content Include="Views\Grade\Index.cshtml" />
     <Content Include="Views\Message\Create.cshtml" />
     <Content Include="Views\Message\AddRecipient.cshtml" />
-    <Content Include="Views\Message\Index.cshtml" />
+    <Content Include="Views\Message\List.cshtml" />
     <Content Include="Views\Class\List.cshtml" />
     <Content Include="Views\Class\Details.cshtml" />
     <Content Include="Views\Account\LoginDetails.cshtml" />
     <Content Include="Views\Account\EditOther.cshtml" />
     <Content Include="Views\Account\EditStudent.cshtml" />
-    <Content Include="Views\Message\Details.cshtml" />
     <Content Include="Views\Quiz\Index.cshtml" />
     <Content Include="Views\Quiz\Create.cshtml" />
     <Content Include="Views\Quiz\Edit.cshtml" />
@@ -438,13 +444,19 @@
     <Content Include="Views\Appointment\Index.cshtml" />
     <Content Include="Views\Appointment\Details.cshtml" />
     <Content Include="Views\Shared\GenericError.cshtml" />
+    <Content Include="Views\Message\SentDetails.cshtml" />
+    <Content Include="Views\Message\ReceivedDetails.cshtml" />
+    <Content Include="Views\Message\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Student\Views\Class\" />
+    <Folder Include="Areas\Parent\Data\" />
+    <Folder Include="Areas\Parent\Views\Shared\" />
+    <Folder Include="Areas\Student\Views\Student\" />
     <Folder Include="Areas\Teacher\Views\Appointment\" />
     <Folder Include="Areas\Teacher\Views\Quiz\" />
     <Folder Include="Areas\Teacher\Views\Timetable\" />
+    <Folder Include="Views\Error\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
