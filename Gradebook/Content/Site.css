@@ -130,7 +130,6 @@ div.alert.alert-danger {
 .rightsidenav {
     height: 100%;
     width: 200px;
-    position: fixed;
     z-index: 2;
     top: 0;
     right: 0;
@@ -157,10 +156,9 @@ div.alert.alert-danger {
             color: black;
        }
 .languages{
-    vertical-align: bottom;
     position: absolute;
     right: 0px;
-    bottom: 0px;
+    top: 0px;
     z-index: 3;
     margin: 5px 60px 5px 5px;
     align-content: flex-end;
@@ -176,7 +174,7 @@ div.alert.alert-danger {
     position: absolute;
     align-items: center;
 }
-.logo{
+.logo {
     position: absolute;
     margin: auto;
     width: 50%;
