@@ -888,7 +888,7 @@ namespace Gradebook.Utils
                 var d = Create[1];
                 d["Create message"] = "Stwórz wiadomość";
                 d["Content"] = "Treść";
-                d["Attachment"] = "Załącznik";
+                d["Attachments"] = "Załączniki";
                 d["Recipients"] = "Odbiorcy";
                 d["Name"] = "Imię";
                 d["Surname"] = "Nazwisko";
