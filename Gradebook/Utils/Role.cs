@@ -18,8 +18,8 @@ namespace Gradebook.Utils
                 const string area = "Admin";
                 return new NamedLink[]
                 {
-                    new NamedLink("Announcements", "List", "GlobalAnnouncement", area),
-                    new NamedLink("Messages", "List", "Message", area),
+                    new NamedLink("Announcements", "List", "GlobalAnnouncement", ""),
+                    new NamedLink("Messages", "List", "Message", ""),
                     new NamedLink("Accounts", "List", "Account", area),
                     new NamedLink("Subjects", "List", "Subject", area),
                     new NamedLink("Classes", "List", "Class", area)
