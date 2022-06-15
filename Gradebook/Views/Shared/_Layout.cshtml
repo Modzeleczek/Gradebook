@@ -52,6 +52,18 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/Scripts/side_menu_scripts.js")
     @RenderSection("scripts", required: false)
-    @RenderSection("css", required: false)
+    @RenderSection("styles", required: false)
+
+    @Scripts.Render("~/Scripts/jquery_tablesorter/list_table_controls.js")
+    @Styles.Render("~/Content/jquery_tablesorter/theme.blue.css")
+    @Scripts.Render("~/Scripts/jquery_tablesorter/jquery.tablesorter.min.js")
+    @Scripts.Render("~/Scripts/jquery_tablesorter/jquery.tablesorter.widgets.min.js")
+    @Styles.Render("~/Content/jquery_tablesorter/jquery.tablesorter.pager.min.css")
+    @Scripts.Render("~/Scripts/jquery_tablesorter/jquery.tablesorter.pager.min.js")
+    <style>
+        .tablesorter-pager .btn-group-sm .btn {
+          font-size: 1.2em; /* make pager arrows more visible */
+        }
+    </style>
 </body>
 </html>

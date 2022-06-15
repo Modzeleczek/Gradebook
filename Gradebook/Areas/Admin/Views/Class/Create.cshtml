@@ -46,41 +46,43 @@
 
 @Html.ActionLink(D["Back"], "List", null, new { @class = "btn btn-default" })
 
-@Styles.Render("~/Content/selectize")
+@section styles {
+    @Styles.Render("~/Content/selectize")
+}
 @section scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Scripts/selectize.js")
-    <script type="text/javascript">
-        $(document).ready(function () {
-            const select_ = $('#supervisorId').selectize({
-                valueField: 'Id',
-                labelField: 'Email',
-                searchField: ['Surname', 'Name', 'Email'],
-                sortField: 'Surname',
-                onInitialize: function () {
-                    $.ajax({
-                        url: '/Admin/Class/GetSupervisors',
-                        type: 'POST',
-                        success: function (data) {
-                            const selectize = select_[0].selectize;
-                            for (let i = 0; i < data.length; ++i)
-                                selectize.addOption(data[i]);
-                        },
-                        error: function (response) { console.log(response); }
-                    });
-                },
-                render: {
-                    option: function (it, escape) {
-                        return '<div class="selectDiv">' +
-                            '<span class="mainName">' + escape(it.Email) + '</span><br />' +
-                            '<span class="subLabel">@D["Name"]: </span>' +
-                            '<span class="subValue">' + escape(it.Name) + '</span>' +
-                            '<span class="subLabel">@D["Surname"]: </span>' +
-                            '<span class="subValue">' + escape(it.Surname) + '</span>' +
-                            '</div>';
-                    }
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/selectize/selectize.js")
+<script type="text/javascript">
+    $(document).ready(function () {
+        const select_ = $('#supervisorId').selectize({
+            valueField: 'Id',
+            labelField: 'Email',
+            searchField: ['Surname', 'Name', 'Email'],
+            sortField: 'Surname',
+            onInitialize: function () {
+                $.ajax({
+                    url: '/Admin/Class/GetSupervisors',
+                    type: 'POST',
+                    success: function (data) {
+                        const selectize = select_[0].selectize;
+                        for (let i = 0; i < data.length; ++i)
+                            selectize.addOption(data[i]);
+                    },
+                    error: function (response) { console.log(response); }
+                });
+            },
+            render: {
+                option: function (it, escape) {
+                    return '<div class="selectDiv">' +
+                        '<span class="mainName">' + escape(it.Email) + '</span><br />' +
+                        '<span class="subLabel">@D["Name"]: </span>' +
+                        '<span class="subValue">' + escape(it.Name) + '</span>' +
+                        '<span class="subLabel">@D["Surname"]: </span>' +
+                        '<span class="subValue">' + escape(it.Surname) + '</span>' +
+                        '</div>';
                 }
-            });
+            }
         });
-    </script>
+    });
+</script>
 }

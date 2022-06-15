@@ -133,7 +133,6 @@ namespace Gradebook.Controllers
         }
 
         const string SESSION_KEY = "Recipients";
-        // POST
         [HttpPost]
         public ActionResult AddRecipient(string userId)
         {
@@ -160,8 +159,7 @@ namespace Gradebook.Controllers
             return RedirectToAction("Create");
         }
 
-        /*// GET
-        [AllowAnonymous]
+        /* [AllowAnonymous]
         public ActionResult CreateFileTypes(string password)
         {
             if (password != "caviaporcellus")
@@ -174,19 +172,6 @@ namespace Gradebook.Controllers
             }
             Db.SaveChanges();
             return RedirectToAction("Index", "Home");
-        }*/
-
-        // GET
-        /*public ActionResult AddAttachment()
-        {
-            return View();
-        }
-
-        // POST
-        [HttpPost]
-        public ActionResult AddAttachment(Attachment attachment)
-        {
-            return View();
         }*/
     }
 }

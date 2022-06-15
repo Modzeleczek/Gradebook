@@ -46,10 +46,11 @@
     </div>
 }
 
-@section scripts
-{
-@Styles.Render("~/Content/bootstrap-datepicker.css")
-@Scripts.Render("~/Scripts/bootstrap-datepicker.js")
+@section styles {
+    @Styles.Render("~/Content/bootstrap_datepicker/bootstrap-datepicker.css")
+}
+@section scripts {
+@Scripts.Render("~/Scripts/bootstrap_datepicker/bootstrap-datepicker.js")
 <script type="text/javascript">
     const possibleWeekDays = [@ViewBag.PossibleWeekDays];
     const dateToday = new Date();

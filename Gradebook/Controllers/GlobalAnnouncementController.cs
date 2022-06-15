@@ -16,7 +16,7 @@ namespace Gradebook.Controllers
         public ActionResult Details(int? id)
         {
             var search = Db.GlobalAnnouncement.Where(e => e.Id == id);
-            if (search.Count() != 1) return ErrorView("Announcement does not exist.");
+            if (search.Count() != 1) return ErrorView("Such announcement does not exist.");
             return View(search.Single());
         }
     }

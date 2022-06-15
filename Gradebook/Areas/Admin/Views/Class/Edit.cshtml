@@ -331,207 +331,207 @@
 
 @Styles.Render("~/Content/selectize")
 @section scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Scripts/selectize.js")
-    <script type="text/javascript">
-        $(document).ready(function () {
-            const personRenderOption = {
-                option: function (it, escape) {
-                    return '<div class="selectDiv">' +
-                        '<span class="mainName">' + escape(it.Email) + '</span><br />' +
-                        '<span class="subLabel">@D["Name"]: </span>' +
-                        '<span class="subValue">' + escape(it.Name) + '</span>' +
-                        '<span class="subLabel">@D["Surname"]: </span>' +
-                        '<span class="subValue">' + escape(it.Surname) + '</span>' +
-                        '</div>';
-                }
-            };
-            const subjectRenderOption = {
-                option: function (it, escape) {
-                    return '<div class="selectDiv">' +
-                        '<span class="mainName">' + escape(it.Name) + '</span>' +
-                        '</div>';
-                }
-            };
-            const teacherClassSubjectRenderOption = {
-                option: function (it, escape) {
-                    return '<div class="selectDiv">' +
-                        '<span class="mainName">' + escape(it.Subject) + '</span><br />' +
-                        '<span class="subLabel">@D["Teacher"]: </span>' +
-                        '<span class="subValue">' + escape(it.Teacher) + '</span>' +
-                        '</div>';
-                }
-            };
-            const dayRoomRenderOption = {
-                option: function (it, escape) {
-                    return '<div class="selectDiv">' +
-                        '<span class="mainName">' + escape(it.Name) + '</span>' +
-                        '</div>';
-                }
-            };
-            const hourRenderOption = {
-                option: function (it, escape) {
-                    return '<div class="selectDiv">' +
-                        '<span class="mainName">' + escape(it.StartHM) + '</span><br />' +
-                        '<span class="subLabel">@D["Duration (min)"]: </span>' +
-                        '<span class="subValue">' + escape(it.DurationM) + '</span>' +
-                        '</div>';
-                }
-            };
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/Scripts/selectize/selectize.js")
+<script type="text/javascript">
+    $(document).ready(function () {
+        const personRenderOption = {
+            option: function (it, escape) {
+                return '<div class="selectDiv">' +
+                    '<span class="mainName">' + escape(it.Email) + '</span><br />' +
+                    '<span class="subLabel">@D["Name"]: </span>' +
+                    '<span class="subValue">' + escape(it.Name) + '</span>' +
+                    '<span class="subLabel">@D["Surname"]: </span>' +
+                    '<span class="subValue">' + escape(it.Surname) + '</span>' +
+                    '</div>';
+            }
+        };
+        const subjectRenderOption = {
+            option: function (it, escape) {
+                return '<div class="selectDiv">' +
+                    '<span class="mainName">' + escape(it.Name) + '</span>' +
+                    '</div>';
+            }
+        };
+        const teacherClassSubjectRenderOption = {
+            option: function (it, escape) {
+                return '<div class="selectDiv">' +
+                    '<span class="mainName">' + escape(it.Subject) + '</span><br />' +
+                    '<span class="subLabel">@D["Teacher"]: </span>' +
+                    '<span class="subValue">' + escape(it.Teacher) + '</span>' +
+                    '</div>';
+            }
+        };
+        const dayRoomRenderOption = {
+            option: function (it, escape) {
+                return '<div class="selectDiv">' +
+                    '<span class="mainName">' + escape(it.Name) + '</span>' +
+                    '</div>';
+            }
+        };
+        const hourRenderOption = {
+            option: function (it, escape) {
+                return '<div class="selectDiv">' +
+                    '<span class="mainName">' + escape(it.StartHM) + '</span><br />' +
+                    '<span class="subLabel">@D["Duration (min)"]: </span>' +
+                    '<span class="subValue">' + escape(it.DurationM) + '</span>' +
+                    '</div>';
+            }
+        };
 
-            {
-                // supervisor
-                const select_ = $('#supervisorId').selectize({
+        {
+            // supervisor
+            const select_ = $('#supervisorId').selectize({
+                valueField: 'Id', labelField: 'Email', searchField: ['Surname', 'Name', 'Email'], sortField: 'Surname',
+                onInitialize: function () {
+                    $.ajax({
+                        url: '/Admin/Class/GetSupervisors?classSupervisorId=@Model.SupervisorId',
+                        type: 'POST',
+                        success: function (data) {
+                            const selectize = select_[0].selectize;
+                            for (let i = 0; i < data.length; ++i)
+                                selectize.addOption(data[i]);
+                            selectize.setValue('@Model.SupervisorId');
+                        },
+                        error: function (response) { console.log(response); }
+                    });
+                }, render: personRenderOption
+            });
+        }
+        {
+            // student, teacher
+            const controlIds = ['#studentId', '#teacherId'];
+            const renderOptions = [personRenderOption, personRenderOption];
+            const urls = ['/Admin/Class/GetStudents', '/Admin/Class/GetTeachers'];
+            for (let cI = 0; cI <= 1; ++cI) {
+                const select_ = $(controlIds[cI]).selectize({
                     valueField: 'Id', labelField: 'Email', searchField: ['Surname', 'Name', 'Email'], sortField: 'Surname',
                     onInitialize: function () {
                         $.ajax({
-                            url: '/Admin/Class/GetSupervisors?classSupervisorId=@Model.SupervisorId',
+                            url: urls[cI],
                             type: 'POST',
                             success: function (data) {
                                 const selectize = select_[0].selectize;
                                 for (let i = 0; i < data.length; ++i)
                                     selectize.addOption(data[i]);
-                                selectize.setValue('@Model.SupervisorId');
                             },
                             error: function (response) { console.log(response); }
                         });
-                    }, render: personRenderOption
+                    }, render: renderOptions[cI]
                 });
             }
-            {
-                // student, teacher
-                const controlIds = ['#studentId', '#teacherId'];
-                const renderOptions = [personRenderOption, personRenderOption];
-                const urls = ['/Admin/Class/GetStudents', '/Admin/Class/GetTeachers'];
-                for (let cI = 0; cI <= 1; ++cI) {
-                    const select_ = $(controlIds[cI]).selectize({
-                        valueField: 'Id', labelField: 'Email', searchField: ['Surname', 'Name', 'Email'], sortField: 'Surname',
-                        onInitialize: function () {
-                            $.ajax({
-                                url: urls[cI],
-                                type: 'POST',
-                                success: function (data) {
-                                    const selectize = select_[0].selectize;
-                                    for (let i = 0; i < data.length; ++i)
-                                        selectize.addOption(data[i]);
-                                },
-                                error: function (response) { console.log(response); }
-                            });
-                        }, render: renderOptions[cI]
-                    });
-                }
-            }
-            {
-                // subject
-                const subjectSelect = $('#subjectId').selectize({
-                    valueField: 'Id', labelField: 'Name', searchField: ['Name'], sortField: 'Name',
-                    onInitialize: function () {
-                        $.ajax({
-                            url: '/Admin/Class/GetClassUnassignedSubjects?classId=@Model.Id',
-                            type: 'POST',
-                            success: function (data) {
-                                const selectize = subjectSelect[0].selectize;
-                                for (let i = 0; i < data.length; ++i)
-                                    selectize.addOption(data[i]);
-                            },
-                            error: function (response) { console.log(response); }
-                        });
-                    }, render: subjectRenderOption
-                });
-            }
-            {
-                let selectedTeacherClassSubjectId, selectedDayId, selectedHourId;
-                // teacherClassSubjectId, dayId, hourId, roomId
-                const teacherClassSubjectSelect = $('#teacherClassSubjectId').selectize({
-                    valueField: 'Id', labelField: 'Subject', searchField: ['Subject', 'Teacher'], sortField: 'Subject',
-                    onInitialize: function () {
-                        $.ajax({
-                            url: '/Admin/Class/GetTeacherClassSubjects?classId=@Model.Id',
-                            type: 'POST',
-                            success: function (data) {
-                                const selectize = teacherClassSubjectSelect[0].selectize;
-                                for (let i = 0; i < data.length; ++i)
-                                    selectize.addOption(data[i]);
-                            },
-                            error: function (response) { console.log(response); }
-                        });
-                    }, render: teacherClassSubjectRenderOption,
-                    onChange: function (value) {
-                        selectedTeacherClassSubjectId = value;
-                        refreshDays();
-                    }
-                });
-                const daySelect = $('#dayId').selectize({
-                    valueField: 'Id', labelField: 'Name', searchField: ['Name'],
-                    render: dayRoomRenderOption, onChange: function (value) {
-                        selectedDayId = value;
-                        refreshHours();
-                    }
-                });
-                const hourSelect = $('#hourId').selectize({
-                    valueField: 'Id', labelField: 'StartHM', searchField: ['StartHM', "DurationM"],
-                    render: hourRenderOption, onChange: function (value) {
-                        selectedHourId = value;
-                        refreshRooms();
-                    }
-                });
-                const roomSelect = $('#roomId').selectize({
-                    valueField: 'Id', labelField: 'Name', searchField: ['Name'],
-                    render: subjectRenderOption
-                });
-
-                const daySelectize = daySelect[0].selectize;
-                const hourSelectize = hourSelect[0].selectize;
-                const roomSelectize = roomSelect[0].selectize;
-
-                function refreshDays() {
-                    daySelectize.clearOptions();
-                    selectedDayId = null;
-                    hourSelectize.clearOptions();
-                    selectedHourId = null;
-                    roomSelectize.clearOptions();
-                    selectedRoomId = null;
+        }
+        {
+            // subject
+            const subjectSelect = $('#subjectId').selectize({
+                valueField: 'Id', labelField: 'Name', searchField: ['Name'], sortField: 'Name',
+                onInitialize: function () {
                     $.ajax({
-                        url: '/Admin/Class/GetFreeDaysForTeacherAndClass?teacherClassSubjectId=' + selectedTeacherClassSubjectId,
+                        url: '/Admin/Class/GetClassUnassignedSubjects?classId=@Model.Id',
                         type: 'POST',
                         success: function (data) {
+                            const selectize = subjectSelect[0].selectize;
                             for (let i = 0; i < data.length; ++i)
-                                daySelectize.addOption(data[i]);
+                                selectize.addOption(data[i]);
                         },
                         error: function (response) { console.log(response); }
                     });
-                }
-
-                function refreshHours() {
-                    hourSelectize.clearOptions();
-                    selectedHourId = null;
-                    roomSelectize.clearOptions();
-                    selectedRoomId = null;
+                }, render: subjectRenderOption
+            });
+        }
+        {
+            let selectedTeacherClassSubjectId, selectedDayId, selectedHourId;
+            // teacherClassSubjectId, dayId, hourId, roomId
+            const teacherClassSubjectSelect = $('#teacherClassSubjectId').selectize({
+                valueField: 'Id', labelField: 'Subject', searchField: ['Subject', 'Teacher'], sortField: 'Subject',
+                onInitialize: function () {
                     $.ajax({
-                        url: '/Admin/Class/GetFreeHoursForTeacherClassAndDay?teacherClassSubjectId=' + selectedTeacherClassSubjectId + '&dayId=' + selectedDayId,
+                        url: '/Admin/Class/GetTeacherClassSubjects?classId=@Model.Id',
                         type: 'POST',
                         success: function (data) {
+                            const selectize = teacherClassSubjectSelect[0].selectize;
                             for (let i = 0; i < data.length; ++i)
-                                hourSelectize.addOption(data[i]);
+                                selectize.addOption(data[i]);
                         },
                         error: function (response) { console.log(response); }
                     });
+                }, render: teacherClassSubjectRenderOption,
+                onChange: function (value) {
+                    selectedTeacherClassSubjectId = value;
+                    refreshDays();
                 }
+            });
+            const daySelect = $('#dayId').selectize({
+                valueField: 'Id', labelField: 'Name', searchField: ['Name'],
+                render: dayRoomRenderOption, onChange: function (value) {
+                    selectedDayId = value;
+                    refreshHours();
+                }
+            });
+            const hourSelect = $('#hourId').selectize({
+                valueField: 'Id', labelField: 'StartHM', searchField: ['StartHM', "DurationM"],
+                render: hourRenderOption, onChange: function (value) {
+                    selectedHourId = value;
+                    refreshRooms();
+                }
+            });
+            const roomSelect = $('#roomId').selectize({
+                valueField: 'Id', labelField: 'Name', searchField: ['Name'],
+                render: subjectRenderOption
+            });
 
-                function refreshRooms() {
-                    roomSelectize.clearOptions();
-                    selectedRoomId = null;
-                    $.ajax({
-                        url: '/Admin/Class/GetFreeRoomsForDayAndHour?dayId=' + selectedDayId + '&hourId=' + selectedHourId,
-                        type: 'POST',
-                        success: function (data) {
-                            for (let i = 0; i < data.length; ++i)
-                                roomSelectize.addOption(data[i]);
-                        },
-                        error: function (response) { console.log(response); }
-                    });
-                }
+            const daySelectize = daySelect[0].selectize;
+            const hourSelectize = hourSelect[0].selectize;
+            const roomSelectize = roomSelect[0].selectize;
+
+            function refreshDays() {
+                daySelectize.clearOptions();
+                selectedDayId = null;
+                hourSelectize.clearOptions();
+                selectedHourId = null;
+                roomSelectize.clearOptions();
+                selectedRoomId = null;
+                $.ajax({
+                    url: '/Admin/Class/GetFreeDaysForTeacherAndClass?teacherClassSubjectId=' + selectedTeacherClassSubjectId,
+                    type: 'POST',
+                    success: function (data) {
+                        for (let i = 0; i < data.length; ++i)
+                            daySelectize.addOption(data[i]);
+                    },
+                    error: function (response) { console.log(response); }
+                });
             }
-        });
-    </script>
+
+            function refreshHours() {
+                hourSelectize.clearOptions();
+                selectedHourId = null;
+                roomSelectize.clearOptions();
+                selectedRoomId = null;
+                $.ajax({
+                    url: '/Admin/Class/GetFreeHoursForTeacherClassAndDay?teacherClassSubjectId=' + selectedTeacherClassSubjectId + '&dayId=' + selectedDayId,
+                    type: 'POST',
+                    success: function (data) {
+                        for (let i = 0; i < data.length; ++i)
+                            hourSelectize.addOption(data[i]);
+                    },
+                    error: function (response) { console.log(response); }
+                });
+            }
+
+            function refreshRooms() {
+                roomSelectize.clearOptions();
+                selectedRoomId = null;
+                $.ajax({
+                    url: '/Admin/Class/GetFreeRoomsForDayAndHour?dayId=' + selectedDayId + '&hourId=' + selectedHourId,
+                    type: 'POST',
+                    success: function (data) {
+                        for (let i = 0; i < data.length; ++i)
+                            roomSelectize.addOption(data[i]);
+                    },
+                    error: function (response) { console.log(response); }
+                });
+            }
+        }
+    });
+</script>
 }
