@@ -233,6 +233,7 @@
     <Compile Include="Areas\Admin\Controllers\SubjectController.cs" />
     <Compile Include="Areas\Parent\Controllers\ClassController.cs" />
     <Compile Include="Areas\Parent\ParentAreaRegistration.cs" />
+    <Compile Include="Areas\Student\Controllers\AppointmentController.cs" />
     <Compile Include="Areas\Student\Controllers\ClassController.cs" />
     <Compile Include="Areas\Student\Controllers\StudentController.cs" />
     <Compile Include="Areas\Student\Controllers\SubjectController.cs" />
@@ -245,7 +246,6 @@
     <Compile Include="Areas\Teacher\Controllers\TimetableController.cs" />
     <Compile Include="Areas\Teacher\TeacherAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AppointmentController.cs" />
     <Compile Include="Controllers\ChildController.cs" />
     <Compile Include="Controllers\DoQuizController.cs" />
     <Compile Include="Controllers\GlobalAnnouncementController.cs" />
@@ -316,21 +316,26 @@
     <Compile Include="Utils\ViewFilter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-datepicker.css" />
+    <Content Include="Content\bootstrap_datepicker\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\global_selectize.css" />
+    <Content Include="Content\caleandar\theme1.css" />
+    <Content Include="Content\caleandar\theme2.css" />
+    <Content Include="Content\caleandar\theme3.css" />
+    <Content Include="Content\selectize\global_selectize.css" />
     <Content Include="Content\icons\icons8-great-britain-48.png" />
     <Content Include="Content\icons\icons8-poland-48.png" />
     <Content Include="Content\icons\logo.png" />
-    <Content Include="Content\selectize.bootstrap3.css" />
+    <Content Include="Content\jquery_tablesorter\jquery.tablesorter.pager.min.css" />
+    <Content Include="Content\selectize\selectize.bootstrap3.css" />
+    <Content Include="Content\jquery_tablesorter\theme.blue.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Scripts\bootstrap-datepicker.js" />
+    <Content Include="Scripts\bootstrap_datepicker\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\web.config" />
@@ -363,18 +368,26 @@
     <Content Include="Areas\Student\Views\Class\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Student\Details.cshtml" />
     <Content Include="Areas\Teacher\Views\Student\Details.cshtml" />
+    <Content Include="Areas\Teacher\Views\Appointment\Details.cshtml" />
+    <Content Include="Areas\Student\Views\Appointment\Details.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\caleandar\caleandar.js" />
+    <Content Include="Scripts\caleandar\caleandar.min.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery_tablesorter\jquery.tablesorter.min.js" />
+    <Content Include="Scripts\jquery_tablesorter\jquery.tablesorter.pager.min.js" />
+    <Content Include="Scripts\jquery_tablesorter\jquery.tablesorter.widgets.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jquery_tablesorter\list_table_controls.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\selectize.js" />
+    <Content Include="Scripts\selectize\selectize.js" />
     <Content Include="Scripts\side_menu_scripts.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -441,19 +454,18 @@
     <Content Include="Views\Absence\Create.cshtml" />
     <Content Include="Views\Child\AbsenceList.cshtml" />
     <Content Include="Views\Timetable\Index.cshtml" />
-    <Content Include="Views\Appointment\Index.cshtml" />
     <Content Include="Views\Appointment\Details.cshtml" />
     <Content Include="Views\Shared\GenericError.cshtml" />
     <Content Include="Views\Message\SentDetails.cshtml" />
     <Content Include="Views\Message\ReceivedDetails.cshtml" />
     <Content Include="Views\Message\Details.cshtml" />
+    <Content Include="Views\Appointment\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Parent\Data\" />
     <Folder Include="Areas\Parent\Views\Shared\" />
     <Folder Include="Areas\Student\Views\Student\" />
-    <Folder Include="Areas\Teacher\Views\Appointment\" />
     <Folder Include="Areas\Teacher\Views\Quiz\" />
     <Folder Include="Areas\Teacher\Views\Timetable\" />
     <Folder Include="Views\Error\" />

@@ -1,0 +1,9 @@
+﻿@model Gradebook.Models.Appointment
+@using Gradebook.Utils;
+@{
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Appointment.Details[ViewBag.LanguageId];
+    ViewBag.Title = D["Appointment details"];
+}
+@Html.Partial("~/Views/Appointment/Details.cshtml", Model)
+@Html.ActionLink(D["Back"], "List", null, new { @class = "btn btn-default" })
+@Html.ActionLink(D["Delete"], "Delete", new { id = Model.Id }, new { @class = "btn btn-danger" })

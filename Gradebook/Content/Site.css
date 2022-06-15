@@ -35,37 +35,6 @@ textarea {
     text-align: center;
 }
 
-.list-table {
-    border-collapse: collapse;
-    margin: 25px 0;
-    font-size: 0.9em;
-    min-width: 400px;
-}
-
-    .list-table thead tr {
-        background-color: #009879;
-        color: #ffffff;
-        text-align: left;
-        font-weight: bold;
-    }
-
-    .list-table th,
-    .list-table td {
-        padding: 12px 15px;
-    }
-
-    .list-table tbody tr {
-        border-bottom: 1px solid #dddddd;
-    }
-
-        .list-table tbody tr:nth-of-type(even) {
-            background-color: #f3f3f3;
-        }
-
-        .list-table tbody tr:last-of-type {
-            border-bottom: 2px solid #009879;
-        }
-
 .sidenav {
     height: 100%;
     width: 0;
@@ -139,7 +108,7 @@ div.alert.alert-danger {
     overflow-x: hidden;
     font-weight: bold;
     text-align: left;
-    
+    position: absolute;
 }
 
     .rightsidenav a {
@@ -154,8 +123,9 @@ div.alert.alert-danger {
 
         .rightsidenav a:hover {
             color: black;
-       }
-.languages{
+        }
+
+.languages {
     position: absolute;
     right: 0px;
     top: 0px;
@@ -163,17 +133,18 @@ div.alert.alert-danger {
     margin: 5px 60px 5px 5px;
     align-content: flex-end;
 }
-    .languages a{
-    vertical-align: bottom;
+
+    .languages a {
+        vertical-align: bottom;
     }
 
-.buttons{
-    
+.buttons {
     margin: 5px;
     padding: 5px;
     position: absolute;
     align-items: center;
 }
+
 .logo {
     position: absolute;
     margin: auto;

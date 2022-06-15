@@ -28,8 +28,8 @@ namespace Gradebook
 
             // bundli można używać do renderowania (np. za pomocą Styles.Render) w cshtml kilku plików naraz
             bundles.Add(new StyleBundle("~/Content/selectize").Include(
-                    "~/Content/selectize.bootstrap3.css",
-                    "~/Content/global_selectize.css"));
+                    "~/Content/selectize/selectize.bootstrap3.css",
+                    "~/Content/selectize/global_selectize.css"));
         }
     }
 }

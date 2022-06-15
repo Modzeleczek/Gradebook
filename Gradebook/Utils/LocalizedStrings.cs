@@ -387,11 +387,25 @@ namespace Gradebook.Utils
                 d["Appointments"] = "Terminarz";
                 d["Previous week"] = "Poprzedni tydzień";
                 d["Next week"] = "Następny tydzień";
-                d["monday"] = "poniedziałek";
-                d["tuesday"] = "wtorek";
-                d["wednesday"] = "środa";
-                d["thursday"] = "czwartek";
-                d["friday"] = "piątek";
+                d["Sun"] = "Nie";
+                d["Mon"] = "Pon";
+                d["Tue"] = "Wto";
+                d["Wed"] = "Śro";
+                d["Thu"] = "Czw";
+                d["Fri"] = "Pią";
+                d["Sat"] = "Sob";
+                d["January"] = "Styczeń";
+                d["February"] = "Luty";
+                d["March"] = "Marzec";
+                d["April"] = "Kwiecień";
+                d["May"] = "Maj";
+                d["June"] = "Czerwiec";
+                d["July"] = "Lipiec";
+                d["August"] = "Sierpień";
+                d["September"] = "Wrzesień";
+                d["October"] = "Październik";
+                d["November"] = "Listopad";
+                d["December"] = "Grudzień";
                 d["No appointments"] = "Brak zdarzeń";
                 d["Delete"] = "Usuń";
             }
@@ -409,6 +423,7 @@ namespace Gradebook.Utils
                 d["Teacher"] = "Nauczyciel";
                 d["Subject"] = "Przedmiot";
                 d["Back"] = "Powrót";
+                d["Delete"] = "Usuń";
             }
         }
 
@@ -1288,7 +1303,7 @@ namespace Gradebook.Utils
                 d["Error"] = "Błąd";
                 d["Subject does not exist."] = "Przedmiot nie istnieje.";
                 d["File does not exist."] = "Plik nie istnieje.";
-                d["Announcement does not exist."] = "Ogłoszenie nie istnieje.";
+                d["Such announcement does not exist."] = "Takie ogłoszenie nie istnieje.";
                 d["You do not teach such subject."] = "Nie uczysz takiego przedmiotu.";
                 d["You do not own such file."] = "Nie posiadasz takiego pliku.";
                 d["Your class does not have such subject."] = "Twoja klasa nie ma takiego przedmiotu.";
@@ -1312,6 +1327,10 @@ namespace Gradebook.Utils
                 d["Such user does not exist in session."] = "Taki użytkownik nie istnieje w sesji.";
                 d["The user is already added."] = "Ten użytkownik jest już dodany.";
                 d["You are not parent of a child in such class."] = "Nie jesteś rodzicem ucznia takiej klasy.";
+                d["Your account does not exist."] = "Twoje konto nie istnieje.";
+                d["Such appointment does not exist."] = "Takie zdarzenie nie istnieje.";
+                d["You do not belong to such class."] = "Nie należysz do takiej klasy.";
+                d["You do not own such appointment."] = "Nie posiadasz takiego zdarzenia.";
             }
         }
     }
