@@ -1,6 +1,6 @@
 ﻿@model Gradebook.Models.Class
 @using Microsoft.AspNet.Identity
-@using Gradebook.Utils;
+@using Gradebook.Utils
 @{
     LocalizedStrings.LanguageDictionary D = LocalizedStrings.Class.Details[ViewBag.LanguageId];
     ViewBag.Title = D["Class details"];
@@ -28,36 +28,44 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model.TeacherClassSubjects)
+    @if (Model.TeacherClassSubjects.Count > 0)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Surname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subject.Name)
-            </td>
-            <td>
-                @if (userId == item.TeacherId)
-                {
-                    @Html.ActionLink(D["Create appointment"], "CreateAppointment", "Class", new { teacherClassSubjectId = item.Id }, new { @class = "btn btn-primary" })
-                }
-            </td>
-        </tr>
+        foreach (var item in Model.TeacherClassSubjects)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject.Name)
+                </td>
+                <td>
+                    @if (userId == item.TeacherId)
+                    {
+                        @Html.ActionLink(D["Create appointment"], "CreateAppointment", "Class", new { teacherClassSubjectId = item.Id }, new { @class = "btn btn-primary" })
+                    }
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        @D["No teachers"]
     }
     </tbody>
 </table>
-<div class="buttons">
+
+@Html.Partial("~/Views/Class/LessonList.cshtml", Model)
+
+@Html.ActionLink(D["Back"], "List", null, new { @class = "btn btn-default" })
 @if ((bool)ViewBag.IsSupervisor)
 {
     @Html.ActionLink(D["Send announcement to parents"], "CreateAnnouncement", new { id = Model.Id }, new { @class = "btn btn-primary" })
     @Html.ActionLink(D["Generate grade sheet"], "GenerateGradeSheet", new { id = Model.Id }, new { @class = "btn btn-primary" })
 }
-@Html.ActionLink(D["Back"], "List", null, new { @class = "btn btn-default" })
-</div>

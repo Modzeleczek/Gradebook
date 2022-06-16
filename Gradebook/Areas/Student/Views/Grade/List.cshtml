@@ -1,8 +1,8 @@
-﻿@model IEnumerable<Gradebook.Controllers.GradeController.SubjectGrades>
+﻿@model IEnumerable<Gradebook.Models.ViewModels.SubjectGrades>
 @using Gradebook.Utils;
 @{
-    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Child.GradeList[ViewBag.LanguageId];
-    ViewBag.Title = D["Grade list"];
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Grade.List_[ViewBag.LanguageId];
+    ViewBag.Title = D["Grades"];
 }
 
 <h2>@ViewBag.Title</h2>
@@ -12,16 +12,8 @@
 foreach (var subjectGroup in Model)
 {
     <h4>@subjectGroup.SubjectName</h4>
-    if (subjectGroup.Grades.Count == 0)
-    {
-        @D["No grades"]
-        <br />
-        <br />
-    }
-    else
-    {
-        <table class="list-table">
-            <thead>
+    <table class="list-table">
+        <thead>
             <tr>
                 <th>
                     @D["Value"]
@@ -33,15 +25,20 @@ foreach (var subjectGroup in Model)
                     @D["Comment"]
                 </th>
                 <th>
+                    @D["Modification time"]
+                </th>
+                <th>
                     @D["Teacher name"]
                 </th>
                 <th>
                     @D["Teacher surname"]
                 </th>
             </tr>
-            </thead>
-            <tbody>
-            @foreach (var item in subjectGroup.Grades)
+        </thead>
+        <tbody>
+        @if (subjectGroup.Grades.Count > 0)
+        {
+            foreach (var item in subjectGroup.Grades)
             {
                 <tr>
                     <td>
@@ -54,6 +51,9 @@ foreach (var subjectGroup in Model)
                         @Html.DisplayFor(modelItem => item.Comment)
                     </td>
                     <td>
+                        @Html.DisplayFor(modelItem => item.ModificationTime)
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Name)
                     </td>
                     <td>
@@ -61,15 +61,18 @@ foreach (var subjectGroup in Model)
                     </td>
                 </tr>
             }
-            </tbody>
-        </table>
-    }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6">@D["No grades"]</td>
+            </tr>
+        }
+        </tbody>
+    </table>
 }
 }
 else
 {
     @D["No subjects"]
-    <br />
 }
-
-@Html.ActionLink(D["Back"], "Index")

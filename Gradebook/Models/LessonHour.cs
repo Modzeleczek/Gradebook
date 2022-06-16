@@ -12,5 +12,10 @@
             StartM = startM;
             DurationM = durationM;
         }
+
+        public override string ToString()
+        {
+            return $"{StartH}:{StartM.ToString("00")}";
+        }
     }
 }

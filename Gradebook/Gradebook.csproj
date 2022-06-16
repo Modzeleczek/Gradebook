@@ -231,12 +231,15 @@
     <Compile Include="Areas\Admin\Controllers\GlobalAnnouncementController.cs" />
     <Compile Include="Areas\Admin\Controllers\StudentController.cs" />
     <Compile Include="Areas\Admin\Controllers\SubjectController.cs" />
-    <Compile Include="Areas\Parent\Controllers\ClassController.cs" />
+    <Compile Include="Areas\Parent\Controllers\ChildController.cs" />
     <Compile Include="Areas\Parent\ParentAreaRegistration.cs" />
+    <Compile Include="Areas\Student\Controllers\AbsenceController.cs" />
     <Compile Include="Areas\Student\Controllers\AppointmentController.cs" />
     <Compile Include="Areas\Student\Controllers\ClassController.cs" />
+    <Compile Include="Areas\Student\Controllers\GradeController.cs" />
     <Compile Include="Areas\Student\Controllers\StudentController.cs" />
     <Compile Include="Areas\Student\Controllers\SubjectController.cs" />
+    <Compile Include="Areas\Student\Controllers\TimetableController.cs" />
     <Compile Include="Areas\Student\StudentAreaRegistration.cs" />
     <Compile Include="Areas\Teacher\Controllers\AppointmentController.cs" />
     <Compile Include="Areas\Teacher\Controllers\ClassController.cs" />
@@ -246,18 +249,13 @@
     <Compile Include="Areas\Teacher\Controllers\TimetableController.cs" />
     <Compile Include="Areas\Teacher\TeacherAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ChildController.cs" />
     <Compile Include="Controllers\DoQuizController.cs" />
     <Compile Include="Controllers\GlobalAnnouncementController.cs" />
-    <Compile Include="Controllers\AbsenceController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LanguageController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\QuizController.cs" />
-    <Compile Include="Controllers\SubjectController.cs" />
-    <Compile Include="Controllers\GradeController.cs" />
-    <Compile Include="Controllers\TimetableController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -270,6 +268,7 @@
     <Compile Include="Models\LessonHour.cs" />
     <Compile Include="Models\QuizSharing.cs" />
     <Compile Include="Models\Room.cs" />
+    <Compile Include="Models\ViewModels\SubjectGrades.cs" />
     <Compile Include="Utils\Comparer.cs" />
     <Compile Include="Utils\ComparerBySubject.cs" />
     <Compile Include="Utils\ControllerBase.cs" />
@@ -298,12 +297,9 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\MessageRecipient.cs" />
-    <Compile Include="Models\OpenQuestion.cs" />
-    <Compile Include="Models\OpenQuestionAnswer.cs" />
     <Compile Include="Models\Parent.cs" />
     <Compile Include="Models\Quiz.cs" />
     <Compile Include="Models\QuizAttempt.cs" />
-    <Compile Include="Models\SecondForeignLanguageGroup.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\Subject.cs" />
     <Compile Include="Models\Teacher.cs" />
@@ -364,13 +360,20 @@
     <Content Include="Areas\Admin\Views\Class\Edit.cshtml" />
     <Content Include="Areas\Parent\Views\web.config" />
     <Content Include="Areas\Parent\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Parent\Views\Class\Details.cshtml" />
     <Content Include="Areas\Student\Views\Class\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Student\Details.cshtml" />
     <Content Include="Areas\Teacher\Views\Student\Details.cshtml" />
     <Content Include="Areas\Teacher\Views\Appointment\Details.cshtml" />
     <Content Include="Areas\Student\Views\Appointment\Details.cshtml" />
+    <Content Include="Areas\Teacher\Views\Timetable\List.cshtml" />
+    <Content Include="Areas\Student\Views\Timetable\List.cshtml" />
+    <Content Include="Areas\Parent\Views\Child\List.cshtml" />
+    <Content Include="Areas\Teacher\Views\Student\CreateGrade.cshtml" />
+    <Content Include="Areas\Teacher\Views\Student\CreateAbsence.cshtml" />
+    <Content Include="Areas\Student\Views\Absence\List.cshtml" />
+    <Content Include="Areas\Student\Views\Grade\List.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\bootstrap_datepicker\bootstrap-datepicker.pl.min.js" />
     <Content Include="Scripts\caleandar\caleandar.js" />
     <Content Include="Scripts\caleandar\caleandar.min.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -429,8 +432,6 @@
     <Content Include="Views\Subject\Details.cshtml" />
     <Content Include="Views\Subject\List.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
-    <Content Include="Views\Grade\Create.cshtml" />
-    <Content Include="Views\Grade\Index.cshtml" />
     <Content Include="Views\Message\Create.cshtml" />
     <Content Include="Views\Message\AddRecipient.cshtml" />
     <Content Include="Views\Message\List.cshtml" />
@@ -446,20 +447,18 @@
     <Content Include="Views\Quiz\AddQuestion.cshtml" />
     <Content Include="Views\Quiz\AddQuizSharing.cshtml" />
     <Content Include="Views\Quiz\Do.cshtml" />
-    <Content Include="Views\Child\Index.cshtml" />
-    <Content Include="Views\Child\ClassDetails.cshtml" />
-    <Content Include="Views\Child\StudentDetails.cshtml" />
-    <Content Include="Views\Child\GradeList.cshtml" />
-    <Content Include="Views\Absence\Index.cshtml" />
-    <Content Include="Views\Absence\Create.cshtml" />
-    <Content Include="Views\Child\AbsenceList.cshtml" />
-    <Content Include="Views\Timetable\Index.cshtml" />
+    <Content Include="Areas\Parent\Views\Child\ClassDetails.cshtml" />
+    <Content Include="Areas\Parent\Views\Child\StudentDetails.cshtml" />
+    <Content Include="Areas\Parent\Views\Child\GradeList.cshtml" />
+    <Content Include="Areas\Parent\Views\Child\AbsenceList.cshtml" />
+    <Content Include="Views\Timetable\List.cshtml" />
     <Content Include="Views\Appointment\Details.cshtml" />
     <Content Include="Views\Shared\GenericError.cshtml" />
     <Content Include="Views\Message\SentDetails.cshtml" />
     <Content Include="Views\Message\ReceivedDetails.cshtml" />
     <Content Include="Views\Message\Details.cshtml" />
     <Content Include="Views\Appointment\List.cshtml" />
+    <Content Include="Views\Class\LessonList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -467,8 +466,6 @@
     <Folder Include="Areas\Parent\Views\Shared\" />
     <Folder Include="Areas\Student\Views\Student\" />
     <Folder Include="Areas\Teacher\Views\Quiz\" />
-    <Folder Include="Areas\Teacher\Views\Timetable\" />
-    <Folder Include="Views\Error\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

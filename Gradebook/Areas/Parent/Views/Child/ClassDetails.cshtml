@@ -2,7 +2,7 @@
 @using Gradebook.Utils;
 @{
     LocalizedStrings.LanguageDictionary D = LocalizedStrings.Child.ClassDetails[ViewBag.LanguageId];
-    ViewBag.Title = D["Child class details"];
+    ViewBag.Title = D["Class details"];
 }
 
 <h2>@ViewBag.Title</h2>
@@ -14,15 +14,12 @@
     <dt>
         @D["Year"]
     </dt>
-
     <dd>
         @Html.DisplayFor(model => model.Year)
     </dd>
-
     <dt>
         @D["Unit"]
     </dt>
-
     <dd>
         @Html.DisplayFor(model => model.Unit)
     </dd>
@@ -33,23 +30,18 @@
     <dt>
         @D["Name"]
     </dt>
-
     <dd>
         @Html.DisplayFor(model => model.Supervisor.ApplicationUser.Name)
     </dd>
-
     <dt>
         @D["Surname"]
     </dt>
-
     <dd>
         @Html.DisplayFor(model => model.Supervisor.ApplicationUser.Surname)
     </dd>
-
     <dt>
         @D["Email"]
     </dt>
-
     <dd>
         @Html.DisplayFor(model => model.Supervisor.ApplicationUser.Email)
     </dd>
@@ -74,29 +66,41 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model.TeacherClassSubjects)
+    @if (Model.TeacherClassSubjects.Count > 0)
+    {
+        foreach (var item in Model.TeacherClassSubjects)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject.Name)
+                </td>
+            </tr>
+        }
+    }
+    else
     {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Surname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subject.Name)
-            </td>
+            <td colspan="4">@D["No teachers"]</td>
         </tr>
     }
     </tbody>
 </table>
+
+@Html.Partial("~/Views/Class/LessonList.cshtml", Model)
 }
 else
 {
-    @:No class;
+    @D["No class"]
+    <br />
 }
 
-@Html.ActionLink(D["Back"], "Index")
+@Html.ActionLink(D["Back"], "List", null, new { @class = "btn btn-default" })

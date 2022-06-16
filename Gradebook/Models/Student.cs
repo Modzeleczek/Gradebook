@@ -10,7 +10,6 @@ namespace Gradebook.Models
         public string Id { get; set; }
         public string ParentId { get; set; }
         public int? ClassId { get; set; }
-        // public int? SecondForeignLanguageGroupId { get; set; }
 
         [ForeignKey("Id")]
         public virtual ApplicationUser ApplicationUser { get; set; }
@@ -18,8 +17,8 @@ namespace Gradebook.Models
         public virtual Parent Parent { get; set; }
         [ForeignKey("ClassId")]
         public virtual Class Class { get; set; }
-        /*[ForeignKey("SecondForeignLanguageGroupId")]
-        public virtual SecondForeignLanguageGroup SecondForeignLanguageGroup { get; set; }*/
         public virtual ICollection<QuizAttempt> QuizAttempts { get; set; }
+        public virtual ICollection<Grade> Grades { get; set; }
+        public virtual ICollection<Absence> Absences { get; set; }
     }
 }

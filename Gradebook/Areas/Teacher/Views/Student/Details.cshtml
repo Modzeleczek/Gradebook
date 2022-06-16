@@ -3,8 +3,161 @@
 @{
     LocalizedStrings.LanguageDictionary D = LocalizedStrings.Student.Details[ViewBag.LanguageId];
     ViewBag.Title = D["Student details"];
+    var subjectGrades = (IEnumerable<Gradebook.Models.ViewModels.SubjectGrades>)ViewBag.SubjectGrades;
+    var absences = (IEnumerable<Gradebook.Models.Absence>)ViewBag.Absences;
+    var teacherId = ViewBag.TeacherId;
 }
 @Html.Partial("~/Views/Student/Details.cshtml", Model)
 
-@Html.ActionLink(D["Show grades"], "Index", "Grade", new { studentId = Model.Id }, new { @class = "btn btn-default" })
-@Html.ActionLink(D["Show absences"], "Index", "Absence", new { studentId = Model.Id }, new { @class = "btn btn-default" })
+<h4>@D["Grades"]</h4>
+@if (subjectGrades.Count() > 0)
+{
+foreach (var subjectGroup in subjectGrades)
+{
+    <h4>@subjectGroup.SubjectName</h4>
+    <table class="list-table">
+        <thead>
+            <tr>
+                <th>
+                    @D["Value"]
+                </th>
+                <th>
+                    @D["Weight"]
+                </th>
+                <th>
+                    @D["Comment"]
+                </th>
+                <th>
+                    @D["Modification time"]
+                </th>
+                <th>
+                    @D["Teacher name"]
+                </th>
+                <th>
+                    @D["Teacher surname"]
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @if (subjectGroup.Grades.Count > 0)
+        {
+            foreach (var item in subjectGroup.Grades)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Value)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Weight)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ModificationTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Surname)
+                    </td>
+                    <td>
+                        @if (item.TeacherId == teacherId) // czy nauczyciel jest autorem oceny
+                        {
+                            @Html.ActionLink(D["Delete"], "DeleteGrade", new { gradeId = item.Id }, new { @class = "btn btn-danger" })
+                        }
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7">@D["No grades"]</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+}
+else
+{
+    @D["No subjects"]
+}
+
+<h4>@D["Absences"]</h4>
+<table class="list-table">
+    <thead>
+    <tr>
+        <th>
+            @D["Date"]
+        </th>
+        <th>
+            @D["Time"]
+        </th>
+        <th>
+            @D["Subject"]
+        </th>
+        <th>
+            @D["Teacher name"]
+        </th>
+        <th>
+            @D["Teacher surname"]
+        </th>
+        <th>
+            @D["Is justified?"]
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (absences.Count() > 0)
+    {
+        foreach (var item in absences)
+        {
+            <tr>
+                <td>
+                    @item.Date.ToShortDateString()
+                </td>
+                <td>
+                    @LessonHours.Array[item.Lesson.HourId].ToString()
+                </td>
+                <td>
+                    @item.Lesson.TeacherClassSubject.Subject.Name
+                </td>
+                <td>
+                    @{ var teacher = item.Lesson.TeacherClassSubject.Teacher.ApplicationUser; }
+                    @teacher.Name
+                </td>
+                <td>
+                    @teacher.Surname
+                </td>
+                <td>
+                    @(item.IsJustified == true ? D["yes"] : D["no"])
+                </td>
+                <td>
+                    @if (teacherId == Model.Class.SupervisorId) // czy nauczyciel jest wychowawcą
+                    {
+                        @Html.ActionLink(item.IsJustified == true ? D["Unjustify"] : D["Justify"], "FlipIsJustified", new { studentId = Model.Id, absenceId = item.Id }, new { @class = "btn btn-primary" })
+                    }
+                    @if(teacherId == item.Lesson.TeacherClassSubject.TeacherId) // niewychowawca może usuwać wstawione przez siebie nieobecności
+                    {
+                        @Html.ActionLink(D["Delete"], "DeleteAbsence", new { absenceId = item.Id }, new { @class = "btn btn-danger" })
+                    }
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td rowspan="7">@D["No absences"]</td>
+        </tr>
+    }
+    </tbody>
+</table>
+@Html.ActionLink(D["Back"], "Details", "Class", new { id = Model.ClassId }, new { @class = "btn btn-default" })
+@Html.ActionLink(D["Add grade"], "CreateGrade", new { studentId = Model.Id }, new { @class = "btn btn-primary" })
+@Html.ActionLink(D["Add absence"], "CreateAbsence", new { studentId = Model.Id }, new { @class = "btn btn-primary" })

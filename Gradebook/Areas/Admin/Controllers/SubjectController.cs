@@ -18,7 +18,7 @@ namespace Gradebook.Areas.Admin.Controllers
         public ActionResult Details(int? id)
         {
             var search = Db.Subject.Where(e => e.Id == id);
-            if (search.Count() != 1) return ErrorView("Subject does not exist.");
+            if (search.Count() != 1) return ErrorView("Such subject does not exist.");
             return View(search.Single());
         }
 
@@ -26,7 +26,7 @@ namespace Gradebook.Areas.Admin.Controllers
         {
             var d = LocalizedStrings.Subject.Details[LanguageCookie.Read(Request.Cookies)];
             var search = Db.Subject.Where(e => e.Id == id);
-            if (search.Count() != 1) return ErrorView("Subject does not exist.");
+            if (search.Count() != 1) return ErrorView("Such subject does not exist.");
             var s = search.Single();
             var hex = s.Syllabus;
             var type = FileType.PDF;
@@ -58,7 +58,7 @@ namespace Gradebook.Areas.Admin.Controllers
         public ActionResult Edit(int? id)
         {
             var search = Db.Subject.Where(e => e.Id == id);
-            if (search.Count() != 1) return ErrorView("Subject does not exist.");
+            if (search.Count() != 1) return ErrorView("Such subject does not exist.");
             return View(search.Single());
         }
 
@@ -67,7 +67,7 @@ namespace Gradebook.Areas.Admin.Controllers
         {
             var d = LocalizedStrings.Subject.Edit[LanguageCookie.Read(Request.Cookies)];
             var search = Db.Subject.Where(e => e.Id == id);
-            if (search.Count() != 1) return ErrorView("Subject does not exist.");
+            if (search.Count() != 1) return ErrorView("Such subject does not exist.");
             var s = search.Single();
             if (string.IsNullOrEmpty(name)) { ViewBag.ValidationMessage = d["Specify a name."]; return View(s); }
             s.Name = name;
@@ -83,7 +83,7 @@ namespace Gradebook.Areas.Admin.Controllers
         public ActionResult DeleteSyllabus(int? id) // id przedmiotu
         {
             var search = Db.Subject.Where(e => e.Id == id);
-            if (search.Count() != 1) return ErrorView("Subject does not exist.");
+            if (search.Count() != 1) return ErrorView("Such subject does not exist.");
             var s = search.Single();
             s.Syllabus = null;
             Db.SaveChanges();
@@ -93,7 +93,7 @@ namespace Gradebook.Areas.Admin.Controllers
         public ActionResult Delete(int? id)
         {
             var search = Db.Subject.Where(e => e.Id == id);
-            if (search.Count() != 1) return ErrorView("Subject does not exist.");
+            if (search.Count() != 1) return ErrorView("Such subject does not exist.");
             var s = search.Single();
             var quizzes = Db.Quiz.Where(e => e.SubjectId == id);
             foreach (var q in quizzes)

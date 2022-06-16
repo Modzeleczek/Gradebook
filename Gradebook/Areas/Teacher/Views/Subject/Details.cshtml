@@ -51,4 +51,5 @@
     }
     </tbody>
 </table>
-@Html.ActionLink(D["Add file"], "AddFile", new { id = Model.Id }, new { @class = "btn btn-default" })
+@Html.ActionLink(D["Back"], "List", null, new { @class = "btn btn-default" })
+@Html.ActionLink(D["Add file"], "AddFile", new { id = Model.Id }, new { @class = "btn btn-primary" })

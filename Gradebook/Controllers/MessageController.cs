@@ -158,20 +158,5 @@ namespace Gradebook.Controllers
             recipients.Remove(searchInSession.Single());
             return RedirectToAction("Create");
         }
-
-        /* [AllowAnonymous]
-        public ActionResult CreateFileTypes(string password)
-        {
-            if (password != "caviaporcellus")
-                return RedirectToAction("About", "Home");
-            var names = new string[] { FileType.TXT, FileType.PDF, FileType.ZIP };
-            foreach (var n in names)
-            {
-                var ft = new FileType { Name = n };
-                Db.FileType.Add(ft);
-            }
-            Db.SaveChanges();
-            return RedirectToAction("Index", "Home");
-        }*/
     }
 }

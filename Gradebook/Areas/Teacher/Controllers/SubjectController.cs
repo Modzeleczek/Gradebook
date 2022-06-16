@@ -25,9 +25,9 @@ namespace Gradebook.Areas.Teacher.Controllers
         public ActionResult Details(int? id)
         {
             var userId = User.Identity.GetUserId();
-            var search = Db.TeacherClassSubject.Where(e => e.TeacherId == userId && e.SubjectId == id);
-            if (search.Count() != 1) return ErrorView("You do not teach such subject.");
-            var s = search.Single();
+            var tcsSearch = Db.TeacherClassSubject.Where(e => e.TeacherId == userId && e.SubjectId == id);
+            if (tcsSearch.Count() == 0) return ErrorView("You do not teach such subject.");
+            var s = tcsSearch.First().Subject;
             var files = Db.File.Where(e => e.TeacherId == userId && e.SubjectId == id).ToArray();
             ViewBag.Files = files;
             return View(s);
@@ -36,8 +36,8 @@ namespace Gradebook.Areas.Teacher.Controllers
         public ActionResult AddFile(int? id) // id - fileId
         {
             var userId = User.Identity.GetUserId();
-            var search = Db.TeacherClassSubject.Where(e => e.TeacherId == userId && e.SubjectId == id);
-            if (search.Count() != 1) return ErrorView("You do not teach such subject.");
+            var tcsSearch = Db.TeacherClassSubject.Where(e => e.TeacherId == userId && e.SubjectId == id);
+            if (tcsSearch.Count() == 0) return ErrorView("You do not teach such subject.");
             ViewBag.SubjectId = id;
             return View();
         }
@@ -46,11 +46,12 @@ namespace Gradebook.Areas.Teacher.Controllers
         public ActionResult AddFile(int? id, string description, HttpPostedFileBase attachedFile) // id - fileId
         {
             var userId = User.Identity.GetUserId();
-            var search = Db.TeacherClassSubject.Where(e => e.TeacherId == userId && e.SubjectId == id);
-            if (search.Count() != 1) return ErrorView("You do not teach such subject.");
+            var tcsSearch = Db.TeacherClassSubject.Where(e => e.TeacherId == userId && e.SubjectId == id);
+            if (tcsSearch.Count() == 0) return ErrorView("You do not teach such subject.");
             if (attachedFile == null || FileType.IsTypeSupported(attachedFile.ContentType) == false)
             {
-                ViewBag.ValidationMessage = "Upload a TXT, PDF or ZIP file.";
+                var d = LocalizedStrings.Subject.AddFile[LanguageCookie.Read(Request.Cookies)];
+                ViewBag.ValidationMessage = d["Upload a TXT, PDF or ZIP file."];
                 ViewBag.SubjectId = id;
                 return View();
             }
@@ -95,7 +96,7 @@ namespace Gradebook.Areas.Teacher.Controllers
         {
             var d = LocalizedStrings.Subject.Details[LanguageCookie.Read(Request.Cookies)];
             var search = Db.Subject.Where(e => e.Id == id);
-            if (search.Count() != 1) return ErrorView("Subject does not exist.");
+            if (search.Count() != 1) return ErrorView("Such subject does not exist.");
             var s = search.Single();
             var hex = s.Syllabus;
             var type = FileType.PDF;

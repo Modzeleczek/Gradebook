@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Gradebook.Models.Absence>
+@using Gradebook.Utils;
+@{
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Absence.List_[ViewBag.LanguageId];
+    ViewBag.Title = D["Absences"];
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="list-table">
+    <thead>
+    <tr>
+        <th>
+            @D["Date"]
+        </th>
+        <th>
+            @D["Time"]
+        </th>
+        <th>
+            @D["Subject"]
+        </th>
+        <th>
+            @D["Teacher name"]
+        </th>
+        <th>
+            @D["Teacher surname"]
+        </th>
+        <th>
+            @D["Is justified?"]
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (Model.Count() > 0)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Date.ToShortDateString()
+                </td>
+                <td>
+                    @LessonHours.Array[item.Lesson.HourId].ToString()
+                </td>
+                <td>
+                    @item.Lesson.TeacherClassSubject.Subject.Name
+                </td>
+                <td>
+                    @{ var teacher = item.Lesson.TeacherClassSubject.Teacher.ApplicationUser; }
+                    @teacher.Name
+                </td>
+                <td>
+                    @teacher.Surname
+                </td>
+                <td>
+                    @(item.IsJustified == true ? D["yes"] : D["no"])
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td rowspan="6">@D["No absences"]</td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -24,13 +24,14 @@
         @D["Date"]
     </dt>
     <dd>
-        @Model.Date.ToString("dd/MM/yyyy")
+        @Model.Date
     </dd>
     <dt>
         @D["Class"]
     </dt>
     <dd>
-        @($"{Model.TeacherClassSubject.Class.Unit} {Model.TeacherClassSubject.Class.Year}")
+        @{ var tcs = Model.TeacherClassSubject; }
+        @Html.ActionLink($"{tcs.Class.Year} {tcs.Class.Unit}", "Details", "Class", new { id = tcs.ClassId }, null)
     </dd>
     <dt>
         @D["Teacher"]
@@ -43,6 +44,7 @@
         @D["Subject"]
     </dt>
     <dd>
-        @Model.TeacherClassSubject.Subject.Name
+        @{ var s = Model.TeacherClassSubject.Subject; }
+        @Html.ActionLink(s.Name, "Details", "Subject", new { id = s.Id }, null)
     </dd>
 </dl>

@@ -28,14 +28,9 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <button type="submit" name="button" value="SendByWebsite" class="btn btn-default">@D["Send by website"]</button>
-            <button type="submit" name="button" value="SendByEmail" class="btn btn-default">@D["Send by email"]</button>
+            @Html.ActionLink(D["Back"], "Details", new { id = (int)ViewBag.ClassId }, new { @class = "btn btn-default" })
+            <button type="submit" name="button" value="SendByWebsite" class="btn btn-primary">@D["Send by website"]</button>
+            <button type="submit" name="button" value="SendByEmail" class="btn btn-primary">@D["Send by email"]</button>
         </div>
     </div>
-}
-
-@Html.ActionLink(D["Back"], "Details", new { id = (int)ViewBag.ClassId }, new { @class = "btn btn-default" })
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
 }

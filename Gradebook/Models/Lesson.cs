@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Gradebook.Models
@@ -14,5 +15,6 @@ namespace Gradebook.Models
 
         [ForeignKey("TeacherClassSubjectId")]
         public virtual TeacherClassSubject TeacherClassSubject { get; set; }
+        public virtual ICollection<Absence> Absences { get; set; }
     }
 }

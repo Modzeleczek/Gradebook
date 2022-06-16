@@ -26,10 +26,9 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <button type="submit" name="button" value="AddFile" class="btn btn-default">@D["Add"]</button>
+                @Html.ActionLink(D["Back"], "Details", new { id = (int)ViewBag.SubjectId }, new { @class = "btn btn-default" })
+                <button type="submit" name="button" value="AddFile" class="btn btn-primary">@D["Add"]</button>
             </div>
         </div>
     </div>
 }
-
-@Html.ActionLink(D["Back"], "Details", new { id = (int)ViewBag.SubjectId }, new { @class = "btn btn-default" })

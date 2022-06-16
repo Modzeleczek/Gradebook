@@ -3,6 +3,7 @@
 @{
     LocalizedStrings.LanguageDictionary D = LocalizedStrings.Class.CreateAppointment[ViewBag.LanguageId];
     ViewBag.Title = D["Create appointment"];
+    var datepickerLanguage = (string)ViewBag.DatepickerLanguage;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -51,15 +52,13 @@
 }
 @section scripts {
 @Scripts.Render("~/Scripts/bootstrap_datepicker/bootstrap-datepicker.js")
+@Scripts.Render("~/Scripts/bootstrap_datepicker/bootstrap-datepicker.pl.min.js")
 <script type="text/javascript">
-    const possibleWeekDays = [@ViewBag.PossibleWeekDays];
+    const possibleWeekDays = [0, @ViewBag.PossibleWeekDays];
     const dateToday = new Date();
-    @*@{
-        var d = Model.Date;
-        var dateString = $"{d.Month.ToString("00")}-{d.Day.ToString("00")}-{d.Year.ToString("0000")}";
-    }*@
     const dateFromServer = new Date(@Model.Date.Year, @Model.Date.Month, @Model.Date.Day);
     $('.datepicker').datepicker({
+        language: '@datepickerLanguage',
         format: 'dd/mm/yyyy',
         beforeShowDay: function (date) {
             if (date < dateToday) return false;
@@ -67,8 +66,8 @@
             if (possibleWeekDays[weekDay] === 1) return true;
             else return false;
         },
-        setDate: dateFromServer
+        setDate: dateFromServer,
+        autoclose: true
     });
-    $('.datepicker').datepicker('update');
 </script>
 }

@@ -7,38 +7,33 @@
 
 <h2>@ViewBag.Title</h2>
 
-@Html.ActionLink(D["Create"], "Create")
+@Html.ActionLink(D["Create"], "Create", null, new { @class = "btn btn-primary" })
 
 @foreach (var roleUsers in Model)
 {
     <h4>@D[roleUsers.RoleName]</h4>
-    if (roleUsers.Users.Count == 0)
-    {
-        @D["No accounts"]
-        <br />
-    }
-    else
-    {
-        <table class="list-table">
-            <thead>
-            <tr>
-                <th>
-                    @D["Name"]
-                </th>
-                <th>
-                    @D["Surname"]
-                </th>
-                <th>
-                    @D["Email"]
-                </th>
-                <th>
-                    @D["Phone number"]
-                </th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var item in roleUsers.Users)
+    <table class="list-table">
+        <thead>
+        <tr>
+            <th>
+                @D["Name"]
+            </th>
+            <th>
+                @D["Surname"]
+            </th>
+            <th>
+                @D["Email"]
+            </th>
+            <th>
+                @D["Phone number"]
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @if (roleUsers.Users.Count > 0)
+        {
+            foreach (var item in roleUsers.Users)
             {
                 <tr>
                     <td>
@@ -54,13 +49,19 @@
                         @Html.DisplayFor(modelItem => item.PhoneNumber)
                     </td>
                     <td>
-                        @Html.ActionLink(D["Edit"], "Edit", new { id = item.Id }) |
-                        @Html.ActionLink(D["Reset password"], "AdminResetPassword", new { id = item.Id })
+                        @Html.ActionLink(D["Edit"], "Edit", new { id = item.Id }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink(D["Reset password"], "AdminResetPassword", new { id = item.Id }, new { @class = "btn btn-primary" })
                         @*@Html.ActionLink("Delete", "Delete", new { id=item.User.Id })*@
                     </td>
                 </tr>
             }
-            </tbody>
-        </table>
-    }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5">@D["No accounts"]</td>
+            </tr>
+        }
+        </tbody>
+    </table>
 }

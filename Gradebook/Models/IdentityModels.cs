@@ -36,7 +36,6 @@ namespace Gradebook.Models
         public DbSet<Appointment> Appointment { get; set; }
         public DbSet<Attachment> Attachment { get; set; }
         public DbSet<File> File { get; set; }
-        // public DbSet<FileType> FileType { get; set; }
         public DbSet<Class> Class { get; set; }
         public DbSet<ClosedQuestionAnswer> ClosedQuestionAnswer { get; set; }
         public DbSet<ClosedQuestionOption> ClosedQuestionOption { get; set; }
@@ -46,13 +45,10 @@ namespace Gradebook.Models
         public DbSet<Lesson> Lesson { get; set; }
         public DbSet<MessageRecipient> MessageRecipient { get; set; }
         public DbSet<ClosedQuestion> ClosedQuestion { get; set; }
-        // public DbSet<OpenQuestion> OpenQuestion { get; set; }
-        // public DbSet<OpenQuestionAnswer> OpenQuestionAnswer { get; set; }
         public DbSet<Parent> Parent { get; set; }
         public DbSet<Quiz> Quiz { get; set; }
         public DbSet<QuizAttempt> QuizAttempt { get; set; }
         public DbSet<QuizSharing> QuizSharing { get; set; }
-        // public DbSet<SecondForeignLanguageGroup> SecondForeignLanguageGroup { get; set; }
         public DbSet<Student> Student { get; set; }
         public DbSet<Subject> Subject { get; set; }
         public DbSet<Teacher> Teacher { get; set; }

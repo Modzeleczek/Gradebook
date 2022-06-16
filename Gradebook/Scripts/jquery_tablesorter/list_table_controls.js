@@ -2,7 +2,6 @@
     // const tables = document.querySelectorAll('.list-table');
     const tables = $('.list-table');
     tables.addClass('table table-bordered table-striped');
-    console.log(tables);
     tables.each((tableIndex, table) => {
         const theads = $(table).children('thead');
         if (theads.length != 1) throw new DOMException("table does not have exactly 1 thead");

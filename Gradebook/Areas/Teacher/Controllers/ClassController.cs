@@ -199,6 +199,7 @@ namespace Gradebook.Areas.Teacher.Controllers
             var possibleWeekDays = new int[Days.Array.Length];
             foreach (var l in tcs.Lessons) possibleWeekDays[l.DayId] = 1;
             ViewBag.PossibleWeekDays = string.Join(",", possibleWeekDays);
+            ViewBag.DatepickerLanguage = LanguageCookie.ReadCode(Request.Cookies);
             return View(new Appointment { Name = "", Description = "", Date = DateTime.Today });
         }
 

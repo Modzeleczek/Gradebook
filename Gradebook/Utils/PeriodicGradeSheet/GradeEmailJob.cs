@@ -1,5 +1,5 @@
-﻿using Gradebook.Controllers;
-using Gradebook.Models;
+﻿using Gradebook.Models;
+using Gradebook.Models.ViewModels;
 using Quartz;
 using System;
 using System.Linq;
@@ -21,7 +21,7 @@ namespace Gradebook.Utils.PeriodicGradeSheet
                 var grades = Db.Grade.Where(e => e.StudentId == s.Id).ToArray();
                 sb.Append($"<h2>{s.ApplicationUser.Name} {s.ApplicationUser.Surname}</h2>");
                 var subjects = s.Class.TeacherClassSubjects.Select(e => e.Subject).ToArray();
-                var subjectGrades = GradeController.GroupGradesBySubject(grades, subjects);
+                var subjectGrades = SubjectGrades.GroupGradesBySubject(grades, subjects);
                 foreach (var sg in subjectGrades)
                 {
                     sb.Append($"<h4>{sg.SubjectName}</h4>");

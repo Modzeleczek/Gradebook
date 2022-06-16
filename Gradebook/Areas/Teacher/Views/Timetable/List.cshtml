@@ -1,0 +1,32 @@
+﻿@model  Gradebook.Models.Lesson[,]
+@using Gradebook.Utils
+@{
+    var D = Gradebook.Utils.LocalizedStrings.Timetable.List_[ViewBag.LanguageId];
+    ViewBag.Title = D["Timetable"];
+}
+@Html.Partial("~/Views/Timetable/List.cshtml")
+    @for (int hi = 0; hi < Gradebook.Utils.LessonHours.Array.Length; ++hi)
+    {
+        <tr>
+        @{ 
+            var lessonHour = LessonHours.Array[hi];
+            var str = $"{lessonHour.StartH}:{lessonHour.StartM.ToString("00")}";
+        }
+        <td>@str</td>
+        @for (int di = 0; di < Gradebook.Utils.Days.Array.Length; ++di)
+        {
+            <td>
+                @{
+                    var l = Model[di, hi];
+                    if (l == null) { continue; }
+                    var tcs = l.TeacherClassSubject;
+                }
+                @Rooms.Array[l.RoomId].Name, 
+                @Html.ActionLink(tcs.Subject.Name, "Details", "Subject", new { id = tcs.SubjectId }, null), 
+                @Html.ActionLink($"{tcs.Class.Year} {tcs.Class.Unit}", "Details", "Class", new { id = tcs.ClassId }, null)
+            </td>
+        }
+        </tr>
+    }
+    </tbody>
+</table>

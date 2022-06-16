@@ -10,7 +10,6 @@ namespace Gradebook.Models
         public int Id { get; set; }
         [Range(1, 6)]
         public float Value { get; set; }
-        [Range(0, 1)]
         public float Weight { get; set; }
         public string Comment { get; set; }
         public DateTime ModificationTime { get; set; }

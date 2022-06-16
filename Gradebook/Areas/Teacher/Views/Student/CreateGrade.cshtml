@@ -1,0 +1,89 @@
+﻿@model Gradebook.Models.Grade
+@using Gradebook.Utils;
+@{
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Student.CreateGrade[ViewBag.LanguageId];
+    ViewBag.Title = D["Create grade"];
+    var studentId = (string)ViewBag.StudentId;
+    ViewBag.TeacherClassSubjectId = new LinkedList<SelectListItem>();
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="alert alert-danger">@ViewBag.ValidationMessage</div>
+
+        @Html.Hidden("studentId", studentId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Value, D["Value"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Value, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Weight, D["Weight"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Comment, D["Comment"] , htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Comment, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("teacherClassSubjectId", D["Subject"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("teacherClassSubjectId")
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @Html.ActionLink(D["Back"], "Details", new { id = studentId }, new { @class = "btn btn-default" })
+                <input type="submit" value="@D["Create"]" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+@section styles {
+    @Styles.Render("~/Content/selectize")
+}
+@section scripts {
+@Scripts.Render("~/Scripts/selectize/selectize.js")
+<script type="text/javascript">
+$(document).ready(function () {
+    const subjectRenderOption = {
+        option: function (it, escape) {
+            return '<div class="selectDiv">' +
+                '<span class="mainName">' + escape(it.Name) + '</span>' +
+                '</div>';
+        }
+    };
+    const teacherClasSubjectSelect = $('#teacherClassSubjectId').selectize({
+        valueField: 'Id', labelField: 'Name', searchField: ['Name'], sortField: 'Name',
+        onInitialize: function () {
+            $.ajax({
+                url: '/Teacher/Student/GetTeacherClassSubjects?studentId=@studentId',
+                type: 'POST',
+                success: function (teacherClassSubjects) {
+                    const selectize = teacherClasSubjectSelect[0].selectize;
+                    for (let i = 0; i < teacherClassSubjects.length; ++i)
+                        selectize.addOption(teacherClassSubjects[i]);
+                },
+                error: function (response) { console.log(response); }
+            });
+        }, render: subjectRenderOption
+    });
+});
+</script>
+}

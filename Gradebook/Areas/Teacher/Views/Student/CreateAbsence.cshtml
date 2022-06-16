@@ -1,0 +1,156 @@
+﻿@model Gradebook.Models.Absence
+@using Gradebook.Utils;
+@{
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Student.CreateAbsence[ViewBag.LanguageId];
+    ViewBag.Title = D["Create absence"];
+    var studentId = (string)ViewBag.StudentId;
+    var datepickerLanguage = (string)ViewBag.DatepickerLanguage;
+    ViewBag.TeacherClassSubjectId = new LinkedList<SelectListItem>();
+    ViewBag.LessonId = new LinkedList<SelectListItem>();
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="alert alert-danger">@ViewBag.ValidationMessage</div>
+
+        @Html.Hidden("studentId", studentId)
+
+        <div class="form-group">
+            @Html.Label("teacherClassSubjectId", D["Subject"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("teacherClassSubjectId")
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, D["Date"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input id="dateinput" type="text" name="Date" class="form-control" autocomplete="off">
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("lessonId", D["Time"], htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("lessonId")
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @Html.ActionLink(D["Back"], "Details", new { id = studentId }, new { @class = "btn btn-default" })
+                <input type="submit" value="@D["Create"]" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+@section styles {
+    @Styles.Render("~/Content/selectize")
+    @Styles.Render("~/Content/bootstrap_datepicker/bootstrap-datepicker.css")
+}
+@section scripts {
+@Scripts.Render("~/Scripts/selectize/selectize.js")
+@Scripts.Render("~/Scripts/bootstrap_datepicker/bootstrap-datepicker.js")
+@Scripts.Render("~/Scripts/bootstrap_datepicker/bootstrap-datepicker.pl.min.js")
+<script type="text/javascript">
+$(document).ready(function () {
+    const subjectRenderOption = {
+        option: function (it, escape) {
+            return '<div class="selectDiv">' +
+                '<span class="mainName">' + escape(it.Name) + '</span>' +
+                '</div>';
+        }
+    };
+    const lessonRenderOption = {
+        option: function (it, escape) {
+            return '<div class="selectDiv">' +
+                '<span class="mainName">' + escape(it.Hour) + '</span>' +
+                '</div>';
+        }
+    };
+    let selectedTeacherClassSubject = null, selectedLesson = null, selectedWeekDay = null;
+    const teacherClasSubjectSelect = $('#teacherClassSubjectId').selectize({
+        valueField: 'Id', labelField: 'Name', searchField: ['Name'], sortField: 'Name',
+        onInitialize: function () {
+            $.ajax({
+                url: '/Teacher/Student/GetTeacherClassSubjects?studentId=@studentId',
+                type: 'POST',
+                success: function (teacherClassSubjects) {
+                    const selectize = teacherClasSubjectSelect[0].selectize;
+                    for (let i = 0; i < teacherClassSubjects.length; ++i)
+                        selectize.addOption(teacherClassSubjects[i]);
+                },
+                error: function (response) { console.log(response); }
+            });
+        }, render: subjectRenderOption,
+        onChange: function (value) {
+            selectedTeacherClassSubject = value;
+            refreshDateInput();
+        }
+    });
+    const lessonSelect = $('#lessonId').selectize({
+        valueField: 'Id', labelField: 'Hour', searchField: ['Hour'],
+        render: lessonRenderOption
+    });
+    const teacherClasSubjectSelectize = teacherClasSubjectSelect[0].selectize;
+    const lessonSelectize = lessonSelect[0].selectize;
+    const dateToday = new Date();
+    const $dateInput = $('#dateinput');
+    const possibleWeekDays = [0, 0, 0, 0, 0, 0]; @* 0 - niedziela, 1 - poniedziałek, itp. *@
+    let selectedDay, selectedMonth, selectedYear;
+    $('#dateinput').datepicker({
+        language: '@datepickerLanguage',
+        format: 'dd/mm/yyyy',
+        beforeShowDay: function (date) {
+            if (date > dateToday) return false;
+            const weekDay = date.getDay();
+            if (possibleWeekDays[weekDay] === 1) return true;
+            else return false;
+        },
+        weekStart: 1,
+        autoclose: true
+    }).on('changeDate', function (e) {
+        selectedWeekDay = e.date.getDay();
+        selectedDay = e.date.getDate();
+        selectedMonth = e.date.getMonth();
+        selectedYear = e.date.getYear();
+        refreshLesson();
+    });
+    function refreshDateInput() {
+        lessonSelectize.clearOptions();
+        selectedLesson = null;
+        $.ajax({
+            url: '/Teacher/Student/GetLessonDays?teacherClassSubjectId=' + selectedTeacherClassSubject,
+            type: 'POST',
+            success: function (data) {
+                for (let i = 0; i < 5; ++i)
+                    possibleWeekDays[i + 1] = data[i];
+                $dateInput.datepicker('update', '');
+            },
+            error: function (response) { console.log(response); }
+        });
+    }
+    function refreshLesson() {
+        lessonSelectize.clearOptions();
+        selectedLesson = null;
+        $.ajax({
+            url: '/Teacher/Student/GetLessons?teacherClassSubjectId=' + selectedTeacherClassSubject +
+                '&weekDay=' + (selectedWeekDay - 1) + '&day=' + selectedDay + '&month=' + (selectedMonth + 1) +
+                '&year=' + (selectedYear + 1900) + '&studentId=' + '@studentId',
+            type: 'POST',
+            success: function (data) {
+                for (let i = 0; i < data.length; ++i)
+                    lessonSelectize.addOption(data[i]);
+            },
+            error: function (response) { console.log(response); }
+        });
+    }
+});
+</script>
+}

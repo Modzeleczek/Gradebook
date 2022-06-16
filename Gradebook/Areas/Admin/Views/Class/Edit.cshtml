@@ -49,13 +49,13 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <button onclick="document.getElementById('detailsFormId').submit()"
-                        type="submit" class="btn btn-default">
-                    @D["Save"]
-                    </button>
-                </div>
+                    type="submit" class="btn btn-default">
+                @D["Save"]
+                </button>
             </div>
         </div>
-    }
+    </div>
+}
 
 <h4>@D["Students"]</h4>
 <table class="list-table">
@@ -120,13 +120,13 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <button onclick="document.getElementById('studentFormId').submit()"
-                        type="submit" class="btn btn-default">
-                    @D["Add student to class"]
-                    </button>
-                </div>
+                    type="submit" class="btn btn-default">
+                @D["Add student to class"]
+                </button>
             </div>
         </div>
-    }
+    </div>
+}
 
 <h4>@D["Teachers"]</h4>
 <table class="list-table">
@@ -204,13 +204,13 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <button onclick="document.getElementById('teacherSubjectFormId').submit()"
-                        type="submit" class="btn btn-default">
-                    @D["Add teacher to class"]
-                    </button>
-                </div>
+                    type="submit" class="btn btn-default">
+                @D["Add teacher to class"]
+                </button>
             </div>
         </div>
-    }
+    </div>
+}
 
 <h4>@D["Lessons"]</h4>
 <table class="list-table">
@@ -251,7 +251,7 @@
                     <td>
                         @{
                             var lessonHour = Gradebook.Utils.LessonHours.Array[lesson.HourId];
-                            var lessonHourStr = $"{lessonHour.StartH}:{lessonHour.StartM.ToString("00")}";
+                            var lessonHourStr = lessonHour.ToString();
                         }
                         @lessonHourStr
                     </td>
@@ -291,7 +291,7 @@
         @Html.HiddenFor(model => model.Id)
 
         <div class="form-group">
-            @Html.Label(D["Teacher and subject"], htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label(D["Subject"], htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("teacherClassSubjectId")
             </div>
@@ -321,17 +321,18 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <button onclick="document.getElementById('lessonFormId').submit()"
-                        type="submit" class="btn btn-default">
-                    @D["Add lesson to class"]
-                    </button>
-                </div>
+                    type="submit" class="btn btn-default">
+                @D["Add lesson to class"]
+                </button>
             </div>
         </div>
-    }
+    </div>
+}
 
-@Styles.Render("~/Content/selectize")
+@section styles {
+    @Styles.Render("~/Content/selectize")
+}
 @section scripts {
-@Scripts.Render("~/bundles/jqueryval")
 @Scripts.Render("~/Scripts/selectize/selectize.js")
 <script type="text/javascript">
     $(document).ready(function () {
@@ -346,13 +347,6 @@
                     '</div>';
             }
         };
-        const subjectRenderOption = {
-            option: function (it, escape) {
-                return '<div class="selectDiv">' +
-                    '<span class="mainName">' + escape(it.Name) + '</span>' +
-                    '</div>';
-            }
-        };
         const teacherClassSubjectRenderOption = {
             option: function (it, escape) {
                 return '<div class="selectDiv">' +
@@ -362,7 +356,7 @@
                     '</div>';
             }
         };
-        const dayRoomRenderOption = {
+        const dayRoomSubjectRenderOption = {
             option: function (it, escape) {
                 return '<div class="selectDiv">' +
                     '<span class="mainName">' + escape(it.Name) + '</span>' +
@@ -436,7 +430,7 @@
                         },
                         error: function (response) { console.log(response); }
                     });
-                }, render: subjectRenderOption
+                }, render: dayRoomSubjectRenderOption
             });
         }
         {
@@ -463,7 +457,7 @@
             });
             const daySelect = $('#dayId').selectize({
                 valueField: 'Id', labelField: 'Name', searchField: ['Name'],
-                render: dayRoomRenderOption, onChange: function (value) {
+                render: dayRoomSubjectRenderOption, onChange: function (value) {
                     selectedDayId = value;
                     refreshHours();
                 }
@@ -477,7 +471,7 @@
             });
             const roomSelect = $('#roomId').selectize({
                 valueField: 'Id', labelField: 'Name', searchField: ['Name'],
-                render: subjectRenderOption
+                render: dayRoomSubjectRenderOption
             });
 
             const daySelectize = daySelect[0].selectize;

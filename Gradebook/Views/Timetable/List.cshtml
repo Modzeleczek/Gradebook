@@ -1,0 +1,30 @@
+﻿@{
+    var D = Gradebook.Utils.LocalizedStrings.Timetable.List_[ViewBag.LanguageId];
+    ViewBag.Title = D["Timetable"];
+}
+
+<h2>@ViewBag.Title</h2>
+<table class="list-table">
+    <thead>
+    <tr>
+        <th>
+            @D["Time"]
+        </th>
+        <th>
+            @D["Monday"]
+        </th>
+        <th>
+            @D["Tuesday"]
+        </th>
+        <th>
+            @D["Wednesday"]
+        </th>
+        <th>
+            @D["Thursday"]
+        </th>
+        <th>
+            @D["Friday"]
+        </th>
+    </tr>
+    </thead>
+    <tbody>

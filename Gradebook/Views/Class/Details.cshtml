@@ -1,5 +1,5 @@
 ﻿@model Gradebook.Models.Class
-@using Gradebook.Utils;
+@using Gradebook.Utils
 @{
     LocalizedStrings.LanguageDictionary D = LocalizedStrings.Class.Details[ViewBag.LanguageId];
     ViewBag.Title = D["Class details"];
@@ -61,21 +61,30 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model.Students)
+    @if (Model.Students.Count > 0)
+    {
+        foreach (var item in Model.Students)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.Email)
+                </td>
+                <td>
+                    @Html.ActionLink(D["Details"], "Details", "Student", new { id = item.Id }, new { @class = "btn btn-info" })
+                </td>
+            </tr>
+        }
+    }
+    else
     {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ApplicationUser.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ApplicationUser.Surname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ApplicationUser.Email)
-            </td>
-            <td>
-                @Html.ActionLink(D["Details"], "Details", "Student", new { id = item.Id }, new { @class = "btn btn-info" })
-            </td>
+            <td rowspan="4">@D["No students"]</td>
         </tr>
     }
     </tbody>

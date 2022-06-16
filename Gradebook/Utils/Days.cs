@@ -6,11 +6,11 @@ namespace Gradebook.Utils
     {
         public static Day[] Array =
         {
-            new Day("monday"),
-            new Day("tuesday"),
-            new Day("wednesday"),
-            new Day("thursday"),
-            new Day("friday")
+            new Day("Monday"),
+            new Day("Tuesday"),
+            new Day("Wednesday"),
+            new Day("Thursday"),
+            new Day("Friday")
         };
     }
 }

@@ -44,9 +44,8 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
+            @Html.ActionLink(D["Back"], "Index", null, new { @class = "btn btn-default" })
             <input type="submit" class="btn btn-default" value="@D["Create"]" />
         </div>
     </div>
 }
-
-@Html.ActionLink(D["Back"], "Index")

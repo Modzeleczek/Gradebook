@@ -2,7 +2,7 @@
 @using Gradebook.Utils;
 @{
     LocalizedStrings.LanguageDictionary D = LocalizedStrings.Child.StudentDetails[ViewBag.LanguageId];
-    ViewBag.Title = D["Child student details"];
+    ViewBag.Title = D["Student details"];
 }
 
 <h2>@ViewBag.Title</h2>
@@ -11,31 +11,24 @@
     <dt>
         @D["Name"]
     </dt>
-
     <dd>
         @Html.DisplayFor(model => model.ApplicationUser.Name)
     </dd>
-
     <dt>
         @D["Surname"]
     </dt>
-
     <dd>
         @Html.DisplayFor(model => model.ApplicationUser.Surname)
     </dd>
-
     <dt>
         @D["Email"]
     </dt>
-
     <dd>
         @Html.DisplayFor(model => model.ApplicationUser.Email)
     </dd>
-
     <dt>
         @D["Phone number"]
     </dt>
-
     <dd>
         @Html.DisplayFor(model => model.ApplicationUser.PhoneNumber)
     </dd>
@@ -48,31 +41,24 @@
         <dt>
             @D["Name"]
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Parent.ApplicationUser.Name)
         </dd>
-
         <dt>
             @D["Surname"]
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Parent.ApplicationUser.Surname)
         </dd>
-
         <dt>
             @D["Email"]
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Parent.ApplicationUser.Email)
         </dd>
-
         <dt>
             @D["Phone number"]
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Parent.ApplicationUser.PhoneNumber)
         </dd>
@@ -81,6 +67,7 @@
 else
 {
     @D["No parent"]
+    <br />
 }
 
-@Html.ActionLink(D["Back"], "Index")
+@Html.ActionLink(D["Back"], "List", null, new { @class = "btn btn-default" })

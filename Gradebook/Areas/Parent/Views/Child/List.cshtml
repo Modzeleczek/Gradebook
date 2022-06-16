@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Gradebook.Models.Student>
+@using Gradebook.Utils;
+@{
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Child.List_[ViewBag.LanguageId];
+    ViewBag.Title = D["Children"];
+}
+
+<h2>@ViewBag.Title</h2>
+<table class="list-table">
+    <thead>
+    <tr>
+        <th>
+            @D["Name"]
+        </th>
+        <th>
+            @D["Surname"]
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (Model.Count() > 0)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.Surname)
+                </td>
+                <td>
+                    @Html.ActionLink(D["Show details"], "StudentDetails", new { studentId = item.Id }, new { @class = "btn btn-info" })
+                    @Html.ActionLink(D["Show class"], "ClassDetails", new { classId = item.ClassId }, new { @class = "btn btn-info" })
+                    @Html.ActionLink(D["Show grades"], "GradeList", new { studentId = item.Id }, new { @class = "btn btn-info" })
+                    @Html.ActionLink(D["Show absences"], "AbsenceList", new { studentId = item.Id }, new { @class = "btn btn-info" })
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="3">@D["No children"]</td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -40,5 +40,12 @@ namespace Gradebook.Utils
             }
             return 0;
         }
+
+        public static string ReadCode(HttpCookieCollection cookies)
+        {
+            var value = Read(cookies);
+            if (value == 0) return "en";
+            else return "pl";
+        }
     }
 }

@@ -18,7 +18,6 @@ namespace Gradebook.Models
         public virtual Quiz Quiz { get; set; }
         [ForeignKey("DoerId")]
         public virtual Student Doer { get; set; }
-        // public virtual ICollection<OpenQuestionAnswer> OpenQuestionAnswers { get; set; }
         public virtual ICollection<ClosedQuestionAnswer> ClosedQuestionAnswers { get; set; }
     }
 }

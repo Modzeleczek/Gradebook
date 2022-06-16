@@ -1,0 +1,72 @@
+﻿@model Gradebook.Models.Class
+@using Gradebook.Utils
+@{
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Class.Edit[ViewBag.LanguageId];
+}
+
+<h4>@D["Lessons"]</h4>
+<table class="list-table">
+    <thead>
+        <tr>
+            <th>
+                @D["Day"]
+            </th>
+            <th>
+                @D["Time"]
+            </th>
+            <th>
+                @D["Duration (min)"]
+            </th>
+            <th>
+                @D["Room"]
+            </th>
+            <th>
+                @D["Subject"]
+            </th>
+            <th>
+                @D["Teacher"]
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ int lessons = 0; }
+        @foreach (var tcs in Model.TeacherClassSubjects)
+        {
+            lessons += tcs.Lessons.Count;
+            foreach (var lesson in tcs.Lessons)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => D[Gradebook.Utils.Days.Array[lesson.DayId].Name])
+                    </td>
+                    <td>
+                        @{
+                            var lessonHour = Gradebook.Utils.LessonHours.Array[lesson.HourId];
+                            var lessonHourStr = $"{lessonHour.StartH}:{lessonHour.StartM.ToString("00")}";
+                        }
+                        @lessonHourStr
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Gradebook.Utils.LessonHours.Array[lesson.HourId].DurationM)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Gradebook.Utils.Rooms.Array[lesson.RoomId].Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => tcs.Subject.Name)
+                    </td>
+                    <td>
+                        @{ var teacherStr = $"{tcs.Teacher.ApplicationUser.Name} {tcs.Teacher.ApplicationUser.Surname}"; }
+                        @teacherStr
+                    </td>
+                </tr>
+            }
+        }
+        @if (lessons == 0)
+        {
+            <tr>
+                <td colspan="7">@D["No lessons"]</td>
+            </tr>
+        }
+    </tbody>
+</table>

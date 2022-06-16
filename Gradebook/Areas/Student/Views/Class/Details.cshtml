@@ -57,23 +57,33 @@
         <th>
             @D["Email"]
         </th>
-        <th></th>
     </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model.Students)
+    @if (Model.Students.Count > 0)
+    {
+        foreach (var item in Model.Students)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.Email)
+                </td>
+            </tr>
+        }
+    }
+    else
     {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ApplicationUser.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ApplicationUser.Surname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ApplicationUser.Email)
-            </td>
+            <td colspan="3">@D["No students"]</td>
         </tr>
     }
     </tbody>
 </table>
+
+@Html.Partial("~/Views/Class/LessonList.cshtml", Model)

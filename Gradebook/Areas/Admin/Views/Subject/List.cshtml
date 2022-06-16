@@ -20,27 +20,36 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model)
+    @if (Model.Count() > 0)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @if (item.Syllabus != null)
+                    {
+                        @Html.ActionLink(D["Download"], "DownloadSyllabus", new { id = item.Id }, new { @class = "btn btn-info" })
+                    }
+                    else
+                    {
+                        @D["Syllabus was not uploaded."]
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink(D["Edit"], "Edit", new { id = item.Id }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink(D["Details"], "Details", new { id = item.Id }, new { @class = "btn btn-info" })
+                    @Html.ActionLink(D["Delete"], "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+    }
+    else
     {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @if (item.Syllabus != null)
-                {
-                    @Html.ActionLink(D["Download"], "DownloadSyllabus", new { id = item.Id }, new { @class = "btn btn-info" })
-                }
-                else
-                {
-                    @D["Syllabus was not uploaded."]
-                }
-            </td>
-            <td>
-                @Html.ActionLink(D["Edit"], "Edit", new { id = item.Id }, new { @class = "btn btn-primary" })
-                @Html.ActionLink(D["Details"], "Details", new { id = item.Id }, new { @class = "btn btn-info" })
-                @Html.ActionLink(D["Delete"], "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
-            </td>
+            <td colspan="3">@D["No subjects"]</td>
         </tr>
     }
     </tbody>

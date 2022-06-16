@@ -12,7 +12,6 @@ namespace Gradebook.Models
 
         public virtual ICollection<TeacherClassSubject> TeacherClassSubjects { get; set; }
         public virtual ICollection<Grade> Grades { get; set; }
-        // public virtual ICollection<SecondForeignLanguageGroup> SecondForeignLanguageGroups { get; set; }
         public virtual ICollection<Quiz> Quizzes { get; set; }
         public virtual ICollection<File> Files { get; set; }
     }

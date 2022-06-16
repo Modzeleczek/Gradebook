@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace Gradebook.Models
 {
@@ -13,11 +10,15 @@ namespace Gradebook.Models
         public int Id { get; set; }
         public string StudentId { get; set; }
         public DateTime Date { get; set; }
-        [Range(1, 12)]
-        public string LessonNumber { get; set; }
+        public int LessonId { get; set; }
         public bool IsJustified { get; set; }
+        public string AuthorId { get; set; }
 
         [ForeignKey("StudentId")]
         public virtual Student Student { get; set; }
+        [ForeignKey("AuthorId")]
+        public virtual Teacher Author { get; set; }
+        [ForeignKey("LessonId")]
+        public virtual Lesson Lesson { get; set; }
     }
 }

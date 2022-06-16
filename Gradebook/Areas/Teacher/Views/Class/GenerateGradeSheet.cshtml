@@ -23,11 +23,11 @@
         <thead>
         <tr>
             <th>
-                Student
+                @D["Student"]
             </th>
             @foreach (var subject in subjects)
             {
-                <th>
+                <th class="sorter-false filter-false">
                     @subject.Name
                 </th>
             }

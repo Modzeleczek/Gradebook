@@ -143,7 +143,7 @@ namespace Gradebook.Areas.Admin.Controllers
                 if (hourBusy[hi] == false)
                 {
                     var hour = LessonHours.Array[hi];
-                    var hm = $"{hour.StartH}:{hour.StartM.ToString("00")}";
+                    var hm = hour.ToString();
                     freeHours.AddLast(new { Id = hi, StartHM = hm, hour.DurationM });
                 }
             return Json(freeHours);
