@@ -1,6 +1,5 @@
 ﻿using Gradebook.Models;
 using Gradebook.Utils;
-using Microsoft.AspNet.Identity;
 using System;
 using System.Linq;
 using System.Web.Mvc;
@@ -36,7 +35,6 @@ namespace Gradebook.Areas.Admin.Controllers
             var ga = new GlobalAnnouncement();
             ga.Content = content;
             ga.ModificationTime = DateTime.Now;
-            ga.AuthorId = User.Identity.GetUserId();
             Db.GlobalAnnouncement.Add(ga);
             Db.SaveChanges();
             return RedirectToAction("List");
@@ -60,7 +58,6 @@ namespace Gradebook.Areas.Admin.Controllers
             if (string.IsNullOrEmpty(content)) { ViewBag.ValidationMessage = d["Specify content."]; return View(ga); }
             ga.Content = content;
             ga.ModificationTime = DateTime.Now;
-            ga.AuthorId = User.Identity.GetUserId();
             Db.SaveChanges();
             return RedirectToAction("List");
         }

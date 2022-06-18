@@ -1,8 +1,9 @@
-﻿@model IEnumerable<Gradebook.Controllers.AccountController.RoleUsers>
+﻿@model IEnumerable<Gradebook.Areas.Admin.Controllers.AccountController.RoleUsers>
 @using Gradebook.Utils;
 @{
-    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Account.Index[ViewBag.LanguageId];
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Account.List_[ViewBag.LanguageId];
     ViewBag.Title = D["Accounts"];
+    var userId = (string)ViewBag.UserId;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -49,9 +50,12 @@
                         @Html.DisplayFor(modelItem => item.PhoneNumber)
                     </td>
                     <td>
-                        @Html.ActionLink(D["Edit"], "Edit", new { id = item.Id }, new { @class = "btn btn-primary" })
-                        @Html.ActionLink(D["Reset password"], "AdminResetPassword", new { id = item.Id }, new { @class = "btn btn-primary" })
-                        @*@Html.ActionLink("Delete", "Delete", new { id=item.User.Id })*@
+                        @Html.ActionLink(D["Edit"], "Edit", new { id = item.Id }, new { @class = "btn-sm btn-primary" })
+                        @Html.ActionLink(D["Reset password"], "ResetPassword", new { id = item.Id }, new { @class = "btn-sm btn-primary" })
+                        @if (item.Id != userId)
+                        {
+                            @Html.ActionLink(D["Delete"], "Delete", new { id = item.Id }, new { @class = "btn-sm btn-danger" })
+                        }
                     </td>
                 </tr>
             }

@@ -31,10 +31,17 @@
                     @Html.DisplayFor(modelItem => item.ApplicationUser.Surname)
                 </td>
                 <td>
-                    @Html.ActionLink(D["Show details"], "StudentDetails", new { studentId = item.Id }, new { @class = "btn btn-info" })
-                    @Html.ActionLink(D["Show class"], "ClassDetails", new { classId = item.ClassId }, new { @class = "btn btn-info" })
-                    @Html.ActionLink(D["Show grades"], "GradeList", new { studentId = item.Id }, new { @class = "btn btn-info" })
-                    @Html.ActionLink(D["Show absences"], "AbsenceList", new { studentId = item.Id }, new { @class = "btn btn-info" })
+                    @Html.ActionLink(D["Show details"], "StudentDetails", new { studentId = item.Id }, new { @class = "btn-sm btn-info" })
+                    @if (item.ClassId != null)
+                    {
+                        @Html.ActionLink(D["Show class"], "ClassDetails", new { classId = item.ClassId }, new { @class = "btn-sm btn-info" })
+                        @Html.ActionLink(D["Show grades"], "GradeList", new { studentId = item.Id }, new { @class = "btn-sm btn-info" })
+                        @Html.ActionLink(D["Show absences"], "AbsenceList", new { studentId = item.Id }, new { @class = "btn-sm btn-info" })
+                    }
+                    else
+                    {
+                        <div class="alert-danger">@D["Student does not belong to any class."]</div>
+                    }
                 </td>
             </tr>
         }

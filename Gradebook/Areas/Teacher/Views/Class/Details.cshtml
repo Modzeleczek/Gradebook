@@ -48,7 +48,7 @@
                 <td>
                     @if (userId == item.TeacherId)
                     {
-                        @Html.ActionLink(D["Create appointment"], "CreateAppointment", "Class", new { teacherClassSubjectId = item.Id }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink(D["Create appointment"], "CreateAppointment", "Class", new { teacherClassSubjectId = item.Id }, new { @class = "btn-sm btn-primary" })
                     }
                 </td>
             </tr>

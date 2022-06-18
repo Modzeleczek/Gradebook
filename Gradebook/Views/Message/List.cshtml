@@ -43,17 +43,24 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Content)
             </td>
+            @if (item.SenderId != null)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sender.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sender.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sender.Email)
+                </td>
+            }
+            else
+            {
+                <td colspan="3">@D["User deleted"]</td>
+            }
             <td>
-                @Html.DisplayFor(modelItem => item.Sender.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sender.Surname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sender.Email)
-            </td>
-            <td>
-                @Html.ActionLink(D["Details"], "Details", new { id = item.Id }, new { @class = "btn btn-info" })
+                @Html.ActionLink(D["Details"], "Details", new { id = item.Id }, new { @class = "btn-sm btn-info" })
             </td>
         </tr>
     }
@@ -93,7 +100,7 @@
                 @Html.DisplayFor(modelItem => item.Content)
             </td>
             <td>
-                @Html.ActionLink(D["Details"], "Details", new { id = item.Id }, new { @class = "btn btn-info" })
+                @Html.ActionLink(D["Details"], "Details", new { id = item.Id }, new { @class = "btn-sm btn-info" })
             </td>
         </tr>
     }
@@ -106,4 +113,4 @@
     }
     </tbody>
 </table>
-@Html.ActionLink(D["Write new"], "Create", null, new { @class = "btn btn-default" })
+@Html.ActionLink(D["Write new"], "Create", null, new { @class = "btn btn-primary" })

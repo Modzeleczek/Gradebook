@@ -13,13 +13,21 @@ namespace Gradebook.Utils.PeriodicGradeSheet
 
         private string GenerateGradeSheet(Parent parent, string date)
         {
-            var students = Db.Student.Where(e => e.ParentId == parent.Id).ToArray();
+            var studentSearch = Db.Student.Where(e => e.ParentId == parent.Id);
+            if (studentSearch.Count() == 0)
+                return $"Rodzic {parent.ApplicationUser.Name} {parent.ApplicationUser.Surname} nie posiada dzieci.";
+            var students = studentSearch.ToArray();
             var sb = new System.Text.StringBuilder();
             sb.Append($"Zestawienie ocen dzieci rodzica {parent.ApplicationUser.Name} {parent.ApplicationUser.Surname} w okresie do {date}.<br/><br/>");
             foreach (var s in students)
             {
                 var grades = Db.Grade.Where(e => e.StudentId == s.Id).ToArray();
                 sb.Append($"<h2>{s.ApplicationUser.Name} {s.ApplicationUser.Surname}</h2>");
+                if (s.ClassId == null)
+                {
+                    sb.Append($"<h4>Brak klasy</h4>");
+                    continue;
+                }
                 var subjects = s.Class.TeacherClassSubjects.Select(e => e.Subject).ToArray();
                 var subjectGrades = SubjectGrades.GroupGradesBySubject(grades, subjects);
                 foreach (var sg in subjectGrades)

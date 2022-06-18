@@ -15,9 +15,13 @@
         if (users.Any())
         {
             var user = users.Single();
-            @Html.ActionLink(D["Logged as"] + " " + user.Name + " " + user.Surname, "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            @Html.ActionLink(D["Logged as"] + " " + user.Name + " " + user.Surname, "Details", "Account", routeValues: null, htmlAttributes: new { title = D["Account details"] })
             <a href="javascript:document.getElementById('logoutForm').submit()">@D["Logout"]</a>
-            
+
+        }
+        else
+        {
+            @D["Authentication error"]
         }
     }
 }

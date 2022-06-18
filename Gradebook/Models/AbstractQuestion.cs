@@ -9,6 +9,7 @@ namespace Gradebook.Models
         public int Id { get; set; }
         public int? QuizId { get; set; }
         public string Content { get; set; }
+        public float Points { get; set; }
 
         [ForeignKey("QuizId")]
         public virtual Quiz Quiz { get; set; }

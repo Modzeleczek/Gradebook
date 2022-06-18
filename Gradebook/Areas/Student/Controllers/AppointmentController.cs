@@ -15,6 +15,7 @@ namespace Gradebook.Areas.Student.Controllers
             var studentSearch = Db.Student.Where(e => e.Id == userId);
             if (studentSearch.Count() != 1) return ErrorView("Your account does not exist.");
             var classId = studentSearch.Single().ClassId;
+            if (classId == null) return ErrorView("You do not belong to any class.");
             var appointments = Db.Appointment.Where(e => e.TeacherClassSubject.ClassId == classId).ToArray();
             return View(appointments);
         }

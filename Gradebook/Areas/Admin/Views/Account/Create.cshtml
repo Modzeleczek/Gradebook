@@ -1,0 +1,91 @@
+﻿@model Gradebook.Models.ApplicationUser
+@using Gradebook.Utils;
+@{
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Account.Create[ViewBag.LanguageId];
+    ViewBag.Title = D["Create account"];
+    ViewBag.RoleId = new LinkedList<SelectListItem>();
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Create", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="alert alert-danger">@ViewBag.ValidationMessage</div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, D["Name"], new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Surname, D["Surname"], new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, D["Email"], new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.PhoneNumber, D["Phone number"], new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("roleId", D["Type"], new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownList("roleId")
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            @Html.ActionLink(D["Back"], "List", null, new { @class = "btn btn-default" })
+            <input type="submit" value="@D["Create"]" class="btn btn-primary" />
+        </div>
+    </div>
+}
+
+@section styles {
+    @Styles.Render("~/Content/selectize")
+}
+@section scripts {
+@Scripts.Render("~/Scripts/selectize/selectize.js")
+<script type="text/javascript">
+$(document).ready(function () {
+    const roleRenderOption = {
+        option: function (item, escape) {
+            return '<div class="selectDiv">' +
+                '<span class="mainName">' + escape(item.Name) + '</span>' +
+                '</div>';
+        },
+    };
+    const roleSelect = $('#roleId').selectize({
+        valueField: 'Id', labelField: 'Name', searchField: ['Name'], sortField: 'Name',
+        onInitialize: function () {
+            $.ajax({
+                url: '/Admin/Account/GetRoles',
+                type: 'POST',
+                success: function (roles) {
+                    const selectize = roleSelect[0].selectize;
+                    for (let i = 0; i < roles.length; ++i)
+                        selectize.addOption(roles[i]);
+                    selectize.setValue('@ViewBag.SelectedRoleId');
+                },
+                error: function (response) { console.log(response); }
+            });
+        }, render: roleRenderOption
+    });
+});
+</script>
+}

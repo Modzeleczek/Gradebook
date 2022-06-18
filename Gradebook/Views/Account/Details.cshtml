@@ -1,0 +1,23 @@
+﻿@model Gradebook.Models.ApplicationUser
+@using Gradebook.Utils;
+@{
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Account.Details[ViewBag.LanguageId];
+    ViewBag.Title = D["Account details"];
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>@D["Email"]</dt>
+        <dd>@Model.Email</dd>
+        <dt>@D["Password"]</dt>
+        <dd>@Html.ActionLink(D["Change"], "ChangePassword", null, new { @class = "btn-sm btn-primary" })</dd>
+        <dt>@D["Name"]</dt>
+        <dd>@Model.Name</dd>
+        <dt>@D["Surname"]</dt>
+        <dd>@Model.Surname</dd>
+        <dt>@D["Phone number"]</dt>
+        <dd>@Model.PhoneNumber</dd>
+    </dl>
+</div>

@@ -59,13 +59,14 @@ namespace Gradebook.Areas.Teacher.Controllers
             bool error = false;
             if (!value.HasValue || (value.Value < 1 || value.Value > 6))
             { ViewBag.ValidationMessage = d["Specify value in range <1, 6>."]; error = true; }
-            else if (!weight.HasValue)
-            { ViewBag.ValidationMessage = d["Specify weight."]; error = true; }
+            else if (!weight.HasValue || weight < 0)
+            { ViewBag.ValidationMessage = d["Specify positive weight."]; error = true; }
             else if (!teacherClassSubjectId.HasValue)
             { ViewBag.ValidationMessage = d["Select subject."]; error = true; }
             if (error)
             {
                 ViewBag.StudentId = studentId;
+                ViewBag.SelectedTeacherClassSubjectId = teacherClassSubjectId;
                 return View(new Grade { Value = value ?? 0, Weight = weight ?? 0, Comment = comment });
             }
             var studentSearch = Db.Student.Where(e => e.Id == studentId);
@@ -97,6 +98,7 @@ namespace Gradebook.Areas.Teacher.Controllers
             if (gradeSearch.Count() != 1) return ErrorView("You have not created such grade.");
             var g = gradeSearch.Single();
             var studentId = g.StudentId;
+            Db.QuizAttempt.Where(e => e.GradeId == gradeId).UpdateFromQuery(e => new QuizAttempt { GradeId = null });
             Db.Grade.Remove(g);
             Db.SaveChanges();
             return RedirectToAction("Details", new { id = studentId });
@@ -180,6 +182,8 @@ namespace Gradebook.Areas.Teacher.Controllers
             {
                 ViewBag.StudentId = studentId;
                 ViewBag.DatepickerLanguage = LanguageCookie.ReadCode(Request.Cookies);
+                ViewBag.SelectedTeacherClassSubjectId = teacherClassSubjectId;
+                ViewBag.SelectedDate = date;
                 return View(new Absence());
             }
             var teacherId = User.Identity.GetUserId();

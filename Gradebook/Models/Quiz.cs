@@ -11,9 +11,7 @@ namespace Gradebook.Models
         public int Id { get; set; }
         public int? SubjectId { get; set; }
         public string AuthorId { get; set; }
-        [MinLength(1)]
         public string Name { get; set; }
-        [Range(1, int.MaxValue)]
         public int Duration { get; set; }
         public DateTime ModificationTime { get; set; }
 

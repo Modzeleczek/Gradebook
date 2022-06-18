@@ -27,21 +27,30 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model.TeacherClassSubjects)
+    @if (Model.TeacherClassSubjects.Count > 0)
+    {
+        foreach (var item in Model.TeacherClassSubjects)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject.Name)
+                </td>
+            </tr>
+        }
+    }
+    else
     {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Surname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subject.Name)
-            </td>
+            <td colspan="4">@D["No teachers"]</td>
         </tr>
     }
     </tbody>

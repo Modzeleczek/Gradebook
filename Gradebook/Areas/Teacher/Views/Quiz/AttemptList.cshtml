@@ -1,0 +1,107 @@
+﻿@model IEnumerable<Gradebook.Models.QuizAttempt>
+@using Gradebook.Utils;
+@{
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Quiz.AttemptList[ViewBag.LanguageId];
+    ViewBag.Title = D["Attempts"];
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="alert alert-danger">@ViewBag.ValidationMessage</div>
+
+    @Html.Hidden("quizId", (int)ViewBag.QuizId)
+
+    <table class="list-table">
+        <thead>
+        <tr>
+            <th>
+                @D["Name"]
+            </th>
+            <th>
+                @D["Surname"]
+            </th>
+            <th>
+                @D["Email"]
+            </th>
+            <th>
+                @D["Year"]
+            </th>
+            <th>
+                @D["Unit"]
+            </th>
+            <th>
+                @D["Grade"]
+            </th>
+            <th>
+                @D["Weight"]
+            </th>
+            <th class="sorter-false filter-false">
+                @D["Reset?"]
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @if (Model.Count() > 0)
+        {
+            foreach (var attempt in Model)
+            {
+                <tr>
+                    <td> @{ var user = attempt.Doer.ApplicationUser; }
+                        @user.Name
+                    </td>
+                    <td>
+                        @user.Surname
+                    </td>
+                    <td>
+                        @user.Email
+                    </td>
+                    <td> @{ var _class = attempt.Doer.Class; }
+                        @_class.Year
+                    </td>
+                    <td>
+                        @_class.Unit
+                    </td>
+                    @if (attempt.GradeId != null)
+                    {
+                        <td>
+                            @attempt.Grade.Value
+                        </td>
+                        <td>
+                            @attempt.Grade.Weight
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @D["No grade"]
+                        </td>
+                        <td></td>
+                    }
+                    <td>
+                        <input type="checkbox" name="selectedAttempts" value="@attempt.Id" />
+                    </td>
+                    <td>
+                        @Html.ActionLink(D["Review"], "AttemptReview", new { attemptId = attempt.Id }, new { @class = "btn-sm btn-info" })
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td>@D["No attempts"]</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            @Html.ActionLink(D["Back"], "List", null, new { @class = "btn btn-default" })
+            <button type="submit" name="button" value="Generate" class="btn btn-primary">@D["Reset"]</button>
+        </div>
+    </div>
+}

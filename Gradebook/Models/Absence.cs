@@ -12,12 +12,9 @@ namespace Gradebook.Models
         public DateTime Date { get; set; }
         public int LessonId { get; set; }
         public bool IsJustified { get; set; }
-        public string AuthorId { get; set; }
 
         [ForeignKey("StudentId")]
         public virtual Student Student { get; set; }
-        [ForeignKey("AuthorId")]
-        public virtual Teacher Author { get; set; }
         [ForeignKey("LessonId")]
         public virtual Lesson Lesson { get; set; }
     }

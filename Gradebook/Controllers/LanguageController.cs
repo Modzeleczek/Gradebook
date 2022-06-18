@@ -1,10 +1,10 @@
 ﻿using Gradebook.Utils;
 using System.Web.Mvc;
-using System.Web.Routing;
+using ControllerBase = Gradebook.Utils.ControllerBase;
 
 namespace Gradebook.Controllers
 {
-    public class LanguageController : Controller
+    public class LanguageController : ControllerBase
     {
         public ActionResult SelectEnglish(string returnPath)
         {

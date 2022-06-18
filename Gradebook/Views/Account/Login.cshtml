@@ -1,12 +1,13 @@
-﻿@using Gradebook.Models
-@using Gradebook.Utils;
-@model LoginViewModel
+﻿@model LoginViewModel
+@using Gradebook.Models
+@using Gradebook.Utils
 @{
     LocalizedStrings.LanguageDictionary D = LocalizedStrings.Account.Login[ViewBag.LanguageId];
     ViewBag.Title = D["Log in"];
 }
 
 <h2>@ViewBag.Title</h2>
+
 <div class="row">
     <div class="col-md-8">
         <section id="loginForm">
@@ -15,26 +16,28 @@
                 @Html.AntiForgeryToken()
                 <h4>@D["Use login details received from administrator."]</h4>
                 <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="alert alert-danger">@ViewBag.ValidationMessage</div>
+
                 <div class="form-group">
                     @Html.LabelFor(m => m.Email, D["Email"], new { @class = "col-md-2 control-label" })
                     <div class="col-md-10">
                         @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                     </div>
                 </div>
+
                 <div class="form-group">
                     @Html.LabelFor(m => m.Password, D["Password"], new { @class = "col-md-2 control-label" })
                     <div class="col-md-10">
                         @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                     </div>
                 </div>
+
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <input type="submit" value="@D["Log in"]" class="btn btn-default" />
                     </div>
                 </div>
+
                 <p>
                     @Html.ActionLink(D["Forgot your password?"], "ForgotPassword")
                 </p>

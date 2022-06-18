@@ -2,7 +2,7 @@
 @{
     LocalizedStrings.LanguageDictionary D = LocalizedStrings.Message.Create[ViewBag.LanguageId];
     ViewBag.Title = D["Add recipient"];
-    var recipients = (ICollection<SelectListItem>)ViewBag.Recipients;
+    ViewBag.UserId = new LinkedList<SelectListItem>();
 }
 
 <h2>@ViewBag.Title</h2>
@@ -13,16 +13,57 @@
     <div class="alert alert-danger">@ViewBag.ValidationMessage</div>
 
     <div class="form-group">
-        @Html.Label(D["User"], new { @class = "col-md-2 control-label" })
+        @Html.Label("userId", D["User"], new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.DropDownList("userId", recipients, new { @class = "form-control" })
+            @Html.DropDownList("userId")
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Add" />
+            @Html.ActionLink(D["Cancel"], "Create", null, new { @class = "btn btn-danger" })
+            <input type="submit" class="btn btn-primary" value="@D["Add"]" />
         </div>
     </div>
 }
-@Html.ActionLink(D["Cancel"], "Create", null, new { @class = "btn btn-danger" })
+
+@section styles {
+    @Styles.Render("~/Content/selectize")
+}
+@section scripts {
+@Scripts.Render("~/Scripts/selectize/selectize.js")
+<script type="text/javascript">
+$(document).ready(function () {
+    const userRenderOption = {
+        option: function (it, escape) {
+            return '<div class="selectDiv">' +
+                '<span class="mainName">' + escape(it.Email) + '</span><br />' +
+                '<span class="subLabel">@D["Name"]: </span>' +
+                '<span class="subValue">' + escape(it.Name) + '</span>' +
+                '<span class="subLabel">@D["Surname"]: </span>' +
+                '<span class="subValue">' + escape(it.Surname) + '</span>' +
+                '</div>';
+        },
+        item: function(item, escape) {
+            return '<div>' + escape(item.Name) + ' ' + escape(item.Surname) + '</div>';
+        }
+    };
+    const userSelect = $('#userId').selectize({
+        valueField: 'Id', labelField: 'Email', searchField: ['Surname', 'Name', 'Email'], sortField: 'Surname',
+        onInitialize: function () {
+            $.ajax({
+                url: '/Message/GetUsers',
+                type: 'POST',
+                success: function (users) {
+                    const selectize = userSelect[0].selectize;
+                    for (let i = 0; i < users.length; ++i)
+                        selectize.addOption(users[i]);
+                },
+                error: function (response) { console.log(response); }
+            });
+        }, render: userRenderOption
+    });
+});
+</script>
+}
+

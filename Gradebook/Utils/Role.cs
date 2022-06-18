@@ -5,10 +5,6 @@ namespace Gradebook.Utils
     public class Role
     {
         public const string Administrator = "Administrator", Teacher = "Teacher", Parent = "Parent", Student = "Student";
-        public const string AdministratorTeacher = "Administrator,Teacher";
-        public const string AdministratorTeacherStudent = "Administrator,Teacher,Student";
-        public const string TeacherParentStudent = "Teacher,Parent,Student";
-        public const string TeacherStudent = "Teacher,Student";
         public static string[] All = new string[] { Administrator, Teacher, Parent, Student };
 
         public static NamedLink[] GetLinks(System.Security.Principal.IPrincipal user)

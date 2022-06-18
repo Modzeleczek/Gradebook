@@ -11,6 +11,5 @@ namespace Gradebook.Models
 
         [ForeignKey("Id")]
         public virtual ApplicationUser ApplicationUser { get; set; }
-        public virtual ICollection<GlobalAnnouncement> Announcements { get; set; }
     }
 }

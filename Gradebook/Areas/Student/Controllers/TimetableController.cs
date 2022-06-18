@@ -16,7 +16,9 @@ namespace Gradebook.Areas.Student.Controllers
             var id = User.Identity.GetUserId();
             var studentSearch = Db.Student.Where(e => e.Id == id);
             if (studentSearch.Count() != 1) return ErrorView("Your account does not exist.");
-            var _class = studentSearch.Single().Class;
+            var student = studentSearch.Single();
+            if (student.ClassId == null) return ErrorView("You do not belong to any class.");
+            var _class = student.Class;
             var lessons = new LinkedList<Lesson>();
             foreach (var tcs in _class.TeacherClassSubjects)
                 foreach (var l in tcs.Lessons)

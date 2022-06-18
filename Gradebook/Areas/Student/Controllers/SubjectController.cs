@@ -14,6 +14,7 @@ namespace Gradebook.Areas.Student.Controllers
         {
             var studentId = User.Identity.GetUserId();
             var student = Db.Student.Where(e => e.Id == studentId).Single();
+            if (student.ClassId == null) return ErrorView("You do not belong to any class.");
             var subjects = student.Class.TeacherClassSubjects.Select(e => e.Subject).ToArray();
             return View(subjects);
         }

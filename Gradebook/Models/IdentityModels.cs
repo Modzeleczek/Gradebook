@@ -1,12 +1,10 @@
-﻿using MySql.Data.EntityFramework;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Gradebook.Models
 {
@@ -28,7 +26,6 @@ namespace Gradebook.Models
         }
     }
 
-    // [DbConfigurationType(typeof(MySqlEFConfiguration))]
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Absence> Absence { get; set; }
@@ -74,20 +71,10 @@ namespace Gradebook.Models
     public class IdentityManager
     {
         public RoleManager<IdentityRole> LocalRoleManager
-        {
-            get
-            {
-                return new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(ApplicationDbContext.Create()));
-            }
-        }
+        { get { return new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(ApplicationDbContext.Create())); } }
 
         public UserManager<ApplicationUser> LocalUserManager
-        {
-            get
-            {
-                return new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(ApplicationDbContext.Create()));
-            }
-        }
+        { get { return new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(ApplicationDbContext.Create())); } }
 
         public ApplicationUser GetUserByID(string userID)
         {

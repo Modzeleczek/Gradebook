@@ -79,6 +79,7 @@ $(document).ready(function () {
                     const selectize = teacherClasSubjectSelect[0].selectize;
                     for (let i = 0; i < teacherClassSubjects.length; ++i)
                         selectize.addOption(teacherClassSubjects[i]);
+                    selectize.setValue('@ViewBag.SelectedTeacherClassSubjectId');
                 },
                 error: function (response) { console.log(response); }
             });

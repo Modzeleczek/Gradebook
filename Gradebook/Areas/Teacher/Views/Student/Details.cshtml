@@ -66,7 +66,7 @@ foreach (var subjectGroup in subjectGrades)
                     <td>
                         @if (item.TeacherId == teacherId) // czy nauczyciel jest autorem oceny
                         {
-                            @Html.ActionLink(D["Delete"], "DeleteGrade", new { gradeId = item.Id }, new { @class = "btn btn-danger" })
+                            @Html.ActionLink(D["Delete"], "DeleteGrade", new { gradeId = item.Id }, new { @class = "btn-sm btn-danger" })
                         }
                     </td>
                 </tr>
@@ -140,11 +140,11 @@ else
                 <td>
                     @if (teacherId == Model.Class.SupervisorId) // czy nauczyciel jest wychowawcą
                     {
-                        @Html.ActionLink(item.IsJustified == true ? D["Unjustify"] : D["Justify"], "FlipIsJustified", new { studentId = Model.Id, absenceId = item.Id }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink(item.IsJustified == true ? D["Unjustify"] : D["Justify"], "FlipIsJustified", new { studentId = Model.Id, absenceId = item.Id }, new { @class = "btn-sm btn-primary" })
                     }
                     @if(teacherId == item.Lesson.TeacherClassSubject.TeacherId) // niewychowawca może usuwać wstawione przez siebie nieobecności
                     {
-                        @Html.ActionLink(D["Delete"], "DeleteAbsence", new { absenceId = item.Id }, new { @class = "btn btn-danger" })
+                        @Html.ActionLink(D["Delete"], "DeleteAbsence", new { absenceId = item.Id }, new { @class = "btn-sm btn-danger" })
                     }
                 </td>
             </tr>
@@ -153,7 +153,7 @@ else
     else
     {
         <tr>
-            <td rowspan="7">@D["No absences"]</td>
+            <td colspan="7">@D["No absences"]</td>
         </tr>
     }
     </tbody>

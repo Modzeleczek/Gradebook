@@ -9,7 +9,6 @@ namespace Gradebook.Models
         public int ClassId { get; set; }
         [Key, Column(Order = 1)]
         public int QuizId { get; set; }
-        [Range(0, 1)]
         public float GradeWeight { get; set; }
 
         [ForeignKey("ClassId")]

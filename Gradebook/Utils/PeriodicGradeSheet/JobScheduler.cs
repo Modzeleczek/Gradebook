@@ -10,8 +10,8 @@ namespace Gradebook.Utils.PeriodicGradeSheet
             IScheduler scheduler = await StdSchedulerFactory.GetDefaultScheduler();
             IJobDetail job = JobBuilder.Create<GradeEmailJob>().Build();
             ITrigger trigger = TriggerBuilder.Create()
-                .WithCronSchedule("0 0 0 ? * MON *") // http://www.cronmaker.com
-                .WithIdentity("run every monday at 00:00")
+                .WithCronSchedule("0 0/10 * 1/1 * ? *") // http://www.cronmaker.com
+                .WithIdentity("run every 10th minute")
                 .Build();
             await scheduler.ScheduleJob(job, trigger);
             await scheduler.Start();

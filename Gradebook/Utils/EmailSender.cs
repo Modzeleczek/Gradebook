@@ -8,7 +8,7 @@ namespace Gradebook.Utils
 {
     public static partial class EmailSender
     {
-        private const string UserName = "lukasz.modzelewski1@gmail.comlukasz.modzelewski1@gmail.com", Password = "huisayobarctkwaf";
+        private const string UserName = "lukasz.modzelewski1@gmail.com", Password = "huisayobarctkwaf";
 
         private static SmtpClient CreateSmtp()
         {

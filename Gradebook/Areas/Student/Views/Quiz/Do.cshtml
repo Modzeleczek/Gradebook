@@ -7,18 +7,10 @@
 
 <h2>@ViewBag.Title</h2>
 
-@if (((string)ViewBag.Error).Length > 0)
-{
-    @ViewBag.Error
-    <br />
-    @Html.ActionLink(D["Back"], "Index")
-    return;
-}
-
 <div class="row">
     <div class="col-md-12">
         <div>
-            @D["Time remaining"]:<span id="hoursRemaining"></span>:<span id="minutesRemaining"></span>:<span id="secondsRemaining"></span>
+            @D["Time remaining"]: <span id="hoursRemaining"></span>:<span id="minutesRemaining"></span>:<span id="secondsRemaining"></span>
         </div>
     </div>
 </div>
@@ -26,9 +18,12 @@
 @using (Html.BeginForm("Do", "Quiz", FormMethod.Post, htmlAttributes: new { @id = "quizForm" }))
 {
     @Html.Hidden("attemptId", (int)ViewBag.AttemptId)
-    <table class="list-table">
+    <table class="list-table tablesorter_no_headers">
         <thead>
         <tr>
+            <th>
+                @D["Points"]
+            </th>
             <th>
                 @D["Content"]
             </th>
@@ -42,20 +37,30 @@
         {
             <tr>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Points)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Content)
                 </td>
                 <td>
                     <table class="table">
-                        @foreach (var answer in item.Options)
+                        @if (item.Options.Count > 0)
                         {
-                            <tr>
-                                <td>
-                                    <label>
-                                        <input type="checkbox" name="selectedAnswers" value="@answer.Id" />
-                                        @answer.Content
-                                    </label>
-                                </td>
-                            </tr>
+                            foreach (var answer in item.Options)
+                            {
+                                <tr>
+                                    <td>
+                                        <label>
+                                            <input type="checkbox" name="selectedAnswers" value="@answer.Id" />
+                                            @answer.Content
+                                        </label>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr><td>@D["No answers have been made."]</td></tr>
                         }
                     </table>
                 </td>
@@ -70,6 +75,7 @@
     </div>
 }
 
+@section scripts {
 <script>
     function formatNumber(number) {
         if (number < 10) return "0" + number;
@@ -101,3 +107,4 @@
 
     startTimer();
 </script>
+}

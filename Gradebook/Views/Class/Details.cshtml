@@ -76,7 +76,7 @@
                     @Html.DisplayFor(modelItem => item.ApplicationUser.Email)
                 </td>
                 <td>
-                    @Html.ActionLink(D["Details"], "Details", "Student", new { id = item.Id }, new { @class = "btn btn-info" })
+                    @Html.ActionLink(D["Details"], "Details", "Student", new { id = item.Id }, new { @class = "btn-sm btn-info" })
                 </td>
             </tr>
         }
@@ -84,7 +84,7 @@
     else
     {
         <tr>
-            <td rowspan="4">@D["No students"]</td>
+            <td colspan="4">@D["No students"]</td>
         </tr>
     }
     </tbody>

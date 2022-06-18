@@ -79,37 +79,24 @@ namespace Gradebook.Utils
 
         public class Account
         {
-            public static DictionaryTuple Login, VerifyCode, SendCode, EditOther, EditStudent, ConfirmEmail, ForgotPassword, ForgotPasswordConfirmation, Index, LoginDetails, Register, ResetPassword, ResetPasswordConfirmation;
+            public static DictionaryTuple Login, Edit, ForgotPassword, ForgotPasswordConfirmation, List_, LoginDetails, Create, ResetPassword, ResetPasswordConfirmation, Details, ChangePassword, ChangePasswordConfirmation;
 
             static Account()
             {
                 PLogin();
-                PEditOther();
-                PEditStudent();
-                PConfirmEmail();
+                PEdit();
                 PForgotPassword();
                 PForgotPasswordConfirmation();
-                PIndex();
+                PList();
                 PLoginDetails();
-                PRegister();
+                PCreate();
                 PResetPassword();
                 PResetPasswordConfirmation();
-                PSendCode();
-                PVerifyCode();
+                PDetails();
+                PChangePassword();
+                PChangePasswordConfirmation();
             }
-            private static void PVerifyCode()
-            {
-                VerifyCode = new DictionaryTuple();
-                var d = VerifyCode[1];
-                d["Verify"] = "Zweryfikuj";
-                d["Code"] = "Kod";
-            }
-            private static void PSendCode()
-            {
-                SendCode = new DictionaryTuple();
-                var d = SendCode[1];
-                d["Send"] = "Wyślij kod";
-            }
+
             private static void PResetPasswordConfirmation()
             {
                 ResetPasswordConfirmation = new DictionaryTuple();
@@ -128,39 +115,29 @@ namespace Gradebook.Utils
                 d["Password"] = "Hasło";
                 d["Use login details received from administrator."] = "Użyj danych otrzymanych od administratora.";
                 d["Forgot your password?"] = "Zapomniałeś hasła?";
+                d["Invalid login attempt."] = "Nieprawidłowa próba logowania.";
             }
-            private static void PEditOther()
+
+            private static void PEdit()
             {
-                EditOther = new DictionaryTuple();
-                var d = EditOther[1];
-                d["Edit other"] = "Edytuj";
+                Edit = new DictionaryTuple();
+                var d = Edit[1];
+                d["Edit"] = "Edytuj";
                 d["Name"] = "Imię";
                 d["Surname"] = "Nazwisko";
                 d["Email"] = "Email";
                 d["Phone number"] = "Numer telefonu";
                 d["Back"] = "Powrót";
                 d["Save"] = "Zapisz";
-            }
-            private static void PEditStudent()
-            {
-                EditStudent = new DictionaryTuple();
-                var d = EditStudent[1];
-                d["Edit student"] = "Edytuj";
-                d["Name"] = "Imię";
-                d["Surname"] = "Nazwisko";
-                d["Email"] = "Email";
-                d["Phone number"] = "Numer telefonu";
                 d["Parent"] = "Rodzic";
-                d["Back"] = "Powrót";
-                d["Save"] = "Zapisz";
+                d["Specify phone number consisting of 9 digits."] = "Podaj numer telefonu złożony z 9 cyfr.";
+                d["Select type."] = "Wybierz typ.";
+                d["Specify name."] = "Podaj imię.";
+                d["Specify surname."] = "Podaj nazwisko.";
+                d["Specify valid email."] = "Podaj prawidłowy email.";
+                d["Account with such email already exists."] = "Konto z takim emailem już istnieje.";
             }
-            private static void PConfirmEmail()
-            {
-                ConfirmEmail = new DictionaryTuple();
-                var d = ConfirmEmail[1];
-                d["Confirm Email"] = "Potwierdź Email";
-                d["Click here to Log in"] = "Kliknij tu by się zalogować";
-            }
+            
             private static void PForgotPassword()
             {
                 ForgotPassword = new DictionaryTuple();
@@ -170,9 +147,10 @@ namespace Gradebook.Utils
                 d["Email"] = "Email";
                 d["Email link"] = "Wyślij link emailem";
                 d["Reset password"] = "Zresetuj hasło";
-                d["Please reset your password by clicking <a href=\""] = "Zresetuj hasło klikając <a href=\"";
-                d["\">here</a>"] = "\">tutaj</a>";
+                d["Please reset your password by clicking"] = "Zresetuj hasło, klikając";
+                d["here"] = "tutaj";
             }
+
             private static void PForgotPasswordConfirmation()
             {
                 ForgotPasswordConfirmation = new DictionaryTuple();
@@ -180,10 +158,11 @@ namespace Gradebook.Utils
                 d["Forgot password confirmation"] = "Potwierdzenie przypomnienia hasła";
                 d["Please check your email to reset your password."] = "Sprawdź email, aby zresetować hasło.";
             }
-            private static void PIndex()
+
+            private static void PList()
             {
-                Index = new DictionaryTuple();
-                var d = Index[1];
+                List_ = new DictionaryTuple();
+                var d = List_[1];
                 d["Accounts"] = "Konta";
                 d["Create"] = "Stwórz";
                 d["Edit"] = "Edytuj";
@@ -198,7 +177,9 @@ namespace Gradebook.Utils
                 d["Student"] = "Uczeń";
                 d["Teacher"] = "Nauczyciel";
                 d["No accounts"] = "Brak kont";
+                d["Delete"] = "Usuń";
             }
+
             private static void PLoginDetails()
             {
                 LoginDetails = new DictionaryTuple();
@@ -207,9 +188,10 @@ namespace Gradebook.Utils
                 d["Back"] = "Powrót";
                 d["Copy username"] = "Kopiuj nazwę użytkownika";
                 d["Copy password"] = "Kopiuj hasło";
-                d["User name"] = "Nazwa użytkownika";
+                d["Email"] = "Email";
                 d["Generated password"] = "Wygenerowane hasło";
             }
+
             private static void PResetPassword()
             {
                 ResetPassword = new DictionaryTuple();
@@ -219,19 +201,69 @@ namespace Gradebook.Utils
                 d["New password"] = "Nowe hasło";
                 d["Confirm new password"] = "Potwierdź nowe hasło";
                 d["Reset"] = "Zresetuj";
+                d["Password must be at least 6 characters long."] = "Hasło musi mieć co najmniej 6 znaków.";
+                d["Password and confirmation password do not match."] = "Hasło i potwierdzenie nie są takie same.";
             }
-            private static void PRegister()
+
+            private static void PCreate()
             {
-                Register = new DictionaryTuple();
-                var d = Register[1];
+                Create = new DictionaryTuple();
+                var d = Create[1];
                 d["Create account"] = "Stwórz konto";
                 d["Back"] = "Powrót";
                 d["Name"] = "Imię";
                 d["Surname"] = "Nazwisko";
                 d["Email"] = "Email";
                 d["Phone number"] = "Numer telefonu";
-                d["Role name"] = "Rodzaj konta";
+                d["Type"] = "Typ";
                 d["Create"] = "Stwórz";
+                d["Select type."] = "Wybierz typ.";
+                d["Specify name."] = "Podaj imię.";
+                d["Specify surname."] = "Podaj nazwisko.";
+                d["Specify email."] = "Podaj email.";
+                d["Failed to create the account."] = "Nie udało się utworzyć konta.";
+                d["Administrator"] = "Administrator";
+                d["Parent"] = "Rodzic";
+                d["Student"] = "Uczeń";
+                d["Teacher"] = "Nauczyciel";
+                d["Specify phone number consisting of 9 digits."] = "Podaj numer telefonu złożony z 9 cyfr.";
+                d["Account with such email already exists."] = "Konto z takim emailem już istnieje.";
+            }
+
+            private static void PDetails()
+            {
+                Details = new DictionaryTuple();
+                var d = Details[1];
+                d["Account details"] = "Szczegóły konta";
+                d["Change"] = "Zmień";
+                d["Password"] = "Hasło";
+                d["Email"] = "Email";
+                d["Name"] = "Imię";
+                d["Surname"] = "Nazwisko";
+                d["Phone number"] = "Numer telefonu";
+            }
+
+            private static void PChangePassword()
+            {
+                ChangePassword = new DictionaryTuple();
+                var d = ChangePassword[1];
+                d["Change password"] = "Zmień hasło";
+                d["Current password"] = "Aktualne hasło";
+                d["New password"] = "Nowe hasło";
+                d["Confirm password"] = "Potwierdź hasło";
+                d["New password must be at least 6 characters long."] = "Nowe hasło musi mieć co najmniej 6 znaków.";
+                d["New password and confirmation password do not match."] = "Nowe hasło i potwierdzenie nie są takie same.";
+                d["Failed to change the password."] = "Nie udało się zmienić hasła.";
+                d["Confirm"] = "Zatwierdź";
+            }
+
+            private static void PChangePasswordConfirmation()
+            {
+                ChangePasswordConfirmation = new DictionaryTuple();
+                var d = ChangePasswordConfirmation[1];
+                d["Change password confirmation"] = "Potwierdzenie zmiany hasła";
+                d["Your password has been changed."] = "Twoje hasło zostało zmienione.";
+                d["Continue"] = "Kontynuuj";
             }
         }
 
@@ -376,6 +408,7 @@ namespace Gradebook.Utils
                 d["Show grades"] = "Pokaż oceny";
                 d["Show absences"] = "Pokaż nieobecności";
                 d["No children"] = "Brak dzieci";
+                d["Student does not belong to any class."] = "Uczeń nie należy do żadnej klasy.";
             }
 
             private static void PStudentDetails()
@@ -559,6 +592,7 @@ namespace Gradebook.Utils
                 d["No students were selected."] = "Nie wybrano żadnych uczniów.";
                 d["Back to class"] = "Powrót do klasy";
                 d["Student"] = "Uczeń";
+                d["No students"] = "Brak uczniów";
             }
         }
 
@@ -695,7 +729,7 @@ namespace Gradebook.Utils
                 d["Specify content."] = "Podaj treść.";
                 d["User"] = "Użytkownik";
                 d["Cancel"] = "Anuluj";
-                d["Add recipient"] = "Dodaj odbiorcę";
+                d["Add"] = "Dodaj";
             }
 
             private static void PDetails()
@@ -720,6 +754,8 @@ namespace Gradebook.Utils
                 d["Size (bytes)"] = "Rozmiar (bajty)";
                 d["No attachments"] = "Brak załączników";
                 d["No recipients"] = "Brak odbiorców";
+                d["Sender"] = "Nadawca";
+                d["User deleted"] = "Użytkownik usunięty";
             }
 
             private static void PList()
@@ -727,7 +763,7 @@ namespace Gradebook.Utils
                 List_ = new DictionaryTuple();
                 var d = List_[1];
                 d["Messages"] = "Wiadomości";
-                d["Received"] = "Otrzymane";
+                d["Received"] = "Odebrane";
                 d["Time"] = "Czas";
                 d["Content"] = "Treść";
                 d["Sender name"] = "Imię adresata";
@@ -735,45 +771,48 @@ namespace Gradebook.Utils
                 d["Sender email"] = "Email adresata";
                 d["Details"] = "Szczegóły";
                 d["Sent"] = "Wysłane";
-                d["Write new"] = "Napisz nową wiadomość";
+                d["Write new"] = "Napisz nową";
                 d["No received messages"] = "Brak otrzymanych wiadomości";
                 d["No sent messages"] = "Brak wysłanych wiadomości";
+                d["User deleted"] = "Użytkownik usunięty";
             }
         }
 
         public class Quiz
         {
-            public static DictionaryTuple Index, Create, Edit, AddAnswer, AddQuestion, AddQuizSharing, Do;
+            public static DictionaryTuple List_, Create, Edit, AddAnswer, QuestionEditor, AddQuizSharing, Do, AttemptList, AttemptReview;
 
             static Quiz()
             {
-                PIndex();
+                PList();
                 PCreate();
                 PEdit();
                 PAddAnswer();
-                PAddQuestion();
+                PQuestionEditor();
                 PAddQuizSharing();
                 PDo();
+                PAttemptList();
+                PAttemptReview();
             }
 
-            private static void PIndex()
+            private static void PList()
             {
-                Index = new DictionaryTuple();
-                var d  = Index[1];
+                List_ = new DictionaryTuple();
+                var d  = List_[1];
                 d["Quizzes"] = "Quizy";
-                d["Create quiz"] = "Stwórz quiz";
+                d["Add quiz"] = "Dodaj quiz";
                 d["Subject"] = "Przedmiot";
                 d["Name"] = "Nazwa";
                 d["Duration"] = "Czas trwania [s]";
-                d["Max attempts"] = "Maksymalna liczba podejść";
                 d["Modification time"] = "Czas modyfikacji";
-                d["Open from"] = "Otwarty od";
-                d["Open to"] = "Otwarty do";
                 d["Edit"] = "Edytuj";
                 d["Details"] = "Szczegóły";
                 d["Delete"] = "Usuń";
                 d["Do"] = "Podejdź";
                 d["No quizzes"] = "Brak quizów";
+                d["Already done"] = "Już podszedłeś";
+                d["Attempts"] = "Podejścia";
+                d["Attempt review"] = "Przegląd podejścia";
             }
 
             private static void PCreate()
@@ -786,6 +825,9 @@ namespace Gradebook.Utils
                 d["Name"] = "Nazwa";
                 d["Duration [s]"] = "Czas trwania [s]";
                 d["Back"] = "Powrót";
+                d["Create"] = "Stwórz";
+                d["Select subject."] = "Wybierz przedmiot.";
+                d["Specify positive duration."] = "Podaj dodatni czas trwania.";
             }
 
             private static void PEdit()
@@ -814,6 +856,12 @@ namespace Gradebook.Utils
                 d["Grade weight"] = "Waga oceny";
                 d["Delete"] = "Usuń";
                 d["Grant access"] = "Przyznaj dostęp";
+                d["No questions"] = "Brak pytań";
+                d["No sharings"] = "Brak udostępnień";
+                d["Select subject."] = "Wybierz przedmiot.";
+                d["Specify positive duration."] = "Podaj dodatni czas trwania.";
+                d["Edit"] = "Edytuj";
+                d["Points"] = "Punkty";
             }
 
             private static void PAddAnswer()
@@ -825,16 +873,23 @@ namespace Gradebook.Utils
                 d["Correct?"] = "Prawidłowa?";
                 d["Add"] = "Dodaj";
                 d["Back"] = "Powrót";
+                d["Specify content."] = "Podaj treść.";
+                d["Specify if answer is correct."] = "Określ, czy odpowiedź jest prawidłowa.";
             }
 
-            private static void PAddQuestion()
+            private static void PQuestionEditor()
             {
-                AddQuestion = new DictionaryTuple();
-                var d = AddQuestion[1];
+                QuestionEditor = new DictionaryTuple();
+                var d = QuestionEditor[1];
                 d["Add question"] = "Dodaj pytanie";
                 d["Content"] = "Treść";
                 d["Add"] = "Dodaj";
                 d["Back"] = "Powrót";
+                d["Specify content."] = "Podaj treść.";
+                d["Points"] = "Punkty";
+                d["Save"] = "Zapisz";
+                d["Specify non-negative number of points."] = "Podaj nieujemną liczbę punktów.";
+                d["Edit question"] = "Edytuj pytanie";
             }
 
             private static void PAddQuizSharing()
@@ -845,6 +900,8 @@ namespace Gradebook.Utils
                 d["Class"] = "Klasa";
                 d["Grade weight"] = "Waga oceny";
                 d["Back"] = "Powrót";
+                d["Select class."] = "Wybierz klasę.";
+                d["Specify non-negative grade weight."] = "Podaj nieujemną wagę oceny.";
             }
 
             private static void PDo()
@@ -857,7 +914,53 @@ namespace Gradebook.Utils
                 d["Content"] = "Treść";
                 d["Answers"] = "Odpowiedzi";
                 d["Submit"] = "Zakończ";
-                d["Your time has expired."] = "Czas minął.";
+                d["No answers have been made."] = "Nie zostały stworzone żadne odpowiedzi.";
+                d["Points"] = "Punkty";
+            }
+
+            private static void PAttemptList()
+            {
+                AttemptList = new DictionaryTuple();
+                var d = AttemptList[1];
+                d["Reset attempts"] = "Zrestartuj podejścia";
+                d["Name"] = "Imię";
+                d["Surname"] = "Nazwisko";
+                d["Email"] = "Email";
+                d["Year"] = "Rok";
+                d["Unit"] = "Oddział";
+                d["You have selected no attempts."] = "Nie wybrałeś żadnych podejść.";
+                d["No attempts"] = "Brak podejść";
+                d["Reset"] = "Zrestartuj";
+                d["Grade"] = "Ocena";
+                d["Weight"] = "Waga";
+                d["No grade"] = "Brak oceny";
+                d["Reset?"] = "Zrestartować?";
+                d["Back"] = "Powrót";
+                d["Attempt review"] = "Przegląd podejścia";
+                d["Attempts"] = "Podejścia";
+                d["Review"] = "Przegląd";
+            }
+
+            private static void PAttemptReview()
+            {
+                AttemptReview = new DictionaryTuple();
+                var d = AttemptReview[1];
+                d["Attempt review"] = "Przegląd podejścia";
+                d["Back"] = "Powrót";
+                d["Content"] = "Treść";
+                d["Answers"] = "Odpowiedzi";
+                d["No answers have been made."] = "Nie zostały stworzone żadne odpowiedzi.";
+                d["Scored points"] = "Zdobyte punkty";
+                d["Max points"] = "Maks. punkty";
+                d["Grade deleted"] = "Ocena usunięta";
+                d["Author name"] = "Imię autora";
+                d["Author surname"] = "Nazwisko autora";
+                d["Subject"] = "Przedmiot";
+                d["Modification time"] = "Czas modyfikacji";
+                d["Duration [s]"] = "Czas trwania [s]";
+                d["Used time [s]"] = "Wykorzystany czas [s]";
+                d["Grade"] = "Ocena";
+                d["Weight"] = "Waga";
             }
         }
 
@@ -927,7 +1030,7 @@ namespace Gradebook.Utils
                 d["Value"] = "Wartość";
                 d["Back"] = "Powrót";
                 d["Specify value in range <1, 6>."] = "Podaj wartość z zakresu <1, 6>.";
-                d["Specify weight."] = "Podaj wagę.";
+                d["Specify positive weight."] = "Podaj dodatnią wagę.";
                 d["Select subject."] = "Wybierz przedmiot.";
                 d["Create"] = "Stwórz";
             }
@@ -1069,37 +1172,8 @@ namespace Gradebook.Utils
                 d["Log in"] = "Zaloguj";
                 d["Logged as"] = "Zalogowano jako";
                 d["Logout"] = "Wyloguj";
-            }
-        }
-
-        public class Manage
-        {
-            public static DictionaryTuple Index, ChangePassword;
-
-            static Manage()
-            {
-                PIndex();
-                PChangePassword();
-            }
-
-            private static void PIndex()
-            {
-                Index = new DictionaryTuple();
-                var d = Index[1];
-                d["Manage"] = "Zarządzanie";
-                d["Change"] = "Zmień";
-                d["Password"] = "Hasło";
-                d["Create"] = "Stwórz";
-            }
-
-            private static void PChangePassword()
-            {
-                ChangePassword = new DictionaryTuple();
-                var d = ChangePassword[1];
-                d["Change password"] = "Zmień hasło";
-                d["Current password"] = "Aktualne hasło";
-                d["New password"] = "Nowe hasło";
-                d["Confirm password"] = "Potwierdź hasło";
+                d["Authentication error"] = "Authentication error";
+                d["Account details"] = "Szczegóły konta";
             }
         }
 
@@ -1177,6 +1251,27 @@ namespace Gradebook.Utils
                 d["Week day and date must be specified."] = "Dzień tygodnia i data muszą być określone.";
                 d["You do not teach in such student's class."] = "Nie uczysz w klasie takiego ucznia.";
                 d["You have not created such grade."] = "Nie stworzyłeś takiej oceny.";
+                d["You have not created such quiz."] = "Nie stworzyłeś takiego quizu.";
+                d["You have not created such question."] = "Nie stworzyłeś takiego pytania.";
+                d["You have not created such answer."] = "Nie stworzyłeś takiej odpowiedzi.";
+                d["Quiz belongs to no subject."] = "Quiz nie należy do żadnego przedmiotu.";
+                d["You have not created such quiz sharing."] = "Nie stworzyłeś takiego udostępnienia quizu.";
+                d["Such quiz does not exist."] = "Taki quiz nie istnieje.";
+                d["Such quiz has not been shared with your class."] = "Taki quiz nie został udostępniony twojej klasie.";
+                d["This quiz does not contain any questions."] = "Ten quiz nie zawiera żadnych pytań.";
+                d["You have already done this quiz."] = "Podszedłeś już do tego quizu.";
+                d["You have not done such quiz attempt."] = "Nie zrealizowałeś takiego podejścia do quizu.";
+                d["This quiz attempt has already been evaluated."] = "To podejście do quizu zostało już ocenione.";
+                d["You have not created such question."] = "Nie stworzyłeś takiego pytania.";
+                d["Such account does not exist."] = "Takie konto nie istnieje.";
+                d["This account has more than 1 type."] = "To konto ma więcej niż 1 typ.";
+                d["You have provided no token."] = "Nie dostarczyłeś tokenu.";
+                d["This account does not have any known type."] = "To konto nie ma żadnego znanego typu.";
+                d["Failed to delete the account."] = "Nie udało się usunąć konta.";
+                d["You cannot delete your own account."] = "Nie możesz usunąć swojego własnego konta.";
+                d["Failed to delete account role."] = "Nie udało się usunąć roli konta.";
+                d["This student does not belong to any class."] = "Ten uczeń nie należy do żadnej klasy.";
+                d["Such attempt of any of your quizzes does not exist"] = "Takie podejście do któregokolwiek z twoich quizów nie istnieje.";
             }
         }
     }

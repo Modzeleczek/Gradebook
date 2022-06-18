@@ -1,0 +1,142 @@
+﻿@model Gradebook.Models.QuizAttempt
+@using Gradebook.Utils;
+@{
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Quiz.AttemptReview[ViewBag.LanguageId];
+    ViewBag.Title = D["Attempt review"];
+    var userOptionChecks = (LinkedList<bool>)ViewBag.UserOptionChecks;
+    var userQuestionPoints = (LinkedList<float>)ViewBag.UserQuestionPoints;
+    var maxQuizPoints = (float)ViewBag.MaxQuizPoints;
+    var scoredPoints = (float)ViewBag.ScoredPoints;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<dl class="dl-horizontal">
+    <dt>
+        @D["Author name"]
+    </dt>
+    <dd> @{ var teacher = Model.Quiz.Author.ApplicationUser; }
+        @teacher.Name
+    </dd>
+    <dt>
+        @D["Author surname"]
+    </dt>
+    <dd>
+        @teacher.Surname
+    </dd>
+    <dt>
+        @D["Subject"]
+    </dt>
+    <dd>
+        @Model.Quiz.Subject.Name
+    </dd>
+    <dt>
+        @D["Modification time"]
+    </dt>
+    <dd>
+        @Model.Quiz.ModificationTime
+    </dd>
+    <dt>
+        @D["Duration [s]"]
+    </dt>
+    <dd>
+        @Model.Quiz.Duration
+    </dd>
+    <dt>
+        @D["Used time [s]"]
+    </dt>
+    <dd>
+        @Model.Finish.Subtract(Model.Start).TotalSeconds
+    </dd>
+    @if (Model.GradeId != null)
+    {
+        <dt>
+            @D["Grade"]
+        </dt>
+        <dd>
+            @Model.Grade.Value
+        </dd>
+        <dt>
+            @D["Weight"]
+        </dt>
+        <dd>
+            @Model.Grade.Weight
+        </dd>
+    }
+    else
+    {
+        <dt>
+            @D["Grade"]
+        </dt>
+        <dd>
+            @D["Grade deleted"]
+        </dd>
+    }
+</dl>
+
+<table class="list-table tablesorter_no_headers">
+    <thead>
+    <tr>
+        <th>
+            @D["Scored points"]
+        </th>
+        <th>
+            @D["Max points"]
+        </th>
+        <th>
+            @D["Content"]
+        </th>
+        <th>
+            @D["Answers"]
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @{
+        var optionChecksIter = userOptionChecks.GetEnumerator();
+        optionChecksIter.MoveNext();
+        var questionPointsIter = userQuestionPoints.GetEnumerator();
+        questionPointsIter.MoveNext();
+        var questions = Model.Quiz.ClosedQuestions;
+    }
+    @foreach (var item in questions)
+    {
+        <tr>
+            <td>
+                @questionPointsIter.Current
+            </td>
+            <td>
+                @item.Points
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Content)
+            </td>
+            <td>
+                <table class="table">
+                    @if (item.Options.Count > 0)
+                    {
+                        foreach (var answer in item.Options)
+                        {
+                            <tr>
+                                <td>
+                                    <label style="color:@(optionChecksIter.Current == answer.IsCorrect ? "green" : "red");">
+                                        <input type="checkbox" name="selectedAnswers" value="@answer.Id" disabled />
+                                        @answer.Content
+                                    </label>
+                                </td>
+                            </tr>
+                            optionChecksIter.MoveNext();
+                        }
+                    }
+                    else
+                    {
+                        <tr><td>@D["No answers have been made."]</td></tr>
+                    }
+                </table>
+            </td>
+        </tr>
+        questionPointsIter.MoveNext();
+    }
+    </tbody>
+</table>
+@Html.ActionLink(D["Back"], "List", null, new { @class = "btn btn-default" })

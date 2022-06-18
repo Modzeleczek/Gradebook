@@ -27,12 +27,14 @@ namespace Gradebook.Areas.Parent.Controllers
             return View(studentSearch.Single());
         }
 
-        public ActionResult ClassDetails(int classId)
+        public ActionResult ClassDetails(int? classId)
         {
             var parentId = User.Identity.GetUserId();
             var studentSearch = Db.Student.Where(e => e.ClassId == classId && e.ParentId == parentId);
             if (studentSearch.Count() == 0) return ErrorView("You are not parent of a child in such class.");
-            return View(Db.Class.Where(e => e.Id == classId).Single());
+            var student = studentSearch.Single();
+            // if (student.ClassId == null) return ErrorView("This student does not belong to any class.");
+            return View(student.Class);
         }
 
         public ActionResult GradeList(string studentId)
@@ -41,8 +43,9 @@ namespace Gradebook.Areas.Parent.Controllers
             var studentSearch = Db.Student.Where(e => e.Id == studentId && e.ParentId == parentId);
             if (studentSearch.Count() != 1) return ErrorView("You are not parent of such student.");
             var s = studentSearch.Single();
-            var grades = Db.Grade.Where(e => e.StudentId == studentId).ToArray();
+            if (s.ClassId == null) return ErrorView("This student does not belong to any class.");
             var _class = s.Class;
+            var grades = Db.Grade.Where(e => e.StudentId == studentId).ToArray();
             var list = new LinkedList<Subject>();
             foreach (var tcs in _class.TeacherClassSubjects)
                 list.AddLast(tcs.Subject);
@@ -56,7 +59,9 @@ namespace Gradebook.Areas.Parent.Controllers
             var parentId = User.Identity.GetUserId();
             var studentSearch = Db.Student.Where(e => e.Id == studentId && e.ParentId == parentId);
             if (studentSearch.Count() != 1) return ErrorView("You are not parent of such student.");
-            var absences = Db.Absence.Where(e => e.StudentId == studentId);
+            var student = studentSearch.Single();
+            if (student.ClassId == null) return ErrorView("This student does not belong to any class.");
+            var absences = student.Absences.ToArray();
             var orderedAbsences = absences.OrderBy(e => e.Date).ToArray();
             return View(orderedAbsences);
         }

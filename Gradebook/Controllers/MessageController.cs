@@ -67,21 +67,6 @@ namespace Gradebook.Controllers
             return File(FileType.HexStringToByteArray(hex), type, name);
         }
 
-        private LinkedList<SelectListItem> GetRecipients()
-        {
-            if (Session[SESSION_KEY] == null)
-                Session[SESSION_KEY] = new LinkedList<ApplicationUser>();
-            var alreadyAdded = (LinkedList<ApplicationUser>)Session[SESSION_KEY];
-            var allUsers = Db.Users.ToArray();
-            var comparer = new Utils.Comparer<ApplicationUser>((x, y) => x.Id == y.Id, obj => obj.Id.GetHashCode());
-            var unused = allUsers.Except(alreadyAdded, comparer);
-            var records = unused.Select(r => new { r.Id, r.Name, r.Surname, r.Email });
-            var list = new LinkedList<SelectListItem>();
-            foreach (var r in records)
-                list.AddLast(new SelectListItem { Text = $"{r.Name} {r.Surname} | {r.Email}", Value = r.Id, Selected = false });
-            return list;
-        }
-
         public ActionResult Create()
         {
             var recipients = (LinkedList<ApplicationUser>)Session["Recipients"];
@@ -125,11 +110,21 @@ namespace Gradebook.Controllers
 
         public ActionResult AddRecipient()
         {
-            var recipients = GetRecipients();
-            if (recipients.First != null)
-                recipients.First.Value.Selected = true;
-            ViewBag.Recipients = recipients;
             return View();
+        }
+
+        public JsonResult GetUsers()
+        {
+            if (Session[SESSION_KEY] == null)
+                Session[SESSION_KEY] = new LinkedList<ApplicationUser>();
+            var alreadyAdded = (LinkedList<ApplicationUser>)Session[SESSION_KEY];
+            var allUsers = Db.Users.ToArray();
+            var comparer = new Utils.Comparer<ApplicationUser>((x, y) => x.Id == y.Id, obj => obj.Id.GetHashCode());
+            var unused = allUsers.Except(alreadyAdded, comparer);
+            var list = new LinkedList<object>();
+            foreach (var u in unused)
+                list.AddLast(new { Id = u.Id, Name = u.Name, Surname = u.Surname, Email = u.Email });
+            return Json(list);
         }
 
         const string SESSION_KEY = "Recipients";

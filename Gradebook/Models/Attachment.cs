@@ -14,7 +14,5 @@ namespace Gradebook.Models
 
         [ForeignKey("MessageId")]
         public virtual Message Message { get; set; }
-        /*[ForeignKey("FileTypeId")]
-        public virtual FileType FileType { get; set; }*/
     }
 }

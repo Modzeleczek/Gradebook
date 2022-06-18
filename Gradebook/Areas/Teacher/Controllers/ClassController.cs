@@ -93,7 +93,6 @@ namespace Gradebook.Areas.Teacher.Controllers
 
         public ActionResult GenerateGradeSheet(int? id) // id - classId
         {
-            var d = LocalizedStrings.Class.GenerateGradeSheet[LanguageCookie.Read(Request.Cookies)];
             var userId = User.Identity.GetUserId();
             var search = Db.Class.Where(e => e.Id == id && e.SupervisorId == userId);
             if (search.Count() != 1) return ErrorView("You are not supervisor of such class.");

@@ -13,8 +13,9 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    @Html.Hidden("id", Model.Id)
     <div class="alert alert-danger">@ViewBag.ValidationMessage</div>
+
+    @Html.Hidden("id", Model.Id)
 
     <input type="date" name="fromDate" value="@todayFormatted" />
     <input type="date" name="toDate" value="@todayFormatted" />
@@ -34,24 +35,32 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var student in Model.Students)
+        @if (Model.Students.Count > 0)
         {
-            <tr>
-                <td>
-                    @student.ApplicationUser.Name @student.ApplicationUser.Surname
-                </td>
-                @foreach (var subject in subjects)
-                {
+            foreach (var student in Model.Students)
+            {
+                <tr>
                     <td>
-                        <input type="checkbox" name="selectedStudentSubjects" value="@student.Id|@subject.Id" />
+                        @student.ApplicationUser.Name @student.ApplicationUser.Surname
                     </td>
-                }
-            </tr>
+                    @foreach (var subject in subjects)
+                    {
+                        <td>
+                            <input type="checkbox" name="selectedStudentSubjects" value="@student.Id|@subject.Id" />
+                        </td>
+                    }
+                </tr>
+            }
+        }
+        else
+        {
+            @D["No students"]
         }
         </tbody>
     </table>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
+            @Html.ActionLink(D["Back"], "Details", new { id = Model.Id }, new { @class = "btn btn-default" })
             <button type="submit" name="button" value="Generate" class="btn btn-primary">@D["Generate"]</button>
         </div>
     </div>

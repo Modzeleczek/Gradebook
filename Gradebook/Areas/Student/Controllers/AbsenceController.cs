@@ -11,9 +11,14 @@ namespace Gradebook.Areas.Student.Controllers
     {
         public ActionResult List()
         {
-            var id = User.Identity.GetUserId();
-            var absences = Db.Absence.Where(e => e.StudentId == id).ToArray();
-            return View(absences);
+            var userId = User.Identity.GetUserId();
+            var studentSearch = Db.Student.Where(e => e.Id == userId);
+            if (studentSearch.Count() != 1) return ErrorView("Your account does not exist.");
+            var student = studentSearch.Single();
+            if (student.ClassId == null) return ErrorView("You do not belong to any class.");
+            var absences = student.Absences.ToArray();
+            var orderedAbsences = absences.OrderBy(e => e.Date).ToArray();
+            return View(orderedAbsences);
         }
     }
 }

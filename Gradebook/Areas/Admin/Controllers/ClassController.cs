@@ -40,7 +40,7 @@ namespace Gradebook.Areas.Admin.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            return View(new Class());
         }
 
         [HttpPost]
@@ -48,6 +48,7 @@ namespace Gradebook.Areas.Admin.Controllers
         {
             var d = LocalizedStrings.Class.Create[LanguageCookie.Read(Request.Cookies)];
             var c = new Class();
+            c.SupervisorId = supervisorId;
             if (unit.Length != 1 || !((unit[0] >= 'a' && unit[0] <= 'z') || (unit[0] >= 'A' && unit[0] <= 'Z')))
             { ViewBag.ValidationMessage = d["Unit must be a single letter."]; return View(c); }
             c.Unit = unit.ToUpper().Substring(0, 1);
@@ -190,7 +191,7 @@ namespace Gradebook.Areas.Admin.Controllers
             c.Year = intYear;
             var teacherSearch = Db.Teacher.Where(e => e.Id == supervisorId);
             if (teacherSearch.Count() != 1) { ViewBag.ValidationMessage = d["Teacher does not exist."]; return View(viewName, c); }
-            var supervisorSearch = Db.Class.Where(e => e.SupervisorId == supervisorId);
+            var supervisorSearch = Db.Class.Where(e => e.SupervisorId == supervisorId && e.Id != id);
             if (supervisorSearch.Count() != 0) { ViewBag.ValidationMessage = d["Teacher is already supervisor."]; return View(viewName, c); }
             c.SupervisorId = supervisorId;
             Db.SaveChanges();

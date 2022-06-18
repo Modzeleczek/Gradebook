@@ -39,9 +39,9 @@
                     }
                 </td>
                 <td>
-                    @Html.ActionLink(D["Edit"], "Edit", new { id = item.Id }, new { @class = "btn btn-primary" })
-                    @Html.ActionLink(D["Details"], "Details", new { id = item.Id }, new { @class = "btn btn-info" })
-                    @Html.ActionLink(D["Delete"], "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                    @Html.ActionLink(D["Edit"], "Edit", new { id = item.Id }, new { @class = "btn-sm btn-primary" })
+                    @Html.ActionLink(D["Details"], "Details", new { id = item.Id }, new { @class = "btn-sm btn-info" })
+                    @Html.ActionLink(D["Delete"], "Delete", new { id = item.Id }, new { @class = "btn-sm btn-danger" })
                 </td>
             </tr>
         }
@@ -55,4 +55,4 @@
     </tbody>
 </table>
 <br />
-@Html.ActionLink(D["Add"], "Create", null, new { @class = "btn btn-default" })
+@Html.ActionLink(D["Add"], "Create", null, new { @class = "btn btn-primary" })

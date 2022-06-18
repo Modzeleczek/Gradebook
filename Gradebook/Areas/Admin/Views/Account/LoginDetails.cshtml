@@ -9,7 +9,7 @@
 <div>
     <dl class="dl-horizontal">
         <dt>
-            @D["User name"]
+            @D["Email"]
         </dt>
         <dd>
             <p id="userName">@ViewBag.UserName</p>
@@ -25,14 +25,16 @@
     </dl>
 </div>
 
-@Html.ActionLink(D["Back"], "Index", null, new { @class = "btn btn-default" })
+@Html.ActionLink(D["Back"], "List", null, new { @class = "btn btn-default" })
 
+@section scripts {
 <script>
-    function copyToClipboard(element) {
-        var $temp = $("<input>");
-        $("body").append($temp);
-        $temp.val($(element).text()).select();
-        document.execCommand("copy");
-        $temp.remove();
-    }
+function copyToClipboard(element) {
+    var $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val($(element).text()).select();
+    document.execCommand("copy");
+    $temp.remove();
+}
 </script>
+}

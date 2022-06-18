@@ -20,24 +20,32 @@
     <dd>
         @Html.DisplayFor(model => model.Content)
     </dd>
-    <dt>
-        @D["Sender name"]
-    </dt>
-    <dd>
-        @Html.DisplayFor(model => model.Sender.Name)
-    </dd>
-    <dt>
-        @D["Sender surname"]
-    </dt>
-    <dd>
-        @Html.DisplayFor(model => model.Sender.Surname)
-    </dd>
-    <dt>
-        @D["Sender email"]
-    </dt>
-    <dd>
-        @Html.DisplayFor(model => model.Sender.Email)
-    </dd>
+    @if (Model.Sender != null)
+    {
+        <dt>
+            @D["Sender name"]
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Sender.Name)
+        </dd>
+        <dt>
+            @D["Sender surname"]
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Sender.Surname)
+        </dd>
+        <dt>
+            @D["Sender email"]
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Sender.Email)
+        </dd>
+    }
+    else
+    {
+        <dt>@D["Sender"]</dt>
+        <dd>@D["User deleted"]</dd>
+    }
 </dl>
 
 
