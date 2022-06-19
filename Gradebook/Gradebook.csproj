@@ -376,6 +376,9 @@
     <Content Include="Areas\Teacher\Views\Quiz\EditQuestion.cshtml" />
     <Content Include="Views\Quiz\AttemptReview.cshtml" />
     <Content Include="Areas\Teacher\Views\Quiz\AttemptList.cshtml" />
+    <Content Include="Areas\Parent\Views\Child\Timetable.cshtml" />
+    <Content Include="Areas\Parent\Views\Child\Appointments.cshtml" />
+    <Content Include="Areas\Parent\Views\Child\AppointmentDetails.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\bootstrap_datepicker\bootstrap-datepicker.pl.min.js" />
     <Content Include="Scripts\caleandar\caleandar.js" />
@@ -457,7 +460,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Parent\Data\" />
-    <Folder Include="Areas\Parent\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

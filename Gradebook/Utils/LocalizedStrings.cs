@@ -305,6 +305,7 @@ namespace Gradebook.Utils
                 d["December"] = "Grudzień";
                 d["No appointments"] = "Brak zdarzeń";
                 d["Delete"] = "Usuń";
+                d["Back"] = "Powrót";
             }
 
             private static void PDetails()
@@ -403,12 +404,14 @@ namespace Gradebook.Utils
                 d["Children"] = "Dzieci";
                 d["Name"] = "Imię";
                 d["Surname"] = "Nazwisko";
-                d["Show details"] = "Pokaż szczegóły";
-                d["Show class"] = "Pokaż klasę";
-                d["Show grades"] = "Pokaż oceny";
-                d["Show absences"] = "Pokaż nieobecności";
+                d["Details"] = "Szczegóły";
+                d["Class"] = "Klasa";
+                d["Grades"] = "Oceny";
+                d["Absences"] = "Nieobecności";
                 d["No children"] = "Brak dzieci";
                 d["Student does not belong to any class."] = "Uczeń nie należy do żadnej klasy.";
+                d["Timetable"] = "Plan lekcji";
+                d["Appointments"] = "Terminarz";
             }
 
             private static void PStudentDetails()
@@ -1117,7 +1120,7 @@ namespace Gradebook.Utils
                 d["Description"] = "Opis";
                 d["Back"] = "Powrót";
                 d["Add"] = "Dodaj";
-                d["Upload a TXT, PDF or ZIP file."] = "Prześlij plik TXT, PDF lub ZIP.";
+                d["Upload a file."] = "Prześlij plik.";
             }
             private static void PList()
             {
@@ -1197,6 +1200,7 @@ namespace Gradebook.Utils
                 d["Thursday"] = "Czwartek";
                 d["Friday"] = "Piątek";
                 d["Time"] = "Godzina";
+                d["Back"] = "Powrót";
             }
         }
 
@@ -1272,6 +1276,7 @@ namespace Gradebook.Utils
                 d["Failed to delete account role."] = "Nie udało się usunąć roli konta.";
                 d["This student does not belong to any class."] = "Ten uczeń nie należy do żadnej klasy.";
                 d["Such attempt of any of your quizzes does not exist"] = "Takie podejście do któregokolwiek z twoich quizów nie istnieje.";
+                d["You are not parent of a child having such appointment"] = "Nie jesteś rodzicem dziecka posiadającego takie zdarzenie.";
             }
         }
     }

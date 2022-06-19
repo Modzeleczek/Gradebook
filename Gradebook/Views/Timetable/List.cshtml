@@ -1,5 +1,6 @@
-﻿@{
-    var D = Gradebook.Utils.LocalizedStrings.Timetable.List_[ViewBag.LanguageId];
+﻿@using Gradebook.Utils
+@{
+    LocalizedStrings.LanguageDictionary D = Gradebook.Utils.LocalizedStrings.Timetable.List_[ViewBag.LanguageId];
     ViewBag.Title = D["Timetable"];
 }
 

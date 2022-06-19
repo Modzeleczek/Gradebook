@@ -65,5 +65,48 @@ namespace Gradebook.Areas.Parent.Controllers
             var orderedAbsences = absences.OrderBy(e => e.Date).ToArray();
             return View(orderedAbsences);
         }
+
+        public ActionResult Timetable(string studentId)
+        {
+            var parentId = User.Identity.GetUserId();
+            var studentSearch = Db.Student.Where(e => e.Id == studentId && e.ParentId == parentId);
+            if (studentSearch.Count() != 1) return ErrorView("You are not parent of such student.");
+            var student = studentSearch.Single();
+            if (student.ClassId == null) return ErrorView("This student does not belong to any class.");
+            var _class = student.Class;
+            var lessons = new LinkedList<Lesson>();
+            foreach (var tcs in _class.TeacherClassSubjects)
+                foreach (var l in tcs.Lessons)
+                    lessons.AddLast(l);
+            var lessonMap = new Lesson[Days.Array.Length, LessonHours.Array.Length];
+            foreach (var l in lessons)
+                lessonMap[l.DayId, l.HourId] = l;
+            return View(lessonMap);
+        }
+
+        public ActionResult Appointments(string studentId)
+        {
+            var parentId = User.Identity.GetUserId();
+            var studentSearch = Db.Student.Where(e => e.Id == studentId && e.ParentId == parentId);
+            if (studentSearch.Count() != 1) return ErrorView("You are not parent of such student.");
+            var student = studentSearch.Single();
+            if (student.ClassId == null) return ErrorView("This student does not belong to any class.");
+            var classId = student.ClassId;
+            var appointments = Db.Appointment.Where(e => e.TeacherClassSubject.ClassId == classId).ToArray();
+            return View(appointments);
+        }
+
+        public ActionResult AppointmentDetails(int? appointmentId)
+        {
+            int intId = -1;
+            if (appointmentId.HasValue) intId = appointmentId.Value;
+            var appointmentSearch = Db.Appointment.Where(e => e.Id == intId);
+            if (appointmentSearch.Count() != 1) return ErrorView("Such appointment does not exist.");
+            var a = appointmentSearch.Single();
+            var parentId = User.Identity.GetUserId();
+            var studentSearch = a.TeacherClassSubject.Class.Students.Where(e => e.ParentId == parentId);
+            if (studentSearch.Count() == 0) return ErrorView("You are not parent of a child having such appointment.");
+            return View(a);
+        }
     }
 }

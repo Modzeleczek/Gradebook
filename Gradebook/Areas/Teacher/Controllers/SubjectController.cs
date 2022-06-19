@@ -48,10 +48,10 @@ namespace Gradebook.Areas.Teacher.Controllers
             var userId = User.Identity.GetUserId();
             var tcsSearch = Db.TeacherClassSubject.Where(e => e.TeacherId == userId && e.SubjectId == id);
             if (tcsSearch.Count() == 0) return ErrorView("You do not teach such subject.");
-            if (attachedFile == null || FileType.IsTypeSupported(attachedFile.ContentType) == false)
+            if (attachedFile == null)
             {
                 var d = LocalizedStrings.Subject.AddFile[LanguageCookie.Read(Request.Cookies)];
-                ViewBag.ValidationMessage = d["Upload a TXT, PDF or ZIP file."];
+                ViewBag.ValidationMessage = d["Upload a file."];
                 ViewBag.SubjectId = id;
                 return View();
             }

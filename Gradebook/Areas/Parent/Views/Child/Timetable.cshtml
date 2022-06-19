@@ -22,11 +22,13 @@
                     var tcs = l.TeacherClassSubject;
                 }
                 @Rooms.Array[l.RoomId].Name, 
-                @Html.ActionLink(tcs.Subject.Name, "Details", "Subject", new { id = tcs.SubjectId }, null), 
-                @Html.ActionLink($"{tcs.Class.Year} {tcs.Class.Unit}", "Details", "Class", new { id = tcs.ClassId }, null)
+                @tcs.Subject.Name
+                @tcs.Teacher.ApplicationUser.Name @tcs.Teacher.ApplicationUser.Surname
             </td>
         }
         </tr>
     }
     </tbody>
 </table>
+
+@Html.ActionLink(D["Back"], "List", null, new { @class = "btn btn-default" })

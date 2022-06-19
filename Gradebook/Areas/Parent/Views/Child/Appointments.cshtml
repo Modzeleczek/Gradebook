@@ -1,0 +1,39 @@
+﻿@model ICollection<Gradebook.Models.Appointment>
+@using Gradebook.Utils;
+@{
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Appointment.List_[ViewBag.LanguageId];
+    ViewBag.Title = D["Appointments"];
+}
+
+<h2>@ViewBag.Title</h2>
+
+@Html.ActionLink(D["Back"], "List", null, new { @class = "btn btn-default" })
+
+<div id="calendar"></div>
+@section styles {
+    @Styles.Render("~/Content/caleandar/theme3.css")
+}
+@section scripts {
+@Scripts.Render("~/Scripts/caleandar/caleandar.js")
+<script type="text/javascript">
+    @{
+        var sb = new System.Text.StringBuilder();
+        sb.Append('[');
+        foreach (var a in Model)
+        {
+            var d = a.Date;
+            sb.Append($"{{'Date':new Date({d.Year},{d.Month - 1},{d.Day})," +
+                $"'Title':'{a.Name}'," +
+                $"'Link':'{Url.Action("AppointmentDetails", new { appointmentId = a.Id })}'}},");
+        }
+        sb.Append("]");
+    }
+    const appointments = @Html.Raw(sb.ToString());
+    const settings = {};
+    const element = document.getElementById('calendar');
+    const localizedDays = ['@D["Sun"]', '@D["Mon"]', '@D["Tue"]', '@D["Wed"]', '@D["Thu"]', '@D["Fri"]', '@D["Sat"]'];
+    const localizedMonths = ['@D["January"]', '@D["February"]', '@D["March"]', '@D["April"]', '@D["May"]', '@D["June"]',
+        '@D["July"]', '@D["August"]', '@D["September"]', '@D["October"]', '@D["November"]', '@D["December"]'];
+    caleandar(element, appointments, settings);
+</script>
+}

@@ -29,7 +29,7 @@
         {
             <tr>
                 <td>
-                    @Html.ActionLink(item.Name, "DownloadFile", new { id = item.Id }, new { @class = "btn btn-info" })
+                    @Html.ActionLink(item.Name, "DownloadFile", new { id = item.Id }, new { @class = "btn-sm btn-info" })
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
@@ -38,7 +38,7 @@
                     @Html.DisplayFor(modelItem => item.ModificationTime)
                 </td>
                 <td>
-                    @Html.ActionLink(D["Delete"], "DeleteFile", new { id = item.Id }, new { @class = "btn btn-danger" })
+                    @Html.ActionLink(D["Delete"], "DeleteFile", new { id = item.Id }, new { @class = "btn-sm btn-danger" })
                 </td>
             </tr>
         }
@@ -46,7 +46,7 @@
     else
     {
         <tr>
-            <td colspan="4">@D["No files"]</td>
+            <td>@D["No files"]</td>
         </tr>
     }
     </tbody>

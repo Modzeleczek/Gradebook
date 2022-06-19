@@ -28,8 +28,6 @@ namespace Gradebook.Areas.Teacher.Controllers
             return View(a);
         }
 
-        // TODO: Create z selectize - po wybraniu przez nauczyciela klasy odświeża się dropdown lista przedmiotów, którą uczy w danej klasie
-
         public ActionResult Delete(int? id)
         {
             int intId = -1;

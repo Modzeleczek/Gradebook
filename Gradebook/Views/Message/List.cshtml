@@ -57,7 +57,7 @@
             }
             else
             {
-                <td colspan="3">@D["User deleted"]</td>
+                <td>@D["User deleted"]</td>
             }
             <td>
                 @Html.ActionLink(D["Details"], "Details", new { id = item.Id }, new { @class = "btn-sm btn-info" })
@@ -68,7 +68,7 @@
     else
     {
         <tr>
-            <td colspan="6">@D["No received messages"]</td>
+            <td>@D["No received messages"]</td>
         </tr>
     }
     </tbody>
@@ -108,7 +108,7 @@
     else
     {
         <tr>
-            <td colspan="3">@D["No sent messages"]</td>
+            <td>@D["No sent messages"]</td>
         </tr>
     }
     </tbody>

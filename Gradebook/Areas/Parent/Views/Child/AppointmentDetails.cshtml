@@ -31,7 +31,7 @@
     </dt>
     <dd>
         @{ var tcs = Model.TeacherClassSubject; }
-        @Html.ActionLink($"{tcs.Class.Year} {tcs.Class.Unit}", "Details", "Class", new { id = tcs.ClassId }, null)
+        @tcs.Class.Year @tcs.Class.Unit
     </dd>
     <dt>
         @D["Teacher"]
@@ -45,6 +45,8 @@
     </dt>
     <dd>
         @{ var s = Model.TeacherClassSubject.Subject; }
-        @Html.ActionLink(s.Name, "Details", "Subject", new { id = s.Id }, null)
+        @s.Name
     </dd>
 </dl>
+
+@Html.ActionLink(D["Back"], "List", null, new { @class = "btn btn-default" })
