@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using Gradebook.Models;
 using Gradebook.Utils;
 using ControllerBase = Gradebook.Utils.ControllerBase;
 
@@ -10,7 +9,6 @@ namespace Gradebook.Controllers
     {
         public ActionResult Index()
         {
-            ApplicationDbContext.Create().Database.CreateIfNotExists();
             var l = Role.GetLinks(User)[0];
             return RedirectToAction(l.Action, l.Controller, new { area = l.Area });
         }
