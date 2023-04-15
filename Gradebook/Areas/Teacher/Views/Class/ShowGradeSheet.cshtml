@@ -61,7 +61,7 @@
                             @Html.DisplayFor(modelItem => grade.ModificationTime)
                         </td>
                         <td>
-                            @{ var teacher = grade.Teacher.ApplicationUser.Name + grade.Teacher.ApplicationUser.Surname; }
+                            @{ var teacher = grade.Teacher.ApplicationUser.Name + " " + grade.Teacher.ApplicationUser.Surname; }
                             @teacher
                         </td>
                     </tr>
