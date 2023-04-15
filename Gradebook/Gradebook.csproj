@@ -379,6 +379,8 @@
     <Content Include="Areas\Parent\Views\Child\Timetable.cshtml" />
     <Content Include="Areas\Parent\Views\Child\Appointments.cshtml" />
     <Content Include="Areas\Parent\Views\Child\AppointmentDetails.cshtml" />
+    <Content Include="Areas\Teacher\Views\Quiz\AttemptReview.cshtml" />
+    <Content Include="Areas\Student\Views\Quiz\AttemptReview.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\bootstrap_datepicker\bootstrap-datepicker.pl.min.js" />
     <Content Include="Scripts\caleandar\caleandar.js" />

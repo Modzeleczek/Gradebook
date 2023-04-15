@@ -1,0 +1,9 @@
+﻿@model Gradebook.Models.QuizAttempt
+@using Gradebook.Utils;
+@{
+    LocalizedStrings.LanguageDictionary D = LocalizedStrings.Quiz.AttemptReview[ViewBag.LanguageId];
+    ViewBag.Title = D["Attempt review"];
+}
+@Html.Partial("~/Views/Quiz/AttemptReview.cshtml", Model)
+
+@Html.ActionLink(D["Back"], "List", null, new { @class = "btn btn-default" })
