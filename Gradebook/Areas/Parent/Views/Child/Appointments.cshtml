@@ -3,6 +3,7 @@
 @{
     LocalizedStrings.LanguageDictionary D = LocalizedStrings.Appointment.List_[ViewBag.LanguageId];
     ViewBag.Title = D["Appointments"];
+    var studentId = ViewBag.StudentId;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -24,7 +25,7 @@
             var d = a.Date;
             sb.Append($"{{'Date':new Date({d.Year},{d.Month - 1},{d.Day})," +
                 $"'Title':'{a.Name}'," +
-                $"'Link':'{Url.Action("AppointmentDetails", new { appointmentId = a.Id })}'}},");
+                $"'Link':'{Url.Action("AppointmentDetails", new { appointmentId = a.Id, studentId = studentId })}'}},");
         }
         sb.Append("]");
     }

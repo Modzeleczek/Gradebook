@@ -3,6 +3,7 @@
 @{
     LocalizedStrings.LanguageDictionary D = LocalizedStrings.Appointment.Details[ViewBag.LanguageId];
     ViewBag.Title = D["Appointment details"];
+    var studentId = ViewBag.StudentId;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -49,4 +50,4 @@
     </dd>
 </dl>
 
-@Html.ActionLink(D["Back"], "List", null, new { @class = "btn btn-default" })
+@Html.ActionLink(D["Back"], "Appointments", new { studentId = studentId }, new { @class = "btn btn-default" })

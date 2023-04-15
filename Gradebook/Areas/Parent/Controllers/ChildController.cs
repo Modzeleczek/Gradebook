@@ -1,4 +1,4 @@
-﻿using Gradebook.Models;
+using Gradebook.Models;
 using Gradebook.Models.ViewModels;
 using Gradebook.Utils;
 using Microsoft.AspNet.Identity;
@@ -93,10 +93,11 @@ namespace Gradebook.Areas.Parent.Controllers
             if (student.ClassId == null) return ErrorView("This student does not belong to any class.");
             var classId = student.ClassId;
             var appointments = Db.Appointment.Where(e => e.TeacherClassSubject.ClassId == classId).ToArray();
+            ViewBag.StudentId = student.Id;
             return View(appointments);
         }
 
-        public ActionResult AppointmentDetails(int? appointmentId)
+        public ActionResult AppointmentDetails(int? appointmentId, string studentId)
         {
             int intId = -1;
             if (appointmentId.HasValue) intId = appointmentId.Value;
@@ -106,6 +107,7 @@ namespace Gradebook.Areas.Parent.Controllers
             var parentId = User.Identity.GetUserId();
             var studentSearch = a.TeacherClassSubject.Class.Students.Where(e => e.ParentId == parentId);
             if (studentSearch.Count() == 0) return ErrorView("You are not parent of a child having such appointment.");
+            ViewBag.StudentId = studentId;
             return View(a);
         }
     }
