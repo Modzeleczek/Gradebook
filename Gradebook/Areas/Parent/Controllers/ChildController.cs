@@ -1,4 +1,4 @@
-using Gradebook.Models;
+﻿using Gradebook.Models;
 using Gradebook.Models.ViewModels;
 using Gradebook.Utils;
 using Microsoft.AspNet.Identity;
@@ -32,7 +32,7 @@ namespace Gradebook.Areas.Parent.Controllers
             var parentId = User.Identity.GetUserId();
             var studentSearch = Db.Student.Where(e => e.ClassId == classId && e.ParentId == parentId);
             if (studentSearch.Count() == 0) return ErrorView("You are not parent of a child in such class.");
-            var student = studentSearch.Single();
+            var student = studentSearch.First();
             // if (student.ClassId == null) return ErrorView("This student does not belong to any class.");
             return View(student.Class);
         }
