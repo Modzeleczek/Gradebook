@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Gradebook.Utils
 {
@@ -596,6 +596,8 @@ namespace Gradebook.Utils
                 d["Back to class"] = "Powrót do klasy";
                 d["Student"] = "Uczeń";
                 d["No students"] = "Brak uczniów";
+                d["From"] = "Od";
+                d["To"] = "Do";
             }
         }
 

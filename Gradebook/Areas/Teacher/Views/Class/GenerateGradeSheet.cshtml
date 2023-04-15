@@ -17,8 +17,11 @@
 
     @Html.Hidden("id", Model.Id)
 
-    <input type="date" name="fromDate" value="@todayFormatted" />
-    <input type="date" name="toDate" value="@todayFormatted" />
+    <label for="fromDate">@D["From"]:</label>
+    <input type="date" id="fromDate" name="fromDate" value="@todayFormatted" />
+
+    <label for="toDate">@D["To"]:</label>
+    <input type="date" id="toDate" name="toDate" value="@todayFormatted" />
 
     <table class="list-table">
         <thead>
