@@ -6,6 +6,7 @@
     var subjectGrades = (IEnumerable<Gradebook.Models.ViewModels.SubjectGrades>)ViewBag.SubjectGrades;
     var absences = (IEnumerable<Gradebook.Models.Absence>)ViewBag.Absences;
     var teacherId = ViewBag.TeacherId;
+    var doesNotTeach = ViewBag.DoesNotTeach;
 }
 @Html.Partial("~/Views/Student/Details.cshtml", Model)
 
@@ -159,5 +160,8 @@ else
     </tbody>
 </table>
 @Html.ActionLink(D["Back"], "Details", "Class", new { id = Model.ClassId }, new { @class = "btn btn-default" })
-@Html.ActionLink(D["Add grade"], "CreateGrade", new { studentId = Model.Id }, new { @class = "btn btn-primary" })
-@Html.ActionLink(D["Add absence"], "CreateAbsence", new { studentId = Model.Id }, new { @class = "btn btn-primary" })
+@if (!doesNotTeach)
+{
+    @Html.ActionLink(D["Add grade"], "CreateGrade", new { studentId = Model.Id }, new { @class = "btn btn-primary" })
+    @Html.ActionLink(D["Add absence"], "CreateAbsence", new { studentId = Model.Id }, new { @class = "btn btn-primary" })
+}

@@ -24,15 +24,27 @@ namespace Gradebook.Areas.Teacher.Controllers
             if (studentSearch.Count() != 1) return ErrorView("Such student does not exist.");
             var student = studentSearch.Single();
             var studentClassId = student.ClassId;
+            // wychowawca widzi oceny ze wszystkich przedmiotów danej klasy
+            var supervisorId = student.Class.SupervisorId;
             var commonTcss = teacherClassSubjects.Where(e => e.ClassId == studentClassId);
-            if (commonTcss.Count() == 0) return ErrorView("You do not teach in such class.");
+            ViewBag.DoesNotTeach = commonTcss.Count() == 0;
+            if (supervisorId == teacherId)
+            {
+                var classTcss = Db.TeacherClassSubject.Where(e => e.ClassId == studentClassId).ToArray();
+                if (classTcss.Count() == 0) return ErrorView("Such class does not have any subjects.");
+                commonTcss = classTcss;
+            }
+            else // niewychowawca widzi tylko oceny z przedmiotów, których sam uczy w danej klasie
+            {
+                if (commonTcss.Count() == 0) return ErrorView("You do not teach in such class.");
+            }
             var teacherSubjectIds = commonTcss.Select(e => e.SubjectId);
             var grades = Db.Grade.Where(e => e.StudentId == id && teacherSubjectIds.Contains(e.SubjectId)).ToArray();
             var subjects = commonTcss.Select(e => e.Subject).ToArray();
             var gradesGrouped = SubjectGrades.GroupGradesBySubject(grades, subjects);
             ViewBag.SubjectGrades = gradesGrouped;
             Absence[] absences = null;
-            if (student.Class.SupervisorId == teacherId) // wychowawca widzi wszystkie nieobecności
+            if (supervisorId == teacherId) // wychowawca widzi wszystkie nieobecności
                 absences = Db.Absence.Where(e => e.StudentId == id).ToArray();
             else // niewychowawca widzi tylko swoje nieobecności
                 absences = Db.Absence.Where(e => e.StudentId == id && e.Lesson.TeacherClassSubject.TeacherId == teacherId).ToArray();

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Gradebook.Utils
 {
@@ -1277,6 +1277,7 @@ namespace Gradebook.Utils
                 d["This student does not belong to any class."] = "Ten uczeń nie należy do żadnej klasy.";
                 d["Such attempt of any of your quizzes does not exist"] = "Takie podejście do któregokolwiek z twoich quizów nie istnieje.";
                 d["You are not parent of a child having such appointment"] = "Nie jesteś rodzicem dziecka posiadającego takie zdarzenie.";
+                d["Such class does not have any subjects."] = "Taka klasa nie ma żadnych przedmiotów.";
             }
         }
     }
