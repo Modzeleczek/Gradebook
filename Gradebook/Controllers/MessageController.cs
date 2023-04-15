@@ -99,6 +99,8 @@ namespace Gradebook.Controllers
             {
                 foreach (var f in attachedFiles)
                 {
+                    if (f == null)
+                        continue;
                     var attachment = new Attachment { MessageId = message.Id, Name = f.FileName, FileType = f.ContentType, Data = FileType.StreamToHexString(f.InputStream) };
                     Db.Attachment.Add(attachment);
                 }
