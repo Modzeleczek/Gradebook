@@ -43,35 +43,6 @@ namespace Gradebook.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<ActionResult> CreateRolesAndAccounts(string password)
-        {
-            if (password != "caviaporcellus")
-                return RedirectToAction("Index", "Home");
-            IdentityManager im = new IdentityManager();
-            im.CreateRole(Role.Administrator);
-            im.CreateRole(Role.Teacher);
-            im.CreateRole(Role.Parent);
-            im.CreateRole(Role.Student);
-
-            string administatorEmail = "a.adminowski@szkola.pl", teacherEmail = "j.kowalski@szkola.pl";
-            ApplicationUser administrator, teacher;
-
-            administrator = new ApplicationUser { Name = "Admin", Surname = "Adminowski", UserName = administatorEmail, Email = administatorEmail, PhoneNumber = "000000001" };
-            var result = await UserManager.CreateAsync(administrator, "administrator123");
-            if (result.Succeeded)
-                Db.Administrator.Add(new Administrator { Id = administrator.Id });
-            teacher = new ApplicationUser { Name = "Jan", Surname = "Kowalski", UserName = teacherEmail, Email = teacherEmail, PhoneNumber = "123456789" };
-            result = await UserManager.CreateAsync(teacher, "teacher123");
-            if (result.Succeeded)
-                Db.Teacher.Add(new Teacher { Id = teacher.Id });
-            Db.SaveChanges();
-
-            im.AddUserToRoleByUsername(administatorEmail, Role.Administrator);
-            im.AddUserToRoleByUsername(teacherEmail, Role.Teacher);
-            return RedirectToAction("Index", "Home");
-        }
-
-        [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
