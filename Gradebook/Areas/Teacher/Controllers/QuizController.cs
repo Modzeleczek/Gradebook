@@ -363,7 +363,7 @@ namespace Gradebook.Areas.Teacher.Controllers
                 Db.Grade.Where(e => e.Id == gradeId).DeleteFromQuery();
                 Db.QuizAttempt.Where(e => e.Id == intAttemptId).DeleteFromQuery();
             }
-            return RedirectToAction("List");
+            return RedirectToAction("AttemptList", new { quizId });
         }
 
         public ActionResult AttemptReview(int? attemptId)
