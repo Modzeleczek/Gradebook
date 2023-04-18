@@ -18,10 +18,10 @@ namespace Gradebook
             ConfigureAuth(app);
 
             var cultBackup = Thread.CurrentThread.CurrentCulture;
-            /* Na czas tworzenia bazy danych zmieniamy kulturę, aby zapobiec wyrzucaniu przez
-            Database.CreateIfNotExists() wyjątku "Input string was not in a correct format.",
-            który może być powodowany np. przez używanie ',' zamiast '.' jako separatora dziesiętnego
-            w programie Gradebook. */
+            /* Change culture for database creation in order to prevent
+            Database.CreateIfNotExists() from throwing exception "Input string
+            was not in a correct format." which can be caused by using ','
+            instead of '.' as decimal separator in Gradebook. */
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-Us");
             if (ApplicationDbContext.Create().Database.CreateIfNotExists())
                 CreateRolesAndAdminAccount();

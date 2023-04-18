@@ -12,7 +12,8 @@ namespace Gradebook
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}",
-                defaults: new { controller = "Home", action = "Index" }, // w /Home/Index jest od razu redirect do ogłoszeń
+                // /Home/Index immediately redirects to announcements.
+                defaults: new { controller = "Home", action = "Index" },
                 namespaces: new[] { "Gradebook.Controllers" }
             );
         }

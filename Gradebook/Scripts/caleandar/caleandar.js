@@ -3,9 +3,11 @@
   Version: 0.1.0;
   (◠‿◠✿)
 */
-/* przed wywołaniem funkcji calendaer, która konstruuje obiekt Calendar,
-musi istnieć tablica localizedDays z 3-literowymi skrótami nazw dni od niedzieli do soboty i
-musi istnieć tablica localizedMonths z pełnymi nazwami miesięcy od stycznia do grudnia. */
+/* Prior to calling function caleandar which constructs Calendar object, must
+exist:
+- table localizedDays with 3 characters long abbreviations of days of the week
+from Sunday to Saturday
+- table localizedMonths with full names of months from January to December */
 
 var Calendar = function(model, options, date){
   // Default Values

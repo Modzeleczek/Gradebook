@@ -101,7 +101,7 @@ namespace Gradebook.Controllers
         public ActionResult ResetPassword(string userId, string code)
         {
             if (string.IsNullOrWhiteSpace(code)) return ErrorView("You have provided no token.");
-            // jeżeli konto nie istnieje, to tego nie ujawniamy
+            // Do not reveal that the account does not exist.
             return View(new ResetPasswordViewModel { UserId = userId, Code = code });
         }
 
@@ -116,9 +116,11 @@ namespace Gradebook.Controllers
             if (confirmPassword != password)
             { ViewBag.ValidationMessage = d["Password and confirmation password do not match."]; return View(vm); }
             var user = await UserManager.FindByIdAsync(userId);
-            if (user != null) // nie ujawniamy, że użytkownik nie istnieje
+            if (user != null) // Do not reveal that the user does not exist.
                 await UserManager.ResetPasswordAsync(userId, code, password);
-            return RedirectToAction("ResetPasswordConfirmation"); // niezależnie od wyniku przechodzimy dalej, aby nie ujawniać, że podano token code niewygenerowany wcześniej dla konta o id równym userId
+            /* Regardless of result, proceed in order to not reveal that
+            code token was not generated for account with id equal to userId. */
+            return RedirectToAction("ResetPasswordConfirmation");
         }
 
         [AllowAnonymous]

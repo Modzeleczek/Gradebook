@@ -26,8 +26,10 @@ namespace Gradebook.Utils
             var message = new MailMessage();
             // message.ReplyToList.Clear();
             message.ReplyToList.Add(replyTo);
-            message.Sender = new MailAddress(UserName, "Gradebook"); // faktyczny adres email nadawcy
-            message.From = message.Sender; // From - może być to tylko nazwa nadawcy, ewentualnie też adres
+            // Actual e-mail address of the sender.
+            message.Sender = new MailAddress(UserName, "Gradebook");
+            // From - it can be the sender's name, possibly with address.
+            message.From = message.Sender;
             // message.SubjectEncoding = System.Text.Encoding.UTF8;
             message.Subject = subject;
             message.Body = body;

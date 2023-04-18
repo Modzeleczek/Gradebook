@@ -23,7 +23,8 @@ namespace Gradebook.Utils
             }
         }
 
-        public class FakeDictionary : LanguageDictionary // fałszywy słownik, który zwraca wartość równą podanemu kluczowi
+        // Fake dictionary which returns a value equal to the key.
+        public class FakeDictionary : LanguageDictionary
         {
             public override string this[string key]
             {

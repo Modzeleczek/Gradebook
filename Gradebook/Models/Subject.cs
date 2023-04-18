@@ -8,7 +8,8 @@ namespace Gradebook.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Syllabus { get; set; } // łańcuch bajtów pliku pdf z syllabusem
+        // Binary (byte) string of a PDF file with syllabus.
+        public string Syllabus { get; set; }
 
         public virtual ICollection<TeacherClassSubject> TeacherClassSubjects { get; set; }
         public virtual ICollection<Grade> Grades { get; set; }

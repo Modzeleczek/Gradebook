@@ -31,7 +31,7 @@ namespace Gradebook.Areas.Student.Controllers
             return View(quizzes);
         }
 
-        public ActionResult Do(int? quizId) // start rozwiązywania
+        public ActionResult Do(int? quizId) // Attempt start
         {
             var studentId = User.Identity.GetUserId();
             var studentSearch = Db.Student.Where(e => e.Id == studentId);
@@ -49,17 +49,19 @@ namespace Gradebook.Areas.Student.Controllers
             var classId = student.ClassId;
             var now = DateTime.Now;
             var attempts = quiz.QuizAttempts.Where(e => e.DoerId == studentId);
-            if (attempts.Any()) // zaczęto już podejście
+            if (attempts.Any()) // An attempt has already been started.
             {
                 var existingAttempt = attempts.Single();
-                if (existingAttempt.Finish > existingAttempt.Start) // jedyne podejście zostało już zakończone
+                // The only attempt has already been finished.
+                if (existingAttempt.Finish > existingAttempt.Start)
                     return ErrorView("You have already done this quiz.");
-                // jedyne podejście nie zostało jeszcze zakończone
+                // The only attempt has not been finished yet.
                 ViewBag.AttemptId = existingAttempt.Id;
-                // teraz - początek podejścia = ile już minęło; pozostały czas = czas trwania quizu - ile już minęło 
+                /* now - attempt start = how much time elapsed
+                remaining time = quiz duration - how much time elapsed */
                 ViewBag.RemainingTime = Math.Truncate((TimeSpan.FromSeconds(quiz.Duration) - now.Subtract(existingAttempt.Start)).TotalSeconds);
             }
-            else // jeszcze nie zaczęto żadnego podejścia
+            else // No attempt has been started yet.
             {
                 var newAttempt = new QuizAttempt { QuizId = quizId, DoerId = studentId, Start = now,
                     Finish = DateTime.MinValue };
@@ -86,7 +88,9 @@ namespace Gradebook.Areas.Student.Controllers
             if (attempt.Finish <= attempt.Start)
             {
                 attempt.Finish = DateTime.Now;
-                if (EvaluateAttempt(attempt, selectedAnswers) == 1) // quiz nie jest przypisany do przedmiotu, więc nie wstawiamy oceny
+                /* The quiz is not assigned to a subject so do not save the
+                grade. */
+                if (EvaluateAttempt(attempt, selectedAnswers) == 1)
                     return RedirectToAction("List", "Quiz");
                 return RedirectToAction("List", "Grade");
             }

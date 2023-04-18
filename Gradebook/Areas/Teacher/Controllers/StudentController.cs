@@ -24,7 +24,7 @@ namespace Gradebook.Areas.Teacher.Controllers
             if (studentSearch.Count() != 1) return ErrorView("Such student does not exist.");
             var student = studentSearch.Single();
             var studentClassId = student.ClassId;
-            // wychowawca widzi oceny ze wszystkich przedmiotów danej klasy
+            // A supervisor sees grades of all subjects in his/her class.
             var supervisorId = student.Class.SupervisorId;
             var commonTcss = teacherClassSubjects.Where(e => e.ClassId == studentClassId);
             ViewBag.DoesNotTeach = commonTcss.Count() == 0;
@@ -34,7 +34,9 @@ namespace Gradebook.Areas.Teacher.Controllers
                 if (classTcss.Count() == 0) return ErrorView("Such class does not have any subjects.");
                 commonTcss = classTcss;
             }
-            else // niewychowawca widzi tylko oceny z przedmiotów, których sam uczy w danej klasie
+            /* A non-supervisor (regular teacher) sees only grades of subjects
+            which he/she teaches in the class. */
+            else
             {
                 if (commonTcss.Count() == 0) return ErrorView("You do not teach in such class.");
             }
@@ -44,9 +46,9 @@ namespace Gradebook.Areas.Teacher.Controllers
             var gradesGrouped = SubjectGrades.GroupGradesBySubject(grades, subjects);
             ViewBag.SubjectGrades = gradesGrouped;
             Absence[] absences = null;
-            if (supervisorId == teacherId) // wychowawca widzi wszystkie nieobecności
+            if (supervisorId == teacherId) // A supervisor sees all absences.
                 absences = Db.Absence.Where(e => e.StudentId == id).ToArray();
-            else // niewychowawca widzi tylko swoje nieobecności
+            else // A non-supervisor sees only his/her absences.
                 absences = Db.Absence.Where(e => e.StudentId == id && e.Lesson.TeacherClassSubject.TeacherId == teacherId).ToArray();
             ViewBag.Absences = absences;
             ViewBag.TeacherId = teacherId;

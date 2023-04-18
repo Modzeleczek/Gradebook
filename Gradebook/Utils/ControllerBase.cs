@@ -31,7 +31,10 @@ namespace Gradebook.Utils
             {
                 IAuthenticationManager AuthenticationManager = HttpContext.GetOwinContext().Authentication;
                 AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-                // filterContext.Result = ErrorView("Your account does not exist."); // nie może tak być, bo wtedy użytkownik widzi, że dalej jest zalogowany, a dopiero po wykonaniu kolejnego requesta już widzi, że jest wylogowany
+                /* It cannot be so because then the user sees that he/she is
+                still logged in and only after performing any next request,
+                he/she sees that he/she is logged out. */
+                // filterContext.Result = ErrorView("Your account does not exist.");
                 filterContext.Result = RedirectToAction("GenericError", "Home", new { message = "Your account does not exist." });
             }
             base.OnActionExecuting(filterContext);

@@ -245,7 +245,9 @@ namespace Gradebook.Areas.Admin.Controllers
             if (dayId == null || dayId.Value >= Days.Array.Length) return ErrorView("Such day does not exist.");
             if (hourId == null || hourId.Value >= LessonHours.Array.Length) return ErrorView("Such lesson hour does not exist.");
             if (roomId == null || roomId.Value >= Rooms.Array.Length) return ErrorView("Such room does not exist.");
-            // jeżeli dany nauczyciel ma już jakąś lekcję w danym dniu i godzinie, to nie nadpisujemy jej ani nie dodajemy nowej lekcji w tym samym czasie
+            /* If the teacher already has a lesson at specified hour on
+            specified day, do not overwrite it nor add a new lesson at the
+            same time. */
             var lessonSearch = Db.Lesson.Where(e => e.TeacherClassSubject.TeacherId == tcs.TeacherId && e.DayId == dayId && e.HourId == hourId);
             if (lessonSearch.Count() != 0)
             { ViewBag.ValidationMessage = d["The teacher has another lesson at specified time."]; return View(class_); }

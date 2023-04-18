@@ -71,7 +71,7 @@ namespace Gradebook.Areas.Teacher.Controllers
                 var messageRecipient = new MessageRecipient { MessageId = message.Id, RecipientId = rid };
                 Db.MessageRecipient.Add(messageRecipient);
             }
-            if (attachedFile != null) // nauczyciel wybrał plik
+            if (attachedFile != null) // Teacher chose a file.
             {
                 var attachment = new Attachment { MessageId = message.Id, Name = attachedFile.FileName, FileType = attachedFile.ContentType, Data = FileType.StreamToHexString(attachedFile.InputStream) };
                 Db.Attachment.Add(attachment);
@@ -193,7 +193,7 @@ namespace Gradebook.Areas.Teacher.Controllers
             var search = Db.TeacherClassSubject.Where(e => e.Id == teacherClassSubjectId);
             if (search.Count() != 1) return ErrorView("You do not teach such subject in such class.");
             var tcs = search.Single();
-            ViewBag.ClassId = tcs.ClassId; // do powrotu
+            ViewBag.ClassId = tcs.ClassId; // For going back.
             ViewBag.TeacherClassSubjectId = teacherClassSubjectId;
             var possibleWeekDays = new int[Days.Array.Length];
             foreach (var l in tcs.Lessons) possibleWeekDays[l.DayId] = 1;
@@ -223,7 +223,7 @@ namespace Gradebook.Areas.Teacher.Controllers
                 return View(new Appointment { Name = name, Description = description, Date = (date == null ? DateTime.Today : date.Value) });
             }
             while (false);
-            // date jest bindowane z formatu dd/mm/yyyy
+            // Date is bound from format dd/mm/yyyy.
             var a = new Appointment();
             a.Name = name;
             a.Description = description;

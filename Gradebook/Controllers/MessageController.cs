@@ -34,7 +34,7 @@ namespace Gradebook.Controllers
             if (search.Count() != 1) return ErrorView("Such message does not exist.");
             var message = search.Single();
             var userId = User.Identity.GetUserId();
-            if (message.SenderId == userId) // wiadomość jest wysłaną
+            if (message.SenderId == userId) // Message is a sent one.
             {
                 ViewBag.Recipients = Db.MessageRecipient.Where(e => e.MessageId == id).ToList();
                 return View("SentDetails", message);
@@ -95,7 +95,8 @@ namespace Gradebook.Controllers
                 var messageRecipient = new MessageRecipient { MessageId = message.Id, RecipientId = r.Id };
                 Db.MessageRecipient.Add(messageRecipient);
             }
-            if (attachedFiles != null && attachedFiles.Length != 0) // użytkownik wybrał plik(i)
+            // User chose file(s).
+            if (attachedFiles != null && attachedFiles.Length != 0)
             {
                 foreach (var f in attachedFiles)
                 {

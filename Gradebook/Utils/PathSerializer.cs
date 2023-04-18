@@ -9,14 +9,17 @@ namespace Gradebook.Utils
         public static string Serialize(HttpRequestBase request)
         {
             var sb = new StringBuilder();
-            sb.Append(request.Path); // zapisujemy ścieżkę do aktualnie renderowanej strony (np. /Products/List)
-            string queryString = request.QueryString.ToString(); // query string zawiera parametry do strony i ma postać ?parametr1=d&parametr2=5...
-            if (queryString.Length > 0) // jeżeli mamy jakiekolwiek parametry do strony
+            // Save path of currently rendered page (e.g. /Products/List).
+            sb.Append(request.Path);
+            /* Query string contains parameters for the server and looks like
+            ?parametr1=d&parametr2=5... */
+            string queryString = request.QueryString.ToString();
+            if (queryString.Length > 0) // If we have any parameters
             {
-                if (request.Path.EndsWith("/") == false) // jeżeli ścieżka nie ma na końcu "/"
-                    sb.Append('/'); // dopisujemy "/"
+                if (request.Path.EndsWith("/") == false) // If path does not end with '/'
+                    sb.Append('/'); // Append '/'.
                 sb.Append('?');
-                sb.Append(queryString); // dopisujemy parametry (np. ?id=2)
+                sb.Append(queryString); // Append parameters (e.g. ?id=2).
             }
             return sb.ToString();
         }
@@ -25,29 +28,32 @@ namespace Gradebook.Utils
         {
             string action = null, controller = null, area = "";
             RouteValueDictionary routeValues = new RouteValueDictionary();
-            var substr = path.Substring(1); // wyrzucamy '/' z początku URLa
+            var substr = path.Substring(1); // Remove '/' from URL's beginning.
             if (substr.Length > 0)
             {
-                var split = substr.Split('/'); // i dopiero splitujemy po '/'
+                var split = substr.Split('/'); // and only then split on '/'.
                 switch (split.Length) // kontroler i akcja są obowiązkowe; jedyna sytuacja, kiedy nie są, to ścieżka /Home lub /Home/Index, na której jest natychmiastowy redirect do ogłoszeń
                 {
-                    case 2: // brak area, kontroler, akcja, brak query stringa
+                    case 2: // No (area, controller, action); no query string
                         controller = split[0];
                         action = split[1]; break;
                     case 3:
-                        if (split[2][0] == '=') // brak area, kontroler, akcja, query string
+                        // No (area, controller, action); present query string
+                        if (split[2][0] == '=')
                         {
                             controller = split[0];
                             action = split[1];
                             routeValues = ParseQueryString(split[2]);
                         }
-                        else // area, kontroler, akcja, brak query stringa
+                        // Present (area, controller, action); no query string
+                        else
                         {
                             area = split[0];
                             controller = split[1];
                             action = split[2];
                         } break;
-                    case 4: // area, kontroler, akcja, query string
+                    // Present (area, controller, action); present query string
+                    case 4:
                         area = split[0];
                         controller = split[1];
                         action = split[2];
@@ -60,7 +66,8 @@ namespace Gradebook.Utils
         private static RouteValueDictionary ParseQueryString(string str)
         {
             var ret = new RouteValueDictionary();
-            var keyValues = str.Substring(1).Split('&'); // usuwamy '?' i splitujemy po '&'
+            // Remove '?' and split on '&'.
+            var keyValues = str.Substring(1).Split('&');
             for (int i = 0; i < keyValues.Length; ++i)
             {
                 var keyValue = keyValues[i].Split('=');

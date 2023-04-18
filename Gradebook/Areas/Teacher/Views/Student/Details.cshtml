@@ -65,8 +65,9 @@ foreach (var subjectGroup in subjectGrades)
                         @Html.DisplayFor(modelItem => item.Teacher.ApplicationUser.Surname)
                     </td>
                     <td>
-                        @if (item.TeacherId == teacherId) // czy nauczyciel jest autorem oceny
+                        @if (item.TeacherId == teacherId)
                         {
+                            // If the teacher is author of the grade.
                             @Html.ActionLink(D["Delete"], "DeleteGrade", new { gradeId = item.Id }, new { @class = "btn-sm btn-danger" })
                         }
                     </td>
@@ -139,12 +140,15 @@ else
                     @(item.IsJustified == true ? D["yes"] : D["no"])
                 </td>
                 <td>
-                    @if (teacherId == Model.Class.SupervisorId) // czy nauczyciel jest wychowawcą
+                    @if (teacherId == Model.Class.SupervisorId)
                     {
+                        // If the teacher is supervisor.
                         @Html.ActionLink(item.IsJustified == true ? D["Unjustify"] : D["Justify"], "FlipIsJustified", new { studentId = Model.Id, absenceId = item.Id }, new { @class = "btn-sm btn-primary" })
                     }
-                    @if(teacherId == item.Lesson.TeacherClassSubject.TeacherId) // niewychowawca może usuwać wstawione przez siebie nieobecności
+                    @if(teacherId == item.Lesson.TeacherClassSubject.TeacherId)
                     {
+                        /* A non-supervisor can delete only self-created
+                        absences. */
                         @Html.ActionLink(D["Delete"], "DeleteAbsence", new { absenceId = item.Id }, new { @class = "btn-sm btn-danger" })
                     }
                 </td>

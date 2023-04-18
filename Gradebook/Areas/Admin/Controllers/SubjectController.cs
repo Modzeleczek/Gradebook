@@ -45,7 +45,7 @@ namespace Gradebook.Areas.Admin.Controllers
             if (string.IsNullOrEmpty(name)) { ViewBag.ValidationMessage = d["Specify a name."]; return View(); }
             var s = new Subject();
             s.Name = name;
-            if (attachedFile != null) // administrator wybrał plik
+            if (attachedFile != null) // Administrator chose a file.
             {
                 if (attachedFile.ContentType != FileType.PDF) { ViewBag.ValidationMessage = d["Select a PDF file."]; return View(s); }
                 s.Syllabus = FileType.StreamToHexString(attachedFile.InputStream);
@@ -71,7 +71,7 @@ namespace Gradebook.Areas.Admin.Controllers
             var s = search.Single();
             if (string.IsNullOrEmpty(name)) { ViewBag.ValidationMessage = d["Specify a name."]; return View(s); }
             s.Name = name;
-            if (attachedFile != null) // administrator wybrał plik
+            if (attachedFile != null) // Administrator chose a file.
             {
                 if (attachedFile.ContentType != FileType.PDF) { ViewBag.ValidationMessage = d["Select a PDF file."]; return View(s); }
                 s.Syllabus = FileType.StreamToHexString(attachedFile.InputStream);
@@ -80,7 +80,7 @@ namespace Gradebook.Areas.Admin.Controllers
             return RedirectToAction("List");
         }
 
-        public ActionResult DeleteSyllabus(int? id) // id przedmiotu
+        public ActionResult DeleteSyllabus(int? id) // Subject id
         {
             var search = Db.Subject.Where(e => e.Id == id);
             if (search.Count() != 1) return ErrorView("Such subject does not exist.");

@@ -26,7 +26,8 @@ namespace Gradebook
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
-            // bundli można używać do renderowania (np. za pomocą Styles.Render) w cshtml kilku plików naraz
+            /* Bundles can be used in .cshtml to render
+            (e.g. using Styles.Render) multiple files at once. */
             bundles.Add(new StyleBundle("~/Content/selectize").Include(
                     "~/Content/selectize/selectize.bootstrap3.css",
                     "~/Content/selectize/global_selectize.css"));

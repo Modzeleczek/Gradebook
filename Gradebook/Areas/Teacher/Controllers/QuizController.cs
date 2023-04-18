@@ -322,7 +322,8 @@ namespace Gradebook.Areas.Teacher.Controllers
             Db.ClosedQuestionOption.Where(e => e.ClosedQuestion.QuizId == id).DeleteFromQuery();
             Db.ClosedQuestion.Where(e => e.QuizId == id).DeleteFromQuery();
             quizSearch.DeleteFromQuery();
-            // nie używamy Db.SaveChanges, bo DeleteFromQuery usuwa bez pobierania obiektu z bazy danych do kontekstu
+            /* Do not use Db.SaveChanges because DeleteFromQuery deletes the
+            object without downloading it from the database to the context. */
             return RedirectToAction("List");
         }
 
